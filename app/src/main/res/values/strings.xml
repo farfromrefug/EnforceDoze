@@ -181,4 +181,11 @@
     <string name="licenses">licenses</string>
     <string name="translations">translations</string>
     <string name="privacy_policy">privacy policy</string>
+    
+    <string name="show_disabled_notification_setting_title">Show notification when disabled</string>
+    <string name="show_disabled_notification_setting_summary">Show a status bar notification when EnforceDoze is disabled (tap to enable)</string>
+    <string name="notification_channel_disabled_name">EnforceDoze Disabled</string>
+    <string name="notification_channel_disabled_description">Notification when EnforceDoze is disabled</string>
+    <string name="enforcedoze_disabled_notif_title">EnforceDoze is disabled</string>
+    <string name="enforcedoze_disabled_notif_text">Tap to enable EnforceDoze</string>
 </resources>

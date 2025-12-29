@@ -67,10 +67,14 @@ public class ForceDozeTileService extends TileService {
             log("Disabling EnforceDoze");
             stopService(new Intent(this, ForceDozeService.class));
             updateTileState(false);
+            // Show disabled notification
+            Utils.showDisabledNotification(getApplicationContext());
         } else {
             log("Enabling EnforceDoze");
             startService(new Intent(this, ForceDozeService.class));
             updateTileState(true);
+            // Hide disabled notification
+            Utils.hideDisabledNotification(getApplicationContext());
         }
     }
 

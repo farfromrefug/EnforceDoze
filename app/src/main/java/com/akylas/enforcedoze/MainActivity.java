@@ -56,7 +56,7 @@ import java.util.List;
 import eu.chainfire.libsuperuser.Shell;
 import eu.chainfire.libsuperuser.StreamGobbler;
 
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,  SharedPreferences.OnSharedPreferenceChangeListener {
 
     private int mLastExitCode = -1;
     private boolean mCommandRunning = false;
@@ -86,12 +86,14 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     private void updateToggleState() {
         serviceEnabled = settings.getBoolean("serviceEnabled", false);
+        toggleForceDozeSwitch.setOnCheckedChangeListener(null);
+        toggleForceDozeSwitch.setChecked(serviceEnabled);
+        toggleForceDozeSwitch.setOnCheckedChangeListener(this);
+
         if (serviceEnabled) {
             textViewStatus.setText(R.string.service_active);
-            toggleForceDozeSwitch.setChecked(true);
         } else {
             textViewStatus.setText(R.string.service_inactive);
-            toggleForceDozeSwitch.setChecked(false);
         }
     }
 
@@ -280,7 +282,30 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     protected void onResume() {
         super.onResume();
+        if (settings != null) {
+            settings.registerOnSharedPreferenceChangeListener(this);
+        }
         updateToggleState();
+        // Show disabled notification if EnforceDoze is disabled
+        if (!serviceEnabled) {
+            Utils.showDisabledNotification(getApplicationContext());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (settings != null) {
+            settings.unregisterOnSharedPreferenceChangeListener(this);
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if ("serviceEnabled".equals(key)) {
+            // update UI on main thread
+            runOnUiThread(this::updateToggleState);
+        }
     }
 
     final int POST_NOTIF_PERMISSION_REQUEST_CODE =112;
@@ -430,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 startService(new Intent(MainActivity.this, ForceDozeService.class));
             }
             showForceDozeActiveDialog();
+            // Hide disabled notification
+            Utils.hideDisabledNotification(getApplicationContext());
         } else {
             editor = settings.edit();
             editor.putBoolean("serviceEnabled", false);
@@ -440,6 +467,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 log("Disabling ForceDoze");
                 stopService(new Intent(MainActivity.this, ForceDozeService.class));
             }
+            // Show disabled notification
+            Utils.showDisabledNotification(getApplicationContext());
         }
 
         if (Utils.isDeviceRunningOnN()) {

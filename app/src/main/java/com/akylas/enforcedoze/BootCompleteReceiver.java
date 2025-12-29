@@ -20,6 +20,9 @@ public class BootCompleteReceiver extends BroadcastReceiver {
         if (isServiceEnabled) {
             Intent startServiceIntent = new Intent(context, ForceDozeService.class);
             context.startService(startServiceIntent);
+        } else {
+            // Show disabled notification if EnforceDoze is disabled on startup
+            Utils.showDisabledNotification(context);
         }
     }
 }

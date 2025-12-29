@@ -16,6 +16,11 @@
             android:summary="@string/persistent_notification_setting_summary"
             android:title="@string/persistent_notification_setting_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="showDisabledNotification"
+            android:summary="@string/show_disabled_notification_setting_summary"
+            android:title="@string/show_disabled_notification_setting_title" />
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="ignoreLockscreenTimeout"
             android:summary="@string/lockscreen_timeout_setting_summary"
