@@ -281,6 +281,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     protected void onResume() {
         super.onResume();
         updateToggleState();
+        // Show disabled notification if EnforceDoze is disabled
+        if (!serviceEnabled) {
+            Utils.showDisabledNotification(getApplicationContext());
+        }
     }
 
     final int POST_NOTIF_PERMISSION_REQUEST_CODE =112;

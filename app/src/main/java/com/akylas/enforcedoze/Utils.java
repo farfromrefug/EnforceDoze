@@ -44,6 +44,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class Utils {
 
+    private static final int DISABLED_NOTIFICATION_ID = 9876;
+
     public static void startForceDozeService(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -339,7 +341,7 @@ public class Utils {
             }
         }
 
-        // Create intent to enable ForceDoze when clicking the notification
+        // Create broadcast intent to enable ForceDoze when tapping the notification
         Intent enableIntent = new Intent(context, EnableForceDozeService.class);
         enableIntent.setAction("com.akylas.enforcedoze.ENABLE_FORCEDOZE");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
@@ -362,12 +364,12 @@ public class Utils {
 
         NotificationManager notificationManager = 
             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(9876, builder.build());
+        notificationManager.notify(DISABLED_NOTIFICATION_ID, builder.build());
     }
 
     public static void hideDisabledNotification(Context context) {
         NotificationManager notificationManager = 
             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(9876);
+        notificationManager.cancel(DISABLED_NOTIFICATION_ID);
     }
 }
