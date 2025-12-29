@@ -24,5 +24,7 @@ public class BootCompleteReceiver extends BroadcastReceiver {
             // Show disabled notification if EnforceDoze is disabled on startup
             Utils.showDisabledNotification(context);
         }
+        // Update tile state
+        Utils.updateTileState(context);
     }
 }

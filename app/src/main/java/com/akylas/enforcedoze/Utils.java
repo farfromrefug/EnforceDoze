@@ -25,9 +25,11 @@ import android.os.PowerManager;
 
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.service.quicksettings.TileService;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
+import android.content.ComponentName;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -371,5 +373,16 @@ public class Utils {
         NotificationManager notificationManager = 
             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(DISABLED_NOTIFICATION_ID);
+    }
+
+    public static void updateTileState(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                TileService.requestListeningState(context, 
+                    new ComponentName(context, ForceDozeTileService.class));
+            } catch (Exception e) {
+                Log.e("Utils", "Failed to update tile state: " + e.getMessage());
+            }
+        }
     }
 }

@@ -23,5 +23,7 @@ public class DisableForceDozeService extends BroadcastReceiver {
         }
         // Show disabled notification if enabled
         Utils.showDisabledNotification(context);
+        // Update tile state
+        Utils.updateTileState(context);
     }
 }
