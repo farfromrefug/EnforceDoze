@@ -120,6 +120,39 @@ public class ForceDozeService extends Service {
     String TAG = "ForceDozeService";
     String lastKnownState = "null";
 
+    // Add near the top of the class
+    private static final String ACTION_IGNORE_RESULT = "com.akylas.enforcedoze.ACTION_IGNORE_BATTERY_OPTIMIZATION_RESULT";
+    private static final String EXTRA_IGNORED = "com.akylas.enforcedoze.EXTRA_IGNORED";
+
+    private BroadcastReceiver ignoreBatteryResultReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean ignored = intent.getBooleanExtra(EXTRA_IGNORED, false);
+            String packageName = getPackageName();
+            if (!ignored && !pm.isIgnoringBatteryOptimizations(packageName)) {
+                log("Service still optimized after user prompt, showing notification...");
+                Intent notificationIntent = new Intent();
+                notificationIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0,
+                        notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+                Notification n = new NotificationCompat.Builder(ForceDozeService.this, CHANNEL_TIPS)
+                        .setContentTitle("EnforceDoze")
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(
+                                "EnforceDoze needs to be added to the Doze whitelist in order to work reliably. Please open the battery optimisation view and select 'Don't optimize' for EnforceDoze."))
+                        .setSmallIcon(R.drawable.ic_battery_health)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pi)
+                        .setOngoing(false)
+                        .build();
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(8765, n);
+            } else {
+                log("User granted ignore battery optimizations for service.");
+            }
+        }
+    };
+
     private void log(String message) {
         logToLogcat(TAG, message);
     }
@@ -138,6 +171,7 @@ public class ForceDozeService extends Service {
         enterDozeTimer = new Timer();
         enableSensorsTimer = new Timer();
         disableSensorsTimer = new Timer();
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence statsName = getString(R.string.notification_channel_stats_name);
@@ -175,6 +209,7 @@ public class ForceDozeService extends Service {
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadNotificationBlocklistReceiver, new IntentFilter("reload-notification-blocklist"));
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadAppsBlocklistReceiver, new IntentFilter("reload-app-blocklist"));
         LocalBroadcastManager.getInstance(this).registerReceiver(pendingIntentDozeReceiver, new IntentFilter("reenter-doze"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(ignoreBatteryResultReceiver, new IntentFilter(ACTION_IGNORE_RESULT));
         this.registerReceiver(localDozeReceiver, filter);
         turnOffDataInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffDataInDoze", false);
         ignoreIfHotspot = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreIfHotspot", true);
@@ -249,7 +284,7 @@ public class ForceDozeService extends Service {
         this.unregisterReceiver(localDozeReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(reloadSettingsReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(pendingIntentDozeReceiver);
-        if (disableMotionSensors) {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(ignoreBatteryResultReceiver);        if (disableMotionSensors) {
             executeCommand("dumpsys sensorservice enable");
         }
         //ensure we exit doze if stopped from background
@@ -382,22 +417,33 @@ public class ForceDozeService extends Service {
                 log("Adding service to Doze whitelist for stability");
                 executeCommandWithRoot("dumpsys deviceidle whitelist +com.akylas.enforcedoze");
             } else {
-                log("Service cannot be added to Doze whitelist because user is on Nougat. Showing notification...");
-                Intent notificationIntent = new Intent();
-                notificationIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
-                        notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-                Notification n = new NotificationCompat.Builder(this, CHANNEL_TIPS)
-                        .setContentTitle("EnforceDoze")
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText("EnforceDoze needs to be added to the Doze whitelist in order to work reliably. Please click on this notification to open the battery optimisation view, click on 'EnforceDoze' and select 'Don't' Optimize'"))
-                        .setSmallIcon(R.drawable.ic_battery_health)
-                        .setPriority(1)
-                        .setContentIntent(intent)
-                        .setOngoing(false).build();
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                notificationManager.notify(8765, n);
+                log("Requesting user to disable battery optimizations via system dialog...");
+                try {
+                    Intent reqActivity = new Intent(this, RequestIgnoreBatteryActivity.class);
+                    reqActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(reqActivity);
+                } catch (Exception e) {
+                    log("Failed to launch RequestIgnoreBatteryActivity: " + e.getMessage());
+                    // fallback: show the old notification immediately
+                    // (optional) reuse existing notification code here
+                    log("Service cannot be added to Doze whitelist because user is on Nougat. Showing notification...");
+                    Intent notificationIntent = new Intent();
+                    notificationIntent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
+                            notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+                    Notification n = new NotificationCompat.Builder(this, CHANNEL_TIPS)
+                            .setContentTitle("EnforceDoze")
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText("EnforceDoze needs to be added to the Doze whitelist in order to work reliably. Please click on this notification to open the battery optimisation view, click on 'EnforceDoze' and select 'Don't' Optimize'"))
+                            .setSmallIcon(R.drawable.ic_battery_health)
+                            .setPriority(1)
+                            .setContentIntent(intent)
+                            .setOngoing(false).build();
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.notify(8765, n);
+                }
             }
+
         } else {
             log("Service already in Doze whitelist for stability");
         }
