@@ -70,7 +70,6 @@
     <string name="donate_dialog_button_text">Bağış yapmak istiyorum</string>
     <string name="about_forcedoze_setting_title">ForceDoze Hakkında</string>
     <string name="about_app_opensrc_text">ForceDoze for Android, açık kaynaklı yazılımlar kullanılarak üretilmiştir:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Beyaz listeye eklenen paketler yükleniyor...</string>
     <string name="translation_credits_dialog_title">Çeviri kredileri</string>
     <string name="translation_credits_dialog_text">ForceDoze\'yi diğer dillere çevirdiğiniz için aşağıdaki insanlara teşekkür:\n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>

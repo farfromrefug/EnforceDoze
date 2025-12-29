@@ -1,6 +1,7 @@
 package com.akylas.enforcedoze;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -29,6 +31,11 @@ public class AboutAppActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView textVersion = findViewById(R.id.textVersion);
+        String versionName = BuildConfig.VERSION_NAME;
+        String buildNumber = String.valueOf(BuildConfig.VERSION_CODE);
+        textVersion.setText(versionName + " Build " + buildNumber);
     }
 
     @Override

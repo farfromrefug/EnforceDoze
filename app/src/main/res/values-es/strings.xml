@@ -84,7 +84,6 @@
     <string name="donate_dialog_button_text">Quiero donar</string>
     <string name="about_forcedoze_setting_title">Sobre EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze para Android está desarrollado con software de código abierto:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="translation_credits_dialog_title">Créditos de las traducciones</string>
     <string name="translation_credits_dialog_text">Gracias a las siguientes personas por traducir ForceDoze en otros idiomas:
 \n

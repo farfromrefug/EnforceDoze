@@ -70,7 +70,6 @@
     <string name="donate_dialog_button_text">Ich möchte spenden</string>
     <string name="about_forcedoze_setting_title">Über EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze für Android wurde mit Open Source Software erschaffen:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Lade Paketnamen von der Positivliste...</string>
     <string name="translation_credits_dialog_title">Übersetzer</string>
     <string name="translation_credits_dialog_text">Vielen Dank an folgende Personen für die Übersetzung von EnforceDoze in andere Sprachen: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>

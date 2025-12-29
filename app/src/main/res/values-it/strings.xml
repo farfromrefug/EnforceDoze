@@ -70,7 +70,6 @@
     <string name="donate_dialog_button_text">Voglio donare</string>
     <string name="about_forcedoze_setting_title">Circa ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze per Android è stato creato usando software open source:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Caricamento pacchetti lista bianca…</string>
     <string name="translation_credits_dialog_title">Ringraziamenti traduttori</string>
     <string name="translation_credits_dialog_text">Grazie alle seguenti persone per aver tradotto ForceDoze in altre lingue: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)\nItalian: fcaronte (GitHub)</string>

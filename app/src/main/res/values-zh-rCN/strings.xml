@@ -84,7 +84,6 @@
     <string name="donate_dialog_button_text">我想捐赠</string>
     <string name="about_forcedoze_setting_title">关于EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze for Android 是使用以下开源软件构建的：</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">正在加载白名单软件...</string>
     <string name="translation_credits_dialog_title">翻译鸣谢</string>
     <string name="translation_credits_dialog_text">感谢以下人员将EnforceDoze翻译成其他语言：\n\n西班牙语：monza1412（XDA）\n\n葡萄牙语-巴西：GamerVicioX（GitHub）\n\n俄语：HardSer（GitHub）\n\n德语：okij（XDA）\n\n繁体中文：osk2（GitHub）\n\n土耳其语：Shepards（XDA）</string>

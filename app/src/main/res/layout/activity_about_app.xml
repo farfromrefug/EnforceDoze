@@ -63,7 +63,7 @@
                     android:textStyle="normal|bold" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/textView3"
@@ -71,7 +71,6 @@
                     android:layout_below="@+id/textView3"
                     android:layout_marginTop="2dp"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/version_num_text"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#9ba0aa" />
 
