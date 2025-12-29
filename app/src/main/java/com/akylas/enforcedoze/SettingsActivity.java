@@ -111,6 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         boolean isSuAvailable = false;
+        SharedPreferences sharedPreferences;
 
         private void removeIconSpace(PreferenceGroup group) {
             for (int i = 0; i < group.getPreferenceCount(); i++) {
@@ -222,7 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
             final Preference autoRotateBrightnessFix = (Preference) findPreference("autoRotateAndBrightnessFix");
             SwitchPreferenceCompat autoRotateFixPref = (SwitchPreferenceCompat) findPreference("autoRotateAndBrightnessFix");
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
             resetForceDozePref.setOnPreferenceClickListener(preference -> {
@@ -462,6 +463,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
 
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            // Unregister preference change listener
+            if (sharedPreferences != null) {
+                sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+            }
+        }
+
         public void resetForceDoze() {
             log("Starting ForceDoze reset procedure");
             if (Utils.isMyServiceRunning(ForceDozeService.class, getActivity())) {
@@ -639,12 +649,13 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
             if (getActivity() != null) {
-                reloadSettings(getActivity());
-                
                 // Handle hide category labels preference change
                 if (PREF_HIDE_CATEGORY_LABELS.equals(key)) {
                     boolean hideCategoryLabels = sharedPreferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
                     updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
+                } else {
+                    // Reload settings for all other preferences
+                    reloadSettings(getActivity());
                 }
             }
         }
