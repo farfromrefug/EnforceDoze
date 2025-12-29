@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_apply_tunables"
-        android:icon="@drawable/ic_check"
+        android:icon="@drawable/check_24px"
         app:iconTint="?attr/colorControlNormal"
         android:orderInCategory="100"
         android:title="Apply"

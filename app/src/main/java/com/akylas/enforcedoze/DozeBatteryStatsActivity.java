@@ -90,7 +90,7 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                 editor.apply();
             }
 
-            if ((sortedDozeUsageStats.size() & 1) == 0) {
+//            if ((sortedDozeUsageStats.size() & 1) == 0) {
 
                 for (int i = 0; i < sortedDozeUsageStats.size(); ) {
                     String[] exit_data = sortedDozeUsageStats.get(i).split(",");
@@ -121,14 +121,14 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                         adapter.addCard(card);
                         i = i + 2;
                     } else {
-                        i = i + 2;
+                        i = i + 1;
                     }
                 }
-            } else {
-                log("Missing log entries, redirecting users to old stats activity");
-                startActivity(new Intent(this, DozeStatsActivity.class));
-                finish();
-            }
+//            } else {
+//                log("Missing log entries, redirecting users to old stats activity");
+//                startActivity(new Intent(this, DozeStatsActivity.class));
+//                finish();
+//            }
             mListView.scrollToPosition(0);
         }
     }
