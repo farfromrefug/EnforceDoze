@@ -175,13 +175,13 @@ public class DozeTunablesActivity extends AppCompatActivity {
                 if (pref instanceof PreferenceCategory) {
                     PreferenceCategory category = (PreferenceCategory) pref;
                     if (hide) {
-                        // Save the original title in the tag if not already saved
+                        // Save the original title in the preference extras if not already saved
                         if (category.getExtras().getCharSequence(EXTRA_ORIGINAL_TITLE) == null && category.getTitle() != null) {
                             category.getExtras().putCharSequence(EXTRA_ORIGINAL_TITLE, category.getTitle());
                         }
                         category.setTitle("");
                     } else {
-                        // Restore the original title from the tag
+                        // Restore the original title from the preference extras
                         CharSequence originalTitle = category.getExtras().getCharSequence(EXTRA_ORIGINAL_TITLE);
                         if (originalTitle != null) {
                             category.setTitle(originalTitle);
