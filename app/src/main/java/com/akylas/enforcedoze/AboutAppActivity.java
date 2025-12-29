@@ -1,6 +1,7 @@
 package com.akylas.enforcedoze;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -29,6 +31,11 @@ public class AboutAppActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView textVersion = findViewById(R.id.textVersion);
+        String versionName = BuildConfig.VERSION_NAME;
+        String buildNumber = String.valueOf(BuildConfig.VERSION_CODE);
+        textVersion.setText(versionName + " Build " + buildNumber);
     }
 
     @Override
@@ -50,7 +57,6 @@ public class AboutAppActivity extends AppCompatActivity {
         notices.addNotice(new Notice("ProcessPhoenix", "https://github.com/JakeWharton/ProcessPhoenix", "Jake Wharton", new ApacheSoftwareLicense20()));
 //        notices.addNotice(new Notice("ckChangelog", "https://github.com/cketti/ckChangeLog", "cketti", new ApacheSoftwareLicense20()));
         notices.addNotice(new Notice("SimpleCustomTabs", "https://github.com/eliseomartelli/SimpleCustomTabs", "Eliseo Martelli", new MITLicense()));
-        notices.addNotice(new Notice("MaterialList", "https://github.com/dexafree/MaterialList", "Dexafree", new MITLicense()));
         new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
     }
 

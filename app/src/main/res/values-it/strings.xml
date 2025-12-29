@@ -14,7 +14,7 @@
     <string name="no_root_workaround_dialog_title">Modo alternativo No-root</string>
     <string name="okay_button_text">Ok</string>
     <string name="share_command_button_text">Condividi comando</string>
-    <string name="no_root_workaround_dialog_text">Se il dispositivo non ha i permessi di ROOT, puoi aggiungere manualmente i permessi \'android.permission.DUMP\' (e anche \'android.permission.WRITE_SECURE_SETTINGS\' se usi Nougat) a questa app eseguendo i seguenti comandi in ADB dal tuo PC (il comando è su una linea, non separata):\n\n \"adb -d shell pm grant com.akylas.enforcedoze android.permission.DUMP\" e lo stesso con WRITE_SECURE_SETTINGS permission (se sei su Nougat)\n\n Fatto ciò, chiudi e riapri questa app e dovresti essere in grado di accedere all\'app correttamente.</string>
+    <string name="no_root_workaround_dialog_text">Se il tuo dispositivo non è rootato, puoi concedere manualmente l\'autorizzazione \'android.permission.DUMP\' (e \'android.permission.WRITE_SECURE_SETTINGS\' se utilizzi Nougat) a questa app eseguendo il seguente comando ADB dal tuo computer:</string>
     <string name="lockscreen_timeout_dialog_title">Tempo blocco schermo</string>
     <string name="open_security_settings_button_text">Apri Impostazioni Sicurezza</string>
     <string name="lockscreen_timeout_dialog_text_p1">Il tempo del blocco schermo del dispositivo è troppo elevato (</string>
@@ -70,7 +70,6 @@
     <string name="donate_dialog_button_text">Voglio donare</string>
     <string name="about_forcedoze_setting_title">Circa ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze per Android è stato creato usando software open source:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Caricamento pacchetti lista bianca…</string>
     <string name="translation_credits_dialog_title">Ringraziamenti traduttori</string>
     <string name="translation_credits_dialog_text">Grazie alle seguenti persone per aver tradotto ForceDoze in altre lingue: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)\nItalian: fcaronte (GitHub)</string>
@@ -134,4 +133,43 @@
     <string name="tunables_su_not_available_error_text">Permessi SU negati o non presenti. Hai bisogno del root per usare questa funzione! Puoi continuare lo stesso ma non sarai in grado di salvare le modifiche, ma soltanto copiare negli appunti.</string>
     <string name="block_app_dialog_title">Blocca app</string>
     <string name="block_app_notif_dialog_title">Bloca notifiche app</string>
+    <string name="copy_command_button_text">Copia comando</string>
+    <string name="disable_motion_sensors_setting_title">Disattiva i sensori di movimento sullo schermo spento</string>
+    <string name="disable_motion_sensors_setting_summary">Disattiva i sensori di movimento del dispositivo quando il dispositivo entra in modalità Doze</string>
+    <string name="disable_all_sensors_setting_title">Disattiva tutti i sensori sullo schermo spento</string>
+    <string name="disable_all_sensors_setting_summary">Disattiva i sensori di tenuta quando il dispositivo entra in modalità Doze (movimento, telecamera...)</string>
+    <string name="enable_battery_saver_setting_title">Attiva il risparmio energetico quando lo schermo è spento</string>
+    <string name="enable_battery_saver_setting_summary">Attiva il risparmio energetico mentre il dispositivo è in modalità Doze</string>
+    <string name="enable_airplane_setting_summary">Attiva la modalità Aerea mentre il dispositivo è in modalità Doze</string>
+    <string name="disable_biometrics_setting_title">Disabilita lo sblocco biometrico a schermo spento</string>
+    <string name="disable_biometrics_setting_summary">Disattiva lo sblocco biometrico a schermo spento. Potrebbe non funzionare su tutti i dispositivi</string>
+    <string name="wait_unlock_setting_summary">Attendi lo sblocco del dispositivo per uscire dalla modalità Doze e abilitare le funzionalità disabilitate</string>
+    <string name="wait_unlock_setting_title">Attendi lo sblocco per uscire da doze</string>
+    <string name="ignore_hospot_during_doze_setting_summary">Disattiva per impedire la disattivazione del Wi-Fi/dati durante l\'hotspot</string>
+    <string name="ignore_hospot_during_doze_setting_title">Ignora lo stato dell\'hotspot durante l\'accesso a Doze</string>
+    <string name="notification_channel_stats_name">Statistiche di Doze</string>
+    <string name="notification_channel_stats_description">Statistiche della batteria Doze</string>
+    <string name="ignore_current_app_setting_title">Aggiungi l\'app corrente alla whitelist</string>
+    <string name="ignore_current_app_setting_summary">L\'app attualmente selezionata verrà inserita nella whitelist anche se presente nell\'elenco dei blocchi</string>
+    <string name="notification_channel_tips_name">Informazioni</string>
+    <string name="notification_channel_tips_description">Informazioni sui problemi di compatibilità</string>
+    <string name="notifications_permission">Autorizzazione alle notifiche</string>
+    <string name="notifications_permission_explanation">Per rilevare le app che riproducono musica, questa app deve leggere le notifiche attualmente visualizzate e quindi necessita dell\'autorizzazione</string>
+    <string name="whitelist_music_app_network_setting_title">App musicale nella whitelist</string>
+    <string name="whitelist_music_app_network_setting_summary">Non disattivare tutte le reti se è in riproduzione musica</string>
+    <string name="disable_stats_setting_title">Disabilita le statistiche</string>
+    <string name="usage_access_permission">Accesso all\'utilizzo delle app</string>
+    <string name="open_button_text">Apri</string>
+    <string name="licenses">licenze</string>
+    <string name="translations">traduzioni</string>
+    <string name="privacy_policy">informativa sulla privacy</string>
+    <string name="doze_unsupported_more_info">Su alcuni dispositivi la modalità Doze è disattivata dall\'OEM. Questa opzione può essere attivata sui dispositivi che non la hanno abilitata di default.\n\nNota: sarà necessario attivare questa opzione ogni volta che si riavvia il telefono.</string>
+    <string name="enable_airplane_setting_title">Attiva modalità Aerea sullo schermo spento</string>
+    <string name="stats_long_text" formatted="false">Ultimo spegnimento dello schermo: %1$s\nTempo trascorso spento: %2$d min\nUtilizzo della batteria nell\'ultima sessione di Doze: %3$d%%</string>
+    <string name="stats_no_data">Nessuna statistica di Doze disponibile</string>
+    <string name="disable_stats_setting_summary">Disabilita le statistiche di ForceDoze</string>
+    <string name="disable_logcat_setting_summary">Impedisci a ForceDoze di registrare nel logcat di sistema</string>
+    <string name="disable_logcat_setting_title">Disabilita Logcat</string>
+    <string name="usage_access_explanation">Per interrogare l\'app attualmente in focus, l\'app necessita dell\'autorizzazione di Accesso all\'utilizzo. È necessario abilitarla aprendo le impostazioni di Accesso all\'utilizzo</string>
+    <string name="stats_summary_text" formatted="false">Ultimo scarico Doze: %1$d%%</string>
 </resources>

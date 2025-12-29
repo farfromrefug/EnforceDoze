@@ -107,7 +107,6 @@
     <string name="doze_stats_battery_icon_meaning_dialog_text">稲妻のついたバッテリーアイコンは、そのDozeセッション中のバッテリー使用量が許容範囲内であったことを示し、感嘆符のついたバッテリーアイコンは、そのDozeセッション中のバッテリー使用量が許容範囲を超えていたことを示します。もしDozeセッション中のバッテリー使用量が許容範囲を超えている場合、GSAMや他のサードパーティ製バッテリー統計アプリを使用して、何がバッテリーを消費したのかを調査することをお勧めします</string>
     <string name="name_of_package_notif_block_remove">Dozeモード中に通知をブロックしたいアプリのパッケージ名を入力してください</string>
     <string name="donate_menu_item">寄付する</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="donate_dialog_text">EnforceDozeは完全に無料でオープンソースのアプリで、広告もありません。私はこのアプリを作成し、改善するために多くの時間を費やしており、バグ修正や機能追加/改善のために毎週更新を行っています。私の作業が気に入っていただけたら、寄付を検討していただけると、さらに一生懸命働き、より多くの役立つアプリを作成するためのモチベーションになります！</string>
     <string name="su_perm_denied_msg">SU権限が拒否されるか、利用できません！</string>
     <string name="doze_battery_stats_clear_msg">Dozeのバッテリー統計は正常にクリアされました！</string>

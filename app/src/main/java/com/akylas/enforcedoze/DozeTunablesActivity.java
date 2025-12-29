@@ -11,17 +11,24 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -148,9 +155,46 @@ public class DozeTunablesActivity extends AppCompatActivity {
         MaterialDialog grantPermProgDialog;
         boolean isSuAvailable = false;
 
+        private void removeIconSpace(PreferenceGroup group) {
+            for (int i = 0; i < group.getPreferenceCount(); i++) {
+                Preference pref = group.getPreference(i);
+                pref.setIconSpaceReserved(false);
+
+                if (pref instanceof PreferenceGroup) {
+                    removeIconSpace((PreferenceGroup) pref);
+                }
+            }
+        }
+
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+                RecyclerView recyclerView =
+                        v.findViewById(androidx.preference.R.id.recycler_view);
+
+                if (recyclerView != null) {
+                    int bottomInset = insets
+                            .getInsets(WindowInsetsCompat.Type.systemBars())
+                            .bottom;
+
+                    recyclerView.setPadding(
+                            recyclerView.getPaddingLeft(),
+                            recyclerView.getPaddingTop(),
+                            recyclerView.getPaddingRight(),
+                            bottomInset
+                    );
+                    recyclerView.setClipToPadding(false);
+                }
+                return insets;
+            });
+        }
+
         @Override
         public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
             addPreferencesFromResource(R.xml.prefs_doze_tunables);
+            removeIconSpace(getPreferenceScreen());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             final PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("tunablesPreferenceScreen");
             PreferenceCategory lightDozeSettings = (PreferenceCategory) findPreference("lightDozeSettings");

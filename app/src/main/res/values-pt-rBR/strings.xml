@@ -70,7 +70,6 @@
     <string name="donate_dialog_button_text">Quero doar</string>
     <string name="about_forcedoze_setting_title">Sobre EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze para Android foi criado utilizando software de código aberto:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="translation_credits_dialog_title">créditos de tradução</string>
     <string name="translation_credits_dialog_text">Agradeço as seguintes pessoas por traduzir EnforceDoze para outros idiomas: \n\nEspanhol: monza1412 (XDA)\nPortuguês-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="loading_whitelisted_packages">Carregando a lista branca de pacotes ...</string>
@@ -112,4 +111,6 @@
     <string name="doze_stats_battery_icon_meaning_dialog_text">O ícone de bateria com um raio indica que o uso de bateria durante a sessão Doze está dentro dos limites aceitáveis, o ícone de bateria com um ponto de exclamação indica que o uso de bateria durante a sessão Doze excedeu os limites aceitáveis. Se o uso de bateria em qualquer sessão Doze se encontrar acima dos limites aceitáveis, é aconselhável que execute o GSAM ou algum outro aplicativo de estatísticas de bateria para investigar a causa da drenagem</string>
     <string name="clearing_doze_stats_text">Apagando estatísticas Doze...</string>
     <string name="tile_label">ForzeDoze</string>
+    <string name="copy_command_button_text">Copiar Comando</string>
+    <string name="doze_unsupported_more_info">Alguns dispositivos tem o modo Doze desativado pelo fabricante. Esta opção pode habilitar o modo Doze em dispositivos que não tem habilitado por padrão\n\nNota: Você precisa ativar esta opção toda vez que reiniciar seu telefone.</string>
 </resources>

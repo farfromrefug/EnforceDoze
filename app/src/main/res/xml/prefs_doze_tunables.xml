@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="tunablesPreferenceScreen">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="tunablesPreferenceScreen" android:iconSpaceReserved="false">
     <PreferenceCategory android:title="Light Doze tunables" android:key="lightDozeSettings">
         <EditTextPreference
             android:defaultValue="300000"

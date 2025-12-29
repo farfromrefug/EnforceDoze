@@ -22,5 +22,7 @@ public class EnableForceDozeService extends BroadcastReceiver {
             startForceDozeService(context);
 //            context.startService(new Intent(context, ForceDozeService.class));
         }
+        // Hide disabled notification
+        Utils.hideDisabledNotification(context);
     }
 }

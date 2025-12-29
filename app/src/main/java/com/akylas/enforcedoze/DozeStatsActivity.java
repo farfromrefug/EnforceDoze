@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
@@ -67,6 +69,23 @@ public class DozeStatsActivity extends AppCompatActivity {
         }
         batteryConsumptionAdapter = new BatteryConsumptionAdapter(this, batteryConsumptionItems);
         listView.setAdapter(batteryConsumptionAdapter);
+
+        ViewCompat.setOnApplyWindowInsetsListener(listView, (v, insets) -> {
+            if (listView != null) {
+                int bottomInset = insets
+                        .getInsets(WindowInsetsCompat.Type.systemBars())
+                        .bottom;
+
+                listView.setPadding(
+                        listView.getPaddingLeft(),
+                        listView.getPaddingTop(),
+                        listView.getPaddingRight(),
+                        bottomInset
+                );
+                listView.setClipToPadding(false);
+            }
+            return insets;
+        });
     }
 
     @Override

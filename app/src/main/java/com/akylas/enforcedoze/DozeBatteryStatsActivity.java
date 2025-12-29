@@ -12,16 +12,17 @@ import android.preference.PreferenceManager;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.dexafree.materialList.card.Card;
-import com.dexafree.materialList.card.CardProvider;
-import com.dexafree.materialList.view.MaterialListView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nanotasks.BackgroundWork;
 import com.nanotasks.Completion;
@@ -38,7 +39,8 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
     Set<String> dozeUsageStats;
     ArrayList<String> sortedDozeUsageStats;
     MaterialDialog progressDialog = null;
-    MaterialListView mListView;
+    RecyclerView mListView;
+    DozeStatsAdapter adapter;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static String TAG = "EnforceDoze";
@@ -59,7 +61,27 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPreferences.edit();
         dozeUsageStats = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dozeUsageDataAdvanced", new LinkedHashSet<String>());
-        mListView = (MaterialListView) findViewById(R.id.material_listview);
+        mListView = findViewById(R.id.material_listview);
+        adapter = new DozeStatsAdapter();
+        mListView.setAdapter(adapter);
+        mListView.setLayoutManager(new LinearLayoutManager(this));
+
+        ViewCompat.setOnApplyWindowInsetsListener(mListView, (v, insets) -> {
+            if (mListView != null) {
+                int bottomInset = insets
+                        .getInsets(WindowInsetsCompat.Type.systemBars())
+                        .bottom;
+
+                mListView.setPadding(
+                        mListView.getPaddingLeft(),
+                        mListView.getPaddingTop(),
+                        mListView.getPaddingRight(),
+                        bottomInset
+                );
+                mListView.setClipToPadding(false);
+            }
+            return insets;
+        });
         if (!dozeUsageStats.isEmpty()) {
             sortedDozeUsageStats = new ArrayList<>(dozeUsageStats);
             Collections.sort(sortedDozeUsageStats);
@@ -87,7 +109,7 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                 editor.apply();
             }
 
-            if ((sortedDozeUsageStats.size() & 1) == 0) {
+//            if ((sortedDozeUsageStats.size() & 1) == 0) {
 
                 for (int i = 0; i < sortedDozeUsageStats.size(); ) {
                     String[] exit_data = sortedDozeUsageStats.get(i).split(",");
@@ -96,42 +118,36 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                     log("Enter data: [" + Arrays.toString(enter_data) + "]");
 
                     if (enter_data[2].equals("ENTER") && exit_data[2].equals("EXIT")) {
-                        Card card = new Card.Builder(this)
-                                .withProvider(new CardProvider())
-                                .setLayout(com.dexafree.materialList.R.layout.material_small_image_card)
-                                .setTitle("Doze Session")
-                                .setDrawable(returnDrawableBattery(Float.valueOf(enter_data[1]).intValue() - Float.valueOf(exit_data[1]).intValue()))
-                                .setDescription("Start Time: " + Utils.getDateCurrentTimeZone(Long.valueOf(enter_data[0])) +
+                        DozeStatsCard card = new DozeStatsCard(
+                                "Doze Session",
+                                "Start Time: " + Utils.getDateCurrentTimeZone(Long.valueOf(enter_data[0])) +
                                         "\nEnd Time: " + Utils.getDateCurrentTimeZone(Long.valueOf(exit_data[0])) +
                                         "\nTime spent: " + Utils.timeSpentString(Long.valueOf(enter_data[0]), Long.valueOf(exit_data[0])) +
-                                        "\nBattery used: " + (Float.valueOf(enter_data[1]).intValue() - Float.valueOf(exit_data[1]).intValue() + "%"))
-                                .endConfig()
-                                .build();
-                        mListView.getAdapter().add(card);
+                                        "\nBattery used: " + (Float.valueOf(enter_data[1]).intValue() - Float.valueOf(exit_data[1]).intValue() + "%"),
+                                returnDrawableBattery(Float.valueOf(enter_data[1]).intValue() - Float.valueOf(exit_data[1]).intValue())
+                        );
+                        adapter.addCard(card);
                         i = i + 2;
                     } else if (enter_data[2].equals("ENTER_MAINTENANCE") && exit_data[2].equals("EXIT_MAINTENANCE")) {
-                        Card card = new Card.Builder(this)
-                                .withProvider(new CardProvider())
-                                .setLayout(com.dexafree.materialList.R.layout.material_small_image_card)
-                                .setTitle("Doze Session (Maintenance)")
-                                .setDrawable(returnDrawableBattery(Float.valueOf(enter_data[1]).intValue() - Float.valueOf(exit_data[1]).intValue()))
-                                .setDescription("Start Time: " + Utils.getDateCurrentTimeZone(Long.valueOf(enter_data[0])) +
+                        DozeStatsCard card = new DozeStatsCard(
+                                "Doze Session (Maintenance)",
+                                "Start Time: " + Utils.getDateCurrentTimeZone(Long.valueOf(enter_data[0])) +
                                         "\nEnd Time: " + Utils.getDateCurrentTimeZone(Long.valueOf(exit_data[0])) +
                                         "\nTime spent: " + Utils.timeSpentString(Long.valueOf(enter_data[0]), Long.valueOf(exit_data[0])) +
-                                        "\nBattery used: " + (Integer.valueOf(enter_data[1]) - Integer.valueOf(exit_data[1]) + "%"))
-                                .endConfig()
-                                .build();
-                        mListView.getAdapter().add(card);
+                                        "\nBattery used: " + (Integer.valueOf(enter_data[1]) - Integer.valueOf(exit_data[1]) + "%"),
+                                returnDrawableBattery(Float.valueOf(enter_data[1]).intValue() - Float.valueOf(exit_data[1]).intValue())
+                        );
+                        adapter.addCard(card);
                         i = i + 2;
                     } else {
-                        i = i + 2;
+                        i = i + 1;
                     }
                 }
-            } else {
-                log("Missing log entries, redirecting users to old stats activity");
-                startActivity(new Intent(this, DozeStatsActivity.class));
-                finish();
-            }
+//            } else {
+//                log("Missing log entries, redirecting users to old stats activity");
+//                startActivity(new Intent(this, DozeStatsActivity.class));
+//                finish();
+//            }
             mListView.scrollToPosition(0);
         }
     }
@@ -203,8 +219,7 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
                         Intent intent = new Intent("reload-settings");
                         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                     }
-                    mListView.getAdapter().clearAll();
-                    mListView.getAdapter().notifyDataSetChanged();
+                    adapter.clearAll();
                     MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
                     builder.setTitle(getString(R.string.cleared_text));
                     builder.setMessage(getString(R.string.doze_battery_stats_clear_msg));

@@ -70,7 +70,6 @@
     <string name="donate_dialog_button_text">Ich möchte spenden</string>
     <string name="about_forcedoze_setting_title">Über EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze für Android wurde mit Open Source Software erschaffen:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Lade Paketnamen von der Positivliste...</string>
     <string name="translation_credits_dialog_title">Übersetzer</string>
     <string name="translation_credits_dialog_text">Vielen Dank an folgende Personen für die Übersetzung von EnforceDoze in andere Sprachen: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
@@ -112,4 +111,8 @@
     <string name="doze_stats_battery_icon_meaning_dialog_text">Das Batteriesymbol mit einem Blitz zeigt an, dass der Akkuverbrauch während dieses Dozes Zeitraums in einem akzeptablen Bereich war. Das Batteriesymbol mit einem Ausrufezeichen zeigt an, dass der Akkuverbrauch während dieses Doze Zeitraums höher als üblich war. Wenn dein Akkuverbrauch in den Doze Zeiträumen höher als üblich ist, dann ist es ratsam, ihn mit GSAM oder einer anderen App zur Analyse des Akkuverbrauchs zu beobachten, um festzustellen, was den hohen Akkuverbrauch verursacht.</string>
     <string name="clearing_doze_stats_text">Lösche die Doze Statistiken...</string>
     <string name="tile_label">ForceDoze</string>
+    <string name="doze_unsupported_more_info">Bei einigen Geräten ist der Doze Modus vom Hersteller deaktiviert. \nDiese Option kann den Doze Modus aktivieren wenn er nicht automatisch aktiviert ist.</string>
+    <string name="disable_motion_sensors_setting_title">Deaktiviere Bewegungssensoren bei ausgeschaltetetem Bildschirm.</string>
+    <string name="disable_motion_sensors_setting_summary">Deaktiviere Bewegungssensoren \nwenn das Gerät in den Doze Modus \ngeht.</string>
+    <string name="disable_all_sensors_setting_title">Deaktiviere alle Sensoren bei\nausgeschaltetem Bildschirm</string>
 </resources>

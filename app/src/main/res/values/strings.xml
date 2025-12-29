@@ -83,7 +83,6 @@
     <string name="donate_dialog_button_text">I want to donate</string>
     <string name="about_forcedoze_setting_title">About EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze for Android is built using open source software:</string>
-    <string name="version_num_text">1.4.0 rev 68</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
     <string name="translation_credits_dialog_title">Translation credits</string>
     <string name="translation_credits_dialog_text">Thanks to the following people for translating EnforceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
@@ -181,4 +180,11 @@
     <string name="licenses">licenses</string>
     <string name="translations">translations</string>
     <string name="privacy_policy">privacy policy</string>
+    
+    <string name="show_disabled_notification_setting_title">Show notification when disabled</string>
+    <string name="show_disabled_notification_setting_summary">Show a status bar notification when EnforceDoze is disabled (tap to enable)</string>
+    <string name="notification_channel_disabled_name">EnforceDoze Disabled</string>
+    <string name="notification_channel_disabled_description">Notification when EnforceDoze is disabled</string>
+    <string name="enforcedoze_disabled_notif_title">EnforceDoze is disabled</string>
+    <string name="enforcedoze_disabled_notif_text">Tap to enable EnforceDoze</string>
 </resources>
