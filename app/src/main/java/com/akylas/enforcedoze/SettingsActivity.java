@@ -119,6 +119,21 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         }
+
+        private void updateCategoryLabelsVisibility(PreferenceGroup group, boolean hide) {
+            for (int i = 0; i < group.getPreferenceCount(); i++) {
+                Preference pref = group.getPreference(i);
+                if (pref instanceof androidx.preference.PreferenceCategory) {
+                    if (hide) {
+                        pref.setTitle("");
+                    }
+                }
+                if (pref instanceof PreferenceGroup) {
+                    updateCategoryLabelsVisibility((PreferenceGroup) pref, hide);
+                }
+            }
+        }
+
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
@@ -376,6 +391,10 @@ public class SettingsActivity extends AppCompatActivity {
             dozeAppBlocklist.setEnabled(false);
             dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
 
+            // Apply initial category label visibility
+            boolean hideCategoryLabels = sharedPreferences.getBoolean("hidePreferenceCategoryLabels", false);
+            updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
+
         }
 
         public void requestWriteSettingsPermission() {
@@ -607,6 +626,12 @@ public class SettingsActivity extends AppCompatActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
             if (getActivity() != null) {
                 reloadSettings(getActivity());
+                
+                // Handle hide category labels preference change
+                if ("hidePreferenceCategoryLabels".equals(key)) {
+                    boolean hideCategoryLabels = sharedPreferences.getBoolean("hidePreferenceCategoryLabels", false);
+                    updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
+                }
             }
         }
     }

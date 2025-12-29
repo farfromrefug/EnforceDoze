@@ -166,6 +166,20 @@ public class DozeTunablesActivity extends AppCompatActivity {
             }
         }
 
+        private void updateCategoryLabelsVisibility(PreferenceGroup group, boolean hide) {
+            for (int i = 0; i < group.getPreferenceCount(); i++) {
+                Preference pref = group.getPreference(i);
+                if (pref instanceof PreferenceCategory) {
+                    if (hide) {
+                        pref.setTitle("");
+                    }
+                }
+                if (pref instanceof PreferenceGroup) {
+                    updateCategoryLabelsVisibility((PreferenceGroup) pref, hide);
+                }
+            }
+        }
+
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
@@ -254,6 +268,10 @@ public class DozeTunablesActivity extends AppCompatActivity {
             } else {
                 suAvailable = true;
             }
+
+            // Apply initial category label visibility
+            boolean hideCategoryLabels = preferences.getBoolean("hidePreferenceCategoryLabels", false);
+            updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
         }
 
 

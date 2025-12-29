@@ -127,6 +127,11 @@
     <PreferenceCategory android:title="Other">
         <SwitchPreferenceCompat
             android:defaultValue="false"
+            android:key="hidePreferenceCategoryLabels"
+            android:summary="@string/hide_category_labels_setting_summary"
+            android:title="@string/hide_category_labels_setting_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
             android:key="disableStats"
             android:summary="@string/disable_stats_setting_summary"
             android:title="@string/disable_stats_setting_title" />
