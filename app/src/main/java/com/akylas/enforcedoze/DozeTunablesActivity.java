@@ -286,7 +286,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
             // Apply initial category label visibility
             boolean hideCategoryLabels = sharedPreferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
             updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
-            
+
             // Register preference change listener
             sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
