@@ -151,7 +151,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ValidFragment")
-    public  static class DozeTunablesFragment extends PreferenceFragmentCompat {
+    public  static class DozeTunablesFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         MaterialDialog grantPermProgDialog;
         boolean isSuAvailable = false;
@@ -284,6 +284,28 @@ public class DozeTunablesActivity extends AppCompatActivity {
             // Apply initial category label visibility
             boolean hideCategoryLabels = preferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
             updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
+            
+            // Register preference change listener
+            preferences.registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            // Unregister preference change listener
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            if (preferences != null) {
+                preferences.unregisterOnSharedPreferenceChangeListener(this);
+            }
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+            // Handle hide category labels preference change
+            if (PREF_HIDE_CATEGORY_LABELS.equals(key)) {
+                boolean hideCategoryLabels = sharedPreferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
+                updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
+            }
         }
 
 
