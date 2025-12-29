@@ -430,6 +430,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 startService(new Intent(MainActivity.this, ForceDozeService.class));
             }
             showForceDozeActiveDialog();
+            // Hide disabled notification
+            Utils.hideDisabledNotification(getApplicationContext());
         } else {
             editor = settings.edit();
             editor.putBoolean("serviceEnabled", false);
@@ -440,6 +442,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 log("Disabling ForceDoze");
                 stopService(new Intent(MainActivity.this, ForceDozeService.class));
             }
+            // Show disabled notification
+            Utils.showDisabledNotification(getApplicationContext());
         }
 
         if (Utils.isDeviceRunningOnN()) {

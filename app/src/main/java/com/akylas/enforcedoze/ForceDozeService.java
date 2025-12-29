@@ -262,6 +262,8 @@ public class ForceDozeService extends Service {
             nonRootSession.close();
             nonRootSession = null;
         }
+        // Show disabled notification when service is destroyed
+        Utils.showDisabledNotification(getApplicationContext());
     }
 
     @Override
@@ -276,6 +278,8 @@ public class ForceDozeService extends Service {
         addSelfToDozeWhitelist();
         enterDoze(this);
         lastKnownState = getDeviceIdleState();
+        // Hide disabled notification when service starts
+        Utils.hideDisabledNotification(getApplicationContext());
         return START_STICKY;
     }
 

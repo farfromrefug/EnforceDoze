@@ -21,5 +21,7 @@ public class DisableForceDozeService extends BroadcastReceiver {
         if (Utils.isMyServiceRunning(ForceDozeService.class, context)) {
             context.stopService(new Intent(context, ForceDozeService.class));
         }
+        // Show disabled notification if enabled
+        Utils.showDisabledNotification(context);
     }
 }

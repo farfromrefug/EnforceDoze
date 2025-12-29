@@ -5,6 +5,8 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AppOpsManager;
 import android.app.KeyguardManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -37,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import static android.content.Context.BATTERY_SERVICE;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class Utils {
@@ -310,5 +313,61 @@ public class Utils {
         if (!disableLogcat) {
             Log.i(TAG, message);
         }
+    }
+
+    public static void showDisabledNotification(Context context) {
+        boolean showDisabledNotification = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("showDisabledNotification", false);
+        if (!showDisabledNotification) {
+            return;
+        }
+
+        // Create notification channel for disabled state (Android O+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = 
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            String channelId = "CHANNEL_DISABLED";
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
+            
+            if (channel == null) {
+                CharSequence name = context.getString(R.string.notification_channel_disabled_name);
+                String description = context.getString(R.string.notification_channel_disabled_description);
+                int importance = NotificationManager.IMPORTANCE_LOW;
+                channel = new NotificationChannel(channelId, name, importance);
+                channel.setDescription(description);
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+        // Create intent to enable ForceDoze when clicking the notification
+        Intent enableIntent = new Intent(context, EnableForceDozeService.class);
+        enableIntent.setAction("com.akylas.enforcedoze.ENABLE_FORCEDOZE");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+            context, 
+            0, 
+            enableIntent, 
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Build notification
+        NotificationCompat.Builder builder = 
+            new NotificationCompat.Builder(context, "CHANNEL_DISABLED")
+                .setSmallIcon(R.drawable.ic_battery_health)
+                .setContentTitle(context.getString(R.string.enforcedoze_disabled_notif_title))
+                .setContentText(context.getString(R.string.enforcedoze_disabled_notif_text))
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setOngoing(false);
+
+        NotificationManager notificationManager = 
+            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(9876, builder.build());
+    }
+
+    public static void hideDisabledNotification(Context context) {
+        NotificationManager notificationManager = 
+            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(9876);
     }
 }
