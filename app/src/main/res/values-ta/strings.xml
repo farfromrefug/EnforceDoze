@@ -146,7 +146,7 @@
     <string name="tunables_su_not_available_error_text">சு இசைவு மறுக்கப்பட்டது அல்லது கிடைக்கவில்லை. இந்த அம்சத்தைப் பயன்படுத்த உங்களுக்கு ரூட் தேவை! நீங்கள் தொடரலாம், ஆனால் நீங்கள் ட்யூனபிள்சை சேமிக்க முடியாது, அதை கிளிப்போர்டுக்கு மட்டுமே நகலெடுக்கவும்.</string>
     <string name="block_app_dialog_title">தொகுதி பயன்பாடு</string>
     <string name="block_app_notif_dialog_title">பயன்பாட்டு அறிவிப்பைத் தடுக்கும்</string>
-    <string name="stats_long_text" formatted="false">கடைசி திரை முடக்கு: %1$s\n நேரம் செலவழித்த நேரம்: %2$d நிமிடங்கள்\n கடைசி டோச் அமர்வில் பேட்டரி பயன்பாடு:%3$d %%</string>
+    <string name="stats_long_text" formatted="false">கடைசி திரை முடக்கு: %1$s\n நேரம் செலவழித்த நேரம்: %2$d நிமிடங்கள்\n கடைசி டோச் அமர்வில் பேட்டரி பயன்பாடு:%3$d%%</string>
     <string name="stats_summary_text" formatted="false">கடைசி டோச் வடிகால்:%1$d %%</string>
     <string name="stats_no_data">டோச் புள்ளிவிவரங்கள் இல்லை</string>
     <string name="notification_channel_stats_name">புள்ளிவிவரங்கள்</string>
