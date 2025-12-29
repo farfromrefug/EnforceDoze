@@ -29,6 +29,8 @@ public class AutoRestartOnUpdate extends BroadcastReceiver {
             } else {
                 log("Service not enabled, skip restarting");
             }
+            // Update tile state
+            Utils.updateTileState(context);
         }
     }
 }
