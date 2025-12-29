@@ -1284,6 +1284,7 @@ public class ForceDozeService extends Service {
         wasWiFiTurnedOn = false;
         wasBatterSaverOn = false;
         wasMobileDataTurnedOn = false;
+        wasAirplaneOn = false;
     }
 
     public void handleScreenOn(Context context, int time, int delay) {
