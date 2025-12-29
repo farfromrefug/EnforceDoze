@@ -45,6 +45,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 public class Utils {
 
     private static final int DISABLED_NOTIFICATION_ID = 9876;
+    private static final String CHANNEL_DISABLED = "CHANNEL_DISABLED";
 
     public static void startForceDozeService(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -328,14 +329,13 @@ public class Utils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = 
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            String channelId = "CHANNEL_DISABLED";
-            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
+            NotificationChannel channel = notificationManager.getNotificationChannel(CHANNEL_DISABLED);
             
             if (channel == null) {
                 CharSequence name = context.getString(R.string.notification_channel_disabled_name);
                 String description = context.getString(R.string.notification_channel_disabled_description);
                 int importance = NotificationManager.IMPORTANCE_LOW;
-                channel = new NotificationChannel(channelId, name, importance);
+                channel = new NotificationChannel(CHANNEL_DISABLED, name, importance);
                 channel.setDescription(description);
                 notificationManager.createNotificationChannel(channel);
             }
@@ -353,7 +353,7 @@ public class Utils {
 
         // Build notification
         NotificationCompat.Builder builder = 
-            new NotificationCompat.Builder(context, "CHANNEL_DISABLED")
+            new NotificationCompat.Builder(context, CHANNEL_DISABLED)
                 .setSmallIcon(R.drawable.ic_battery_health)
                 .setContentTitle(context.getString(R.string.enforcedoze_disabled_notif_title))
                 .setContentText(context.getString(R.string.enforcedoze_disabled_notif_text))
