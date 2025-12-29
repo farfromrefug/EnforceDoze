@@ -46,6 +46,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
     public static String TAG = "EnforceDoze";
     public static boolean suAvailable = false;
     private static final String PREF_HIDE_CATEGORY_LABELS = "hidePreferenceCategoryLabels";
+    private static final String EXTRA_ORIGINAL_TITLE = "originalTitle";
 
 
     private static void log(String message) {
@@ -155,6 +156,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
 
         MaterialDialog grantPermProgDialog;
         boolean isSuAvailable = false;
+        SharedPreferences sharedPreferences;
 
         private void removeIconSpace(PreferenceGroup group) {
             for (int i = 0; i < group.getPreferenceCount(); i++) {
@@ -174,13 +176,13 @@ public class DozeTunablesActivity extends AppCompatActivity {
                     PreferenceCategory category = (PreferenceCategory) pref;
                     if (hide) {
                         // Save the original title in the tag if not already saved
-                        if (category.getExtras().getCharSequence("originalTitle") == null && category.getTitle() != null) {
-                            category.getExtras().putCharSequence("originalTitle", category.getTitle());
+                        if (category.getExtras().getCharSequence(EXTRA_ORIGINAL_TITLE) == null && category.getTitle() != null) {
+                            category.getExtras().putCharSequence(EXTRA_ORIGINAL_TITLE, category.getTitle());
                         }
                         category.setTitle("");
                     } else {
                         // Restore the original title from the tag
-                        CharSequence originalTitle = category.getExtras().getCharSequence("originalTitle");
+                        CharSequence originalTitle = category.getExtras().getCharSequence(EXTRA_ORIGINAL_TITLE);
                         if (originalTitle != null) {
                             category.setTitle(originalTitle);
                         }
@@ -221,7 +223,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
         public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
             addPreferencesFromResource(R.xml.prefs_doze_tunables);
             removeIconSpace(getPreferenceScreen());
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             final PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("tunablesPreferenceScreen");
             PreferenceCategory lightDozeSettings = (PreferenceCategory) findPreference("lightDozeSettings");
 
@@ -229,7 +231,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
                 preferenceScreen.removePreference(lightDozeSettings);
             }
 
-            if (!preferences.getBoolean("isSuAvailable", false)) {
+            if (!sharedPreferences.getBoolean("isSuAvailable", false)) {
                 grantPermProgDialog = new MaterialDialog.Builder(getActivity())
                         .title(getString(R.string.please_wait_text))
                         .cancelable(false)
@@ -282,20 +284,19 @@ public class DozeTunablesActivity extends AppCompatActivity {
             }
 
             // Apply initial category label visibility
-            boolean hideCategoryLabels = preferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
+            boolean hideCategoryLabels = sharedPreferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
             updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
             
             // Register preference change listener
-            preferences.registerOnSharedPreferenceChangeListener(this);
+            sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
 
         @Override
         public void onDestroy() {
             super.onDestroy();
             // Unregister preference change listener
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            if (preferences != null) {
-                preferences.unregisterOnSharedPreferenceChangeListener(this);
+            if (sharedPreferences != null) {
+                sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
             }
         }
 

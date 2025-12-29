@@ -48,6 +48,7 @@ import eu.chainfire.libsuperuser.Shell;
 public class SettingsActivity extends AppCompatActivity {
     public static String TAG = "EnforceDoze";
     private static final String PREF_HIDE_CATEGORY_LABELS = "hidePreferenceCategoryLabels";
+    private static final String EXTRA_ORIGINAL_TITLE = "originalTitle";
     static MaterialDialog progressDialog1 = null;
     private static Shell.Interactive rootSession;
     private static Shell.Interactive nonRootSession;
@@ -129,13 +130,13 @@ public class SettingsActivity extends AppCompatActivity {
                     PreferenceCategory category = (PreferenceCategory) pref;
                     if (hide) {
                         // Save the original title in the tag if not already saved
-                        if (category.getExtras().getCharSequence("originalTitle") == null && category.getTitle() != null) {
-                            category.getExtras().putCharSequence("originalTitle", category.getTitle());
+                        if (category.getExtras().getCharSequence(EXTRA_ORIGINAL_TITLE) == null && category.getTitle() != null) {
+                            category.getExtras().putCharSequence(EXTRA_ORIGINAL_TITLE, category.getTitle());
                         }
                         category.setTitle("");
                     } else {
                         // Restore the original title from the tag
-                        CharSequence originalTitle = category.getExtras().getCharSequence("originalTitle");
+                        CharSequence originalTitle = category.getExtras().getCharSequence(EXTRA_ORIGINAL_TITLE);
                         if (originalTitle != null) {
                             category.setTitle(originalTitle);
                         }
