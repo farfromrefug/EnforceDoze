@@ -1305,6 +1305,23 @@ public class ForceDozeService extends Service {
                 log("Cancelling enterDoze() because user turned on screen and " + (time) + "ms has not passed OR disableWhenCharging=true");
             }
             enterDozeTimer.cancel();
+            
+            // Ensure apps in dozeAppBlocklist are re-enabled even when device is already ACTIVE
+            if (dozeAppBlocklist.size() != 0) {
+                log("Re-enabling apps that are in the Doze app blocklist (device already ACTIVE)");
+                for (String pkg : dozeAppBlocklist) {
+                    setPackageState(getApplicationContext(), pkg, true);
+                }
+            }
+            
+            if (dozeNotificationBlocklist.size() != 0) {
+                log("Re-enabling notifications for apps in the Notification blocklist (device already ACTIVE)");
+                for (String pkg : dozeNotificationBlocklist) {
+                    if (!dozeAppBlocklist.contains(pkg)) {
+                        setNotificationEnabledForPackage(pkg, true);
+                    }
+                }
+            }
         }
     }
 
