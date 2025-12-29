@@ -299,6 +299,8 @@ public class ForceDozeService extends Service {
         }
         // Show disabled notification when service is destroyed
         Utils.showDisabledNotification(getApplicationContext());
+        // Update tile state
+        Utils.updateTileState(getApplicationContext());
     }
 
     @Override
@@ -315,6 +317,8 @@ public class ForceDozeService extends Service {
         lastKnownState = getDeviceIdleState();
         // Hide disabled notification when service starts
         Utils.hideDisabledNotification(getApplicationContext());
+        // Update tile state
+        Utils.updateTileState(getApplicationContext());
         return START_STICKY;
     }
 
