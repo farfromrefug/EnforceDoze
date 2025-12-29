@@ -45,6 +45,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
 
     public static String TAG = "EnforceDoze";
     public static boolean suAvailable = false;
+    private static final String PREF_HIDE_CATEGORY_LABELS = "hidePreferenceCategoryLabels";
 
 
     private static void log(String message) {
@@ -281,7 +282,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
             }
 
             // Apply initial category label visibility
-            boolean hideCategoryLabels = preferences.getBoolean("hidePreferenceCategoryLabels", false);
+            boolean hideCategoryLabels = preferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
             updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
         }
 

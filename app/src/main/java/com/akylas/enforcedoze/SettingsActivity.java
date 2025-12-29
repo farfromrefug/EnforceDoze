@@ -23,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
@@ -46,6 +47,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class SettingsActivity extends AppCompatActivity {
     public static String TAG = "EnforceDoze";
+    private static final String PREF_HIDE_CATEGORY_LABELS = "hidePreferenceCategoryLabels";
     static MaterialDialog progressDialog1 = null;
     private static Shell.Interactive rootSession;
     private static Shell.Interactive nonRootSession;
@@ -123,8 +125,8 @@ public class SettingsActivity extends AppCompatActivity {
         private void updateCategoryLabelsVisibility(PreferenceGroup group, boolean hide) {
             for (int i = 0; i < group.getPreferenceCount(); i++) {
                 Preference pref = group.getPreference(i);
-                if (pref instanceof androidx.preference.PreferenceCategory) {
-                    androidx.preference.PreferenceCategory category = (androidx.preference.PreferenceCategory) pref;
+                if (pref instanceof PreferenceCategory) {
+                    PreferenceCategory category = (PreferenceCategory) pref;
                     if (hide) {
                         // Save the original title in the tag if not already saved
                         if (category.getExtras().getCharSequence("originalTitle") == null && category.getTitle() != null) {
@@ -403,7 +405,7 @@ public class SettingsActivity extends AppCompatActivity {
             dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
 
             // Apply initial category label visibility
-            boolean hideCategoryLabels = sharedPreferences.getBoolean("hidePreferenceCategoryLabels", false);
+            boolean hideCategoryLabels = sharedPreferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
             updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
 
         }
@@ -639,8 +641,8 @@ public class SettingsActivity extends AppCompatActivity {
                 reloadSettings(getActivity());
                 
                 // Handle hide category labels preference change
-                if ("hidePreferenceCategoryLabels".equals(key)) {
-                    boolean hideCategoryLabels = sharedPreferences.getBoolean("hidePreferenceCategoryLabels", false);
+                if (PREF_HIDE_CATEGORY_LABELS.equals(key)) {
+                    boolean hideCategoryLabels = sharedPreferences.getBoolean(PREF_HIDE_CATEGORY_LABELS, false);
                     updateCategoryLabelsVisibility(getPreferenceScreen(), hideCategoryLabels);
                 }
             }
