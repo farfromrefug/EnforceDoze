@@ -30,8 +30,8 @@
     <string name="requesting_su_access_text">Искане на достъп до суперпотребителя…</string>
     <string name="loading_installed_apps_text">Зареждане на списък с приложенията…</string>
     <string name="whitelisting_text">Бял списък</string>
-    <string name="stats_summary_text" formatted="false">Изразходвано през последния Doze: %1$d% %</string>
-    <string name="stats_long_text" formatted="false">Последно изключване на екрана: %1$s\nВреме в режим Doze: %2$d минути\nИзразходвано през последния Doze: %3$d %</string>
+    <string name="stats_summary_text" formatted="false">Изразходвано през последния Doze: %1$d %%</string>
+    <string name="stats_long_text" formatted="false">Последно изключване на екрана: %1$s Време в режим Doze: %2$d минути Изразходвано през последния Doze: %3$d %%</string>
     <string name="error_text">Грешка</string>
     <string name="please_wait_text">Изчакайте</string>
     <string name="read_logcat_su_not_avail_or_denied_error_text">Достъпът до правата на суперпотребителя е отказан или липсва и за това дневникът не може да бъде прочетен.\n\nЗа да използвате тази способност на приложението, разрешете READ_LOGS чрез ADB: „adb shell pm grant com.akylas.enforcedoze android.permission.READ_LOGS“ (без кавичките)</string>

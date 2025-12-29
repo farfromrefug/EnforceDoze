@@ -50,7 +50,6 @@ public class AboutAppActivity extends AppCompatActivity {
         notices.addNotice(new Notice("ProcessPhoenix", "https://github.com/JakeWharton/ProcessPhoenix", "Jake Wharton", new ApacheSoftwareLicense20()));
 //        notices.addNotice(new Notice("ckChangelog", "https://github.com/cketti/ckChangeLog", "cketti", new ApacheSoftwareLicense20()));
         notices.addNotice(new Notice("SimpleCustomTabs", "https://github.com/eliseomartelli/SimpleCustomTabs", "Eliseo Martelli", new MITLicense()));
-        notices.addNotice(new Notice("MaterialList", "https://github.com/dexafree/MaterialList", "Dexafree", new MITLicense()));
         new LicensesDialog.Builder(this).setNotices(notices).setIncludeOwnLicense(true).build().show();
     }
 

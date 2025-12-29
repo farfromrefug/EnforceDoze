@@ -553,7 +553,7 @@ public class ForceDozeService extends Service {
             saveDozeDataStats();
         }
 
-        if (dozeAppBlocklist.size() != 0) {C
+        if (dozeAppBlocklist.size() != 0) {
             log("Re-enabling apps that are in the Doze app blocklist");
             for (String pkg : dozeAppBlocklist) {
                 setPackageState(getApplicationContext(), pkg, true);

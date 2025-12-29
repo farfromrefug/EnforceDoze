@@ -26,9 +26,9 @@
         tools:context="com.akylas.enforcedoze.DozeBatteryStatsActivity"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.dexafree.materialList.view.MaterialListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/material_listview"/>
 
     </RelativeLayout>
