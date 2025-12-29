@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,11 +25,14 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -104,7 +109,40 @@ public class SettingsActivity extends AppCompatActivity {
 
         boolean isSuAvailable = false;
 
+        private void removeIconSpace(PreferenceGroup group) {
+            for (int i = 0; i < group.getPreferenceCount(); i++) {
+                Preference pref = group.getPreference(i);
+                pref.setIconSpaceReserved(false);
 
+                if (pref instanceof PreferenceGroup) {
+                    removeIconSpace((PreferenceGroup) pref);
+                }
+            }
+        }
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+                RecyclerView recyclerView =
+                        v.findViewById(androidx.preference.R.id.recycler_view);
+
+                if (recyclerView != null) {
+                    int bottomInset = insets
+                            .getInsets(WindowInsetsCompat.Type.systemBars())
+                            .bottom;
+
+                    recyclerView.setPadding(
+                            recyclerView.getPaddingLeft(),
+                            recyclerView.getPaddingTop(),
+                            recyclerView.getPaddingRight(),
+                            bottomInset
+                    );
+                    recyclerView.setClipToPadding(false);
+                }
+                return insets;
+            });
+        }
         @Override
         public void onDisplayPreferenceDialog(@NonNull androidx.preference.Preference preference) {
             if (preference instanceof ListPreference) {
@@ -136,6 +174,7 @@ public class SettingsActivity extends AppCompatActivity {
             executeCommandWithoutRoot("whoami");
 
             addPreferencesFromResource(R.xml.prefs);
+            removeIconSpace(getPreferenceScreen());
 //            PreferenceScreen preferenceScreen = (PreferenceScreen) findPreference("preferenceScreen");
 //            PreferenceCategory mainSettings = (PreferenceCategory) findPreference("mainSettings");
 //            PreferenceCategory dozeSettings = (PreferenceCategory) findPreference("dozeSettings");

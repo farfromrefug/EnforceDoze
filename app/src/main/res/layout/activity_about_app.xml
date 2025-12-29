@@ -47,7 +47,8 @@
                     android:text="@string/app_name"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="36sp"
-                    android:textColor="#000000" />
+                    android:textColor="?attr/colorOnSurface"
+                    />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -59,7 +60,7 @@
                     android:layout_marginTop="18dp"
                     android:text="Version"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#9BA0AA"
+                    android:textColor="?attr/colorOutline"
                     android:textStyle="normal|bold" />
 
                 <TextView
@@ -72,7 +73,8 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="sans-serif-light"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#9ba0aa" />
+                    android:textColor="?attr/colorOutline"
+                    />
 
 
                 <TextView
@@ -86,44 +88,50 @@
                     android:singleLine="false"
                     android:text="@string/about_app_opensrc_text"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#000000"
-                    android:layout_below="@+id/textView4"
-                    android:layout_alignStart="@+id/textView4" />
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_below="@+id/textVersion"
+                    android:layout_alignStart="@+id/textVersion" />
 
                 <Button
                     android:id="@+id/textView5"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/textView6"
                     android:layout_below="@+id/textView6"
-                    android:text="@string/licenses"
+                    android:layout_alignStart="@+id/textView6"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="0dp"
                     android:onClick="showLicences"
+                    android:text="@string/licenses"
+
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#9BA0AA" />
+                    android:textColor="?attr/colorOnSurface" />
+
                 <Button
                     android:id="@+id/textView7"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/translations"
-                    android:onClick="showTranslationCreditsDialog"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#9BA0AA"
                     android:layout_below="@+id/textView5"
-                    android:layout_alignStart="@+id/textView6" />
+                    android:layout_alignStart="@+id/textView6"
+                    android:layout_marginStart="0dp"
+                    android:onClick="showTranslationCreditsDialog"
+                    android:text="@string/translations"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="?attr/colorOnSurface" />
 
                 <Button
                     android:id="@+id/textView9"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/privacy_policy"
-                    android:onClick="showPrivacyPolicy"
-                    android:textColor="#9BA0AA"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_below="@+id/textView7"
-                    android:layout_alignStart="@+id/textView6" />
+                    android:layout_alignStart="@+id/textView6"
+                    android:layout_marginStart="0dp"
+                    android:onClick="showPrivacyPolicy"
+                    android:text="@string/privacy_policy"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="?attr/colorOnSurface" />
 
             </RelativeLayout>
 

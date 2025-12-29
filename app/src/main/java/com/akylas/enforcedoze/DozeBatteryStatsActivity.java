@@ -12,6 +12,8 @@ import android.preference.PreferenceManager;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,6 +65,23 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
         adapter = new DozeStatsAdapter();
         mListView.setAdapter(adapter);
         mListView.setLayoutManager(new LinearLayoutManager(this));
+
+        ViewCompat.setOnApplyWindowInsetsListener(mListView, (v, insets) -> {
+            if (mListView != null) {
+                int bottomInset = insets
+                        .getInsets(WindowInsetsCompat.Type.systemBars())
+                        .bottom;
+
+                mListView.setPadding(
+                        mListView.getPaddingLeft(),
+                        mListView.getPaddingTop(),
+                        mListView.getPaddingRight(),
+                        bottomInset
+                );
+                mListView.setClipToPadding(false);
+            }
+            return insets;
+        });
         if (!dozeUsageStats.isEmpty()) {
             sortedDozeUsageStats = new ArrayList<>(dozeUsageStats);
             Collections.sort(sortedDozeUsageStats);
