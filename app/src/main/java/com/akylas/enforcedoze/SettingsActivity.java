@@ -124,8 +124,19 @@ public class SettingsActivity extends AppCompatActivity {
             for (int i = 0; i < group.getPreferenceCount(); i++) {
                 Preference pref = group.getPreference(i);
                 if (pref instanceof androidx.preference.PreferenceCategory) {
+                    androidx.preference.PreferenceCategory category = (androidx.preference.PreferenceCategory) pref;
                     if (hide) {
-                        pref.setTitle("");
+                        // Save the original title in the tag if not already saved
+                        if (category.getExtras().getCharSequence("originalTitle") == null && category.getTitle() != null) {
+                            category.getExtras().putCharSequence("originalTitle", category.getTitle());
+                        }
+                        category.setTitle("");
+                    } else {
+                        // Restore the original title from the tag
+                        CharSequence originalTitle = category.getExtras().getCharSequence("originalTitle");
+                        if (originalTitle != null) {
+                            category.setTitle(originalTitle);
+                        }
                     }
                 }
                 if (pref instanceof PreferenceGroup) {
