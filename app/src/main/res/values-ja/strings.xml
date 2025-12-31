@@ -66,6 +66,10 @@
     <string name="ignore_current_app_setting_title">現在のアプリをホワイトリストに追加する</string>
     <string name="notification_channel_tips_name">情報</string>
     <string name="notification_channel_tips_description">互換性の問題に関する情報</string>
+    <string name="notification_channel_silent_name">サイレントサービス</string>
+    <string name="notification_channel_silent_description">フォアグラウンドサービスの最小通知</string>
+    <string name="silent_notification_title">EnforceDozeが実行中です</string>
+    <string name="silent_notification_text">Android 12+ではこの通知が必要です。タップしてカスタマイズまたは非表示にします。</string>
     <string name="notifications_permission">通知の権限</string>
     <string name="whitelist_music_app_network_setting_title">音楽アプリをホワイトリストに追加する</string>
     <string name="whitelist_music_app_network_setting_summary">音楽が再生中の場合、すべてのネットワークをオフにしない</string>

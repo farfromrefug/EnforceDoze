@@ -156,6 +156,10 @@
     <string name="notification_channel_stats_description">Статистика за батерията в Doze</string>
     <string name="notification_channel_tips_name">Информация</string>
     <string name="notification_channel_tips_description">Информация относно съвместимостта</string>
+    <string name="notification_channel_silent_name">Тиха услуга</string>
+    <string name="notification_channel_silent_description">Минимално известие за услуга на преден план</string>
+    <string name="silent_notification_title">EnforceDoze е включено</string>
+    <string name="silent_notification_text">Android 12+ изисква това известие. Докоснете, за да персонализирате или скриете.</string>
     <string name="notifications_permission">Разрешение за достъп до известията</string>
     <string name="whitelist_music_app_network_setting_summary">Без изключване на мрежите, ако някое приложение възпроизвежда музика</string>
     <string name="ignore_current_app_setting_title">Добавяне в белия списък</string>

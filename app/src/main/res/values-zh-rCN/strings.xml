@@ -158,6 +158,10 @@
     <string name="ignore_current_app_setting_summary">当前关注的App即使在被列入黑名单中也将被加入白名单</string>
     <string name="notification_channel_tips_name">信息</string>
     <string name="notification_channel_tips_description">关于兼容性问题信息</string>
+    <string name="notification_channel_silent_name">静默服务</string>
+    <string name="notification_channel_silent_description">前台服务的最小通知</string>
+    <string name="silent_notification_title">EnforceDoze正在运行</string>
+    <string name="silent_notification_text">Android 12+需要此通知。点击以自定义或隐藏。</string>
     <string name="notifications_permission">通知权限</string>
     <string name="notifications_permission_explanation">为了检测正在播放音乐的App，此应用需要读取当前显示的通知，因此需要权限</string>
     <string name="whitelist_music_app_network_setting_title">白名单音乐应用</string>

@@ -188,8 +188,8 @@ public class ForceDozeService extends Service {
             tipsChannel.setDescription(tipsDescription);
             
             // Create a silent channel for Android 12+ foreground service requirement
-            CharSequence silentName = "Silent Service";
-            String silentDescription = "Minimal notification for foreground service";
+            CharSequence silentName = getString(R.string.notification_channel_silent_name);
+            String silentDescription = getString(R.string.notification_channel_silent_description);
             int silentImportance = NotificationManager.IMPORTANCE_MIN;
             NotificationChannel silentChannel = new NotificationChannel(CHANNEL_SILENT, silentName, silentImportance);
             silentChannel.setDescription(silentDescription);
@@ -931,8 +931,8 @@ public class ForceDozeService extends Service {
         
         Notification n = new NotificationCompat.Builder(this, CHANNEL_SILENT)
                 .setSmallIcon(R.drawable.ic_battery_health)
-                .setContentTitle("EnforceDoze is running")
-                .setContentText("Android 12+ requires this notification. Tap to customize or hide it.")
+                .setContentTitle(getString(R.string.silent_notification_title))
+                .setContentText(getString(R.string.silent_notification_text))
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentIntent(intent)
                 .setOngoing(true)
