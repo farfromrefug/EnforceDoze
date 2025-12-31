@@ -62,6 +62,7 @@ public class ForceDozeService extends Service {
 
     private static final String CHANNEL_STATS = "CHANNEL_STATS";
     private static final String CHANNEL_TIPS = "CHANNEL_TIPS";
+    private static final String CHANNEL_SILENT = "CHANNEL_SILENT";
     private static final int PERSISTENT_NOTIF_ID = 1234;
 
     private static Shell.Interactive rootSession;
@@ -185,11 +186,22 @@ public class ForceDozeService extends Service {
             int tipsImportance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel tipsChannel = new NotificationChannel(CHANNEL_TIPS, tipsName, tipsImportance);
             tipsChannel.setDescription(tipsDescription);
+            
+            // Create a silent channel for Android 12+ foreground service requirement
+            CharSequence silentName = "Silent Service";
+            String silentDescription = "Minimal notification for foreground service";
+            int silentImportance = NotificationManager.IMPORTANCE_MIN;
+            NotificationChannel silentChannel = new NotificationChannel(CHANNEL_SILENT, silentName, silentImportance);
+            silentChannel.setDescription(silentDescription);
+            silentChannel.setSound(null, null);
+            silentChannel.setShowBadge(false);
+            
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(statsChannel);
             notificationManager.createNotificationChannel(tipsChannel);
+            notificationManager.createNotificationChannel(silentChannel);
         }
 
         mStatsBuilder = new NotificationCompat.Builder(this, CHANNEL_STATS);
@@ -307,10 +319,23 @@ public class ForceDozeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         log("Service has now started");
-        if (showPersistentNotif) {
-            showPersistentNotification();
+        // On Android 12+, we must call startForeground() immediately when service is started
+        // as a foreground service, regardless of showPersistentNotif setting
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (showPersistentNotif) {
+                // Show notification with stats if user enabled it
+                showPersistentNotification();
+            } else {
+                // Show minimal silent notification on Android 12+ to comply with foreground service requirements
+                showSilentNotification();
+            }
         } else {
-            hidePersistentNotification();
+            // On older versions, respect the user's preference
+            if (showPersistentNotif) {
+                showPersistentNotification();
+            } else {
+                hidePersistentNotification();
+            }
         }
         addSelfToDozeWhitelist();
         enterDoze(this);
@@ -367,10 +392,20 @@ public class ForceDozeService extends Service {
         useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
         log("useNonRootSensorWorkaround: " + useNonRootSensorWorkaround);
         log("EnforceDoze settings reloaded ----------------------------------");
-        if (showPersistentNotif) {
-            showPersistentNotification();
+        // On Android 12+, we must keep the foreground notification
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (showPersistentNotif) {
+                showPersistentNotification();
+            } else {
+                // Show minimal silent notification on Android 12+
+                showSilentNotification();
+            }
         } else {
-            hidePersistentNotification();
+            if (showPersistentNotif) {
+                showPersistentNotification();
+            } else {
+                hidePersistentNotification();
+            }
         }
     }
 
@@ -879,6 +914,37 @@ public class ForceDozeService extends Service {
     public void hidePersistentNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopForeground(Service.STOP_FOREGROUND_REMOVE);
+        }
+    }
+
+    public void showSilentNotification() {
+        // On Android 12+, foreground services require a notification.
+        // Clicking this notification opens the channel settings where the user can disable it
+        // or minimize it further by setting it to "Silent" or "Minimized" importance.
+        Intent notificationIntent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+        notificationIntent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        notificationIntent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_SILENT);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        
+        PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
+                notificationIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        
+        Notification n = new NotificationCompat.Builder(this, CHANNEL_SILENT)
+                .setSmallIcon(R.drawable.ic_battery_health)
+                .setContentTitle("EnforceDoze is running")
+                .setContentText("Android 12+ requires this notification. Tap to customize or hide it.")
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setContentIntent(intent)
+                .setOngoing(true)
+                .setSilent(true)
+                .setShowWhen(false)
+                .build();
+        
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            startForeground(PERSISTENT_NOTIF_ID, n);
+        } else {
+            startForeground(PERSISTENT_NOTIF_ID, n,
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
         }
     }
 
