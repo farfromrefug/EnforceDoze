@@ -307,10 +307,18 @@ public class ForceDozeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         log("Service has now started");
-        if (showPersistentNotif) {
+        // On Android 12+, we must call startForeground() immediately when service is started
+        // as a foreground service, regardless of showPersistentNotif setting
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Always show notification on Android 12+ to comply with foreground service requirements
             showPersistentNotification();
         } else {
-            hidePersistentNotification();
+            // On older versions, respect the user's preference
+            if (showPersistentNotif) {
+                showPersistentNotification();
+            } else {
+                hidePersistentNotification();
+            }
         }
         addSelfToDozeWhitelist();
         enterDoze(this);
@@ -367,10 +375,15 @@ public class ForceDozeService extends Service {
         useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
         log("useNonRootSensorWorkaround: " + useNonRootSensorWorkaround);
         log("EnforceDoze settings reloaded ----------------------------------");
-        if (showPersistentNotif) {
+        // On Android 12+, we must keep the foreground notification
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             showPersistentNotification();
         } else {
-            hidePersistentNotification();
+            if (showPersistentNotif) {
+                showPersistentNotification();
+            } else {
+                hidePersistentNotification();
+            }
         }
     }
 
