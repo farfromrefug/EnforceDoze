@@ -919,15 +919,22 @@ public class ForceDozeService extends Service {
 
     public void showSilentNotification() {
         Context context = getApplicationContext();
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        
+        // On Android 12+, foreground services require a notification.
+        // Clicking this notification opens the channel settings where the user can disable it
+        // or minimize it further by setting it to "Silent" or "Minimized" importance.
+        Intent notificationIntent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+        notificationIntent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        notificationIntent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_SILENT);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
-                notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+                notificationIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         
         Notification n = new NotificationCompat.Builder(this, CHANNEL_SILENT)
                 .setSmallIcon(R.drawable.ic_battery_health)
-                .setContentTitle("EnforceDoze")
-                .setContentText("Service running")
+                .setContentTitle("EnforceDoze is running")
+                .setContentText("Android 12+ requires this notification. Tap to customize or hide it.")
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentIntent(intent)
                 .setOngoing(true)
