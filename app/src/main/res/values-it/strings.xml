@@ -153,6 +153,10 @@
     <string name="ignore_current_app_setting_summary">L\'app attualmente selezionata verrà inserita nella whitelist anche se presente nell\'elenco dei blocchi</string>
     <string name="notification_channel_tips_name">Informazioni</string>
     <string name="notification_channel_tips_description">Informazioni sui problemi di compatibilità</string>
+    <string name="notification_channel_silent_name">Servizio silenzioso</string>
+    <string name="notification_channel_silent_description">Notifica minima per il servizio in primo piano</string>
+    <string name="silent_notification_title">EnforceDoze è in esecuzione</string>
+    <string name="silent_notification_text">Android 12+ richiede questa notifica. Tocca per personalizzare o nasconderla.</string>
     <string name="notifications_permission">Autorizzazione alle notifiche</string>
     <string name="notifications_permission_explanation">Per rilevare le app che riproducono musica, questa app deve leggere le notifiche attualmente visualizzate e quindi necessita dell\'autorizzazione</string>
     <string name="whitelist_music_app_network_setting_title">App musicale nella whitelist</string>

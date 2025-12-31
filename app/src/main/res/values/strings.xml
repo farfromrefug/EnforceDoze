@@ -164,6 +164,12 @@
     <string name="notification_channel_tips_name">Informations</string>
     <string name="notification_channel_tips_description">Informations about compatibility problems</string>
 
+    <string name="notification_channel_silent_name">Silent Service</string>
+    <string name="notification_channel_silent_description">Minimal notification for foreground service</string>
+
+    <string name="silent_notification_title">EnforceDoze is running</string>
+    <string name="silent_notification_text">Android 12+ requires this notification. Tap to customize or hide it.</string>
+
     <string name="notifications_permission">Notifications Permission</string>
     <string name="notifications_permission_explanation">To detect Apps which are playing music this app needs to read currently showing notifications, and thus needs the permission</string>
 

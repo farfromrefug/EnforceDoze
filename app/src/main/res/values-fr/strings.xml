@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="notification_channel_stats_name">Statistiques Doze</string>
+    <string name="notification_channel_stats_description">Statistiques de batterie Doze</string>
+    <string name="notification_channel_tips_name">Informations</string>
+    <string name="notification_channel_tips_description">Informations sur les problèmes de compatibilité</string>
+    <string name="notification_channel_silent_name">Service silencieux</string>
+    <string name="notification_channel_silent_description">Notification minimale pour le service au premier plan</string>
+    <string name="silent_notification_title">EnforceDoze est en cours d'exécution</string>
+    <string name="silent_notification_text">Android 12+ nécessite cette notification. Appuyez pour personnaliser ou masquer.</string>
+</resources>

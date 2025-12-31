@@ -181,6 +181,10 @@
     <string name="stats_no_data">No hay estadísticas de Doze disponibles</string>
     <string name="notification_channel_tips_name">Informaciones</string>
     <string name="notification_channel_tips_description">Problemas de compatibilidad</string>
+    <string name="notification_channel_silent_name">Servicio silencioso</string>
+    <string name="notification_channel_silent_description">Notificación mínima para servicio en primer plano</string>
+    <string name="silent_notification_title">EnforceDoze está en ejecución</string>
+    <string name="silent_notification_text">Android 12+ requiere esta notificación. Toca para personalizar u ocultarla.</string>
     <string name="notifications_permission">Permiso de notificaciones</string>
     <string name="whitelist_music_app_network_setting_summary">No apagar todas las redes si suena música</string>
     <string name="notification_channel_stats_description">Estadísticas de la batería de Doze</string>
