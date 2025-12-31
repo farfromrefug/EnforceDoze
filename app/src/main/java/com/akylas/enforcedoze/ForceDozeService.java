@@ -918,8 +918,6 @@ public class ForceDozeService extends Service {
     }
 
     public void showSilentNotification() {
-        Context context = getApplicationContext();
-        
         // On Android 12+, foreground services require a notification.
         // Clicking this notification opens the channel settings where the user can disable it
         // or minimize it further by setting it to "Silent" or "Minimized" importance.
