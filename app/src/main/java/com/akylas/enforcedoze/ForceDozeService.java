@@ -1274,17 +1274,17 @@ public class ForceDozeService extends Service {
             setBatterSaverState(context, true);
         }
 
-        if (turnOnAirplaneInDoze && (!ignoreIfHotspot || !wasHotSpotTurnedOn) && !wasAirplaneOn && packageName == null) {
+        if (turnOnAirplaneInDoze && (ignoreIfHotspot || !wasHotSpotTurnedOn) && !wasAirplaneOn && packageName == null) {
             log("Enabling airplane");
             setAirplaneState(context, true);
         }
 
-        if (turnOffWiFiInDoze && (!ignoreIfHotspot || !wasHotSpotTurnedOn) && wasWiFiTurnedOn && packageName == null) {
+        if (turnOffWiFiInDoze && (ignoreIfHotspot || !wasHotSpotTurnedOn) && wasWiFiTurnedOn && packageName == null) {
             log("Disabling WiFi");
             disableWiFi();
         }
 
-        if (turnOffDataInDoze && wasMobileDataTurnedOn && (!ignoreIfHotspot || !wasHotSpotTurnedOn) && (packageName == null || wasWiFiTurnedOn)) {
+        if (turnOffDataInDoze && wasMobileDataTurnedOn && (ignoreIfHotspot || !wasHotSpotTurnedOn) && (packageName == null || wasWiFiTurnedOn)) {
             log("Disabling mobile data");
             disableMobileData();
         }
