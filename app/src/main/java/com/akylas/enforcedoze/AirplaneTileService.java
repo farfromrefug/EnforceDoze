@@ -16,9 +16,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AirplaneTileService extends TileService {
 
-    static String TAG = "AirplaneTileService";
-    SharedPreferences settings;
-    boolean airplaneModeEnabled;
+    private static final String TAG = "AirplaneTileService";
+    private static final int TILE_UPDATE_DELAY_MS = 150;  // Delay to ensure tile updates properly
+    private SharedPreferences settings;
+    private boolean airplaneModeEnabled;
 
     private static void log(String message) {
         logToLogcat(TAG, message);
@@ -70,12 +71,12 @@ public class AirplaneTileService extends TileService {
         sendBroadcastToReloadSettings();
     }
 
-    public void sendBroadcastToReloadSettings() {
+    private void sendBroadcastToReloadSettings() {
         android.content.Intent intent = new android.content.Intent("reload-settings");
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    public void updateTileState(final boolean active) {
+    private void updateTileState(final boolean active) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
@@ -90,6 +91,6 @@ public class AirplaneTileService extends TileService {
                     tile.updateTile();
                 }
             }
-        }, 150);
+        }, TILE_UPDATE_DELAY_MS);
     }
 }
