@@ -126,6 +126,9 @@
     <string name="doze_stats_battery_icon_meaning_dialog_text">The battery icon with a lightning sign indicates the battery usage during that Doze session was within acceptable limits, and the battery icon with an exclamation sign indicates the battery usage during that Doze session was above acceptable limits. If the battery usage in any Doze session is above acceptable limits, you are advised to look into GSAM or another third party battery stats app to investigate what drained your battery</string>
     <string name="clearing_doze_stats_text">Clearing Doze stats...</string>
     <string name="tile_label">ForceDoze</string>
+    <string name="airplane_tile_label">EnforceDoze Airplane</string>
+    <string name="tile_subtitle_on">On</string>
+    <string name="tile_subtitle_off">Off</string>
     <string name="notif_blocklist_setting_summary">Prevent notifications from being delivered during Doze</string>
     <string name="notif_blocklist_setting_title">Doze notification blocklist</string>
     <string name="app_blocklist_setting_summary">Prevent apps (and its background services) from running during Doze</string>
