@@ -55,6 +55,7 @@ import java.util.List;
 //import de.cketti.library.changelog.ChangeLog;
 import eu.chainfire.libsuperuser.Shell;
 import eu.chainfire.libsuperuser.StreamGobbler;
+import rikka.shizuku.Shizuku;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,  SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     SharedPreferences.Editor editor;
     boolean isDozeEnabledByOEM = true;
     boolean isSuAvailable = false;
+    boolean isShizukuAvailable = false;
     boolean isDozeDisabled = false;
     boolean serviceEnabled = false;
     boolean isDumpPermGranted = false;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     MaterialDialog progressDialog = null;
     TextView textViewStatus;
     CoordinatorLayout coordinatorLayout;
+    ShizukuHandler shizukuHandler;
 
     private static void log(String message) {
         logToLogcat(TAG, message);
@@ -131,15 +134,55 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         updateToggleState();
 
         toggleForceDozeSwitch.setOnCheckedChangeListener(this);
+        
+        // Initialize Shizuku handler
+        shizukuHandler = ShizukuHandler.getInstance(getApplicationContext());
 
-        if (!Utils.isDeviceRunningOnN() && isDumpPermGranted) {
-            log("android.permission.DUMP already granted and user not on Nougat, skipping SU check");
-            doAfterSuCheckSetup();
-        } else if (Utils.isDeviceRunningOnN() && isDumpPermGranted && isWriteSecureSettingsPermGranted) {
-            log("android.permission.DUMP & android.permission.WRITE_SECURE_SETTINGS already granted and user on Nougat, skipping SU check");
-            doAfterSuCheckSetup();
+        // Check execution mode
+        boolean useShizuku = Utils.isShizukuMode(getApplicationContext());
+        
+        if (useShizuku) {
+            // Shizuku mode - check if Shizuku is available
+            log("Shizuku mode selected");
+            shizukuHandler.checkShizukuAvailability();
+            isShizukuAvailable = shizukuHandler.isShizukuAvailable();
+            
+            if (!isShizukuAvailable) {
+                // Request Shizuku permission
+                shizukuHandler.requestShizukuPermission();
+            }
+            
+            if (!Utils.isDeviceRunningOnN() && isDumpPermGranted) {
+                log("android.permission.DUMP already granted and user not on Nougat, skipping setup checks");
+                doAfterSuCheckSetup();
+            } else if (Utils.isDeviceRunningOnN() && isDumpPermGranted && isWriteSecureSettingsPermGranted) {
+                log("android.permission.DUMP & android.permission.WRITE_SECURE_SETTINGS already granted and user on Nougat, skipping setup checks");
+                doAfterSuCheckSetup();
+            } else if (isShizukuAvailable) {
+                log("Shizuku is available, granting permissions");
+                grantPermissionsViaShizuku();
+                doAfterSuCheckSetup();
+            } else {
+                log("Shizuku is not available");
+                toggleForceDozeSwitch.setChecked(false);
+                toggleForceDozeSwitch.setEnabled(false);
+                textViewStatus.setText(R.string.service_disabled);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+                builder.setTitle(getString(R.string.error_text));
+                builder.setMessage("Shizuku mode is selected but Shizuku is not available. Please install and start Shizuku, or switch to Root mode in settings.");
+                builder.setPositiveButton(getString(R.string.close_button_text), null);
+                builder.show();
+            }
         } else {
-            progressDialog = new MaterialDialog.Builder(this)
+            // Root mode - use existing logic
+            if (!Utils.isDeviceRunningOnN() && isDumpPermGranted) {
+                log("android.permission.DUMP already granted and user not on Nougat, skipping SU check");
+                doAfterSuCheckSetup();
+            } else if (Utils.isDeviceRunningOnN() && isDumpPermGranted && isWriteSecureSettingsPermGranted) {
+                log("android.permission.DUMP & android.permission.WRITE_SECURE_SETTINGS already granted and user on Nougat, skipping SU check");
+                doAfterSuCheckSetup();
+            } else {
+                progressDialog = new MaterialDialog.Builder(this)
                     .title(R.string.please_wait_text)
                     .autoDismiss(false)
                     .cancelable(false)
@@ -261,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     builder.show();
                 }
             });
+            }
         }
 
         if (Utils.isLockscreenTimeoutValueTooHigh(getContentResolver())) {
@@ -363,6 +407,42 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         }
 
+    }
+
+    public void grantPermissionsViaShizuku() {
+        if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
+            log("Granting android.permission.DUMP to com.akylas.enforcedoze via Shizuku");
+            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.DUMP", 
+                (commandCode, exitCode, stdout, stderr) -> {
+                    if (exitCode == 0) {
+                        log("DUMP permission granted successfully");
+                    } else {
+                        Log.e(TAG, "Failed to grant DUMP permission");
+                    }
+                }, true);
+        }
+        if (!Utils.isReadPhoneStatePermissionGranted(getApplicationContext())) {
+            log("Granting android.permission.READ_PHONE_STATE to com.akylas.enforcedoze via Shizuku");
+            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.READ_PHONE_STATE",
+                (commandCode, exitCode, stdout, stderr) -> {
+                    if (exitCode == 0) {
+                        log("READ_PHONE_STATE permission granted successfully");
+                    } else {
+                        Log.e(TAG, "Failed to grant READ_PHONE_STATE permission");
+                    }
+                }, true);
+        }
+        if (!Utils.isSecureSettingsPermissionGranted(getApplicationContext()) && Utils.isDeviceRunningOnN()) {
+            log("Granting android.permission.WRITE_SECURE_SETTINGS to com.akylas.enforcedoze via Shizuku");
+            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.WRITE_SECURE_SETTINGS",
+                (commandCode, exitCode, stdout, stderr) -> {
+                    if (exitCode == 0) {
+                        log("WRITE_SECURE_SETTINGS permission granted successfully");
+                    } else {
+                        Log.e(TAG, "Failed to grant WRITE_SECURE_SETTINGS permission");
+                    }
+                }, true);
+        }
     }
 
     @Override
@@ -759,7 +839,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     public void executeCommand(final String command) {
-        if (isSuAvailable) {
+        boolean useShizuku = Utils.isShizukuMode(getApplicationContext());
+        
+        if (useShizuku && isShizukuAvailable) {
+            shizukuHandler.executeCommand(command, (commandCode, exitCode, stdout, stderr) -> {
+                printShellOutput(stdout);
+            }, true);
+        } else if (isSuAvailable) {
             executeCommandWithRoot(command);
         } else {
             executeCommandWithoutRoot(command);

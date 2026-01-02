@@ -80,6 +80,11 @@ dependencies {
     implementation 'com.jakewharton:process-phoenix:2.1.2'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    
+    // Shizuku
+    def shizukuVersion = '13.1.5'
+    implementation "dev.rikka.shizuku:api:$shizukuVersion"
+    implementation "dev.rikka.shizuku:provider:$shizukuVersion"
 
 //    def libsuVersion = '6.0.0'
 

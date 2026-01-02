@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="execution_mode_entries">
+        <item>@string/execution_mode_root</item>
+        <item>@string/execution_mode_shizuku</item>
+    </string-array>
+    
+    <string-array name="execution_mode_values">
+        <item>root</item>
+        <item>shizuku</item>
+    </string-array>
+</resources>

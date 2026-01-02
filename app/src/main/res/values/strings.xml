@@ -193,4 +193,8 @@
     <string name="notification_channel_disabled_description">Notification when EnforceDoze is disabled</string>
     <string name="enforcedoze_disabled_notif_title">EnforceDoze is disabled</string>
     <string name="enforcedoze_disabled_notif_text">Tap to enable EnforceDoze</string>
+    <string name="execution_mode_setting_title">Execution mode</string>
+    <string name="execution_mode_setting_summary">Choose between Root or Shizuku for executing commands</string>
+    <string name="execution_mode_root">Root</string>
+    <string name="execution_mode_shizuku">Shizuku</string>
 </resources>
