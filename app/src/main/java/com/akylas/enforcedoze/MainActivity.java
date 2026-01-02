@@ -448,6 +448,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (shizukuHandler != null) {
+            shizukuHandler.removePermissionResultListener();
+        }
         if (rootSession != null) {
             rootSession.close();
             rootSession = null;
@@ -468,7 +471,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             } else {
                 log("Service already running");
             }
-            if (isSuAvailable) {
+            boolean useShizuku = Utils.isShizukuMode(getApplicationContext());
+            if (isSuAvailable || (useShizuku && isShizukuAvailable)) {
                 executeCommand("chmod 664 /data/data/com.akylas.enforcedoze/shared_prefs/com.akylas.enforcedoze_preferences.xml");
                 executeCommand("chmod 755 /data/data/com.akylas.enforcedoze/shared_prefs");
             }
