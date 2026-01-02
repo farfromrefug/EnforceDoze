@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 textViewStatus.setText(R.string.service_disabled);
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
                 builder.setTitle(getString(R.string.error_text));
-                builder.setMessage("Shizuku mode is selected but Shizuku is not available. Please install and start Shizuku, or switch to Root mode in settings.");
+                builder.setMessage(getString(R.string.shizuku_not_available_error));
                 builder.setPositiveButton(getString(R.string.close_button_text), null);
                 builder.show();
             }

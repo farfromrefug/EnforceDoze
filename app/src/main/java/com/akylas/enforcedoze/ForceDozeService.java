@@ -461,7 +461,7 @@ public class ForceDozeService extends Service {
     }
 
     public void grantSecureSettingsPermission() {
-        log("Granting android.permission.WRITRE_SECURE_SETTINGS to com.akylas.enforcedoze");
+        log("Granting android.permission.WRITE_SECURE_SETTINGS to com.akylas.enforcedoze");
         executeCommandWithRoot("pm grant com.akylas.enforcedoze android.permission.WRITE_SECURE_SETTINGS");
     }
 
