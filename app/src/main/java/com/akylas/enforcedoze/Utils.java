@@ -385,4 +385,9 @@ public class Utils {
             }
         }
     }
+
+    public static boolean isShizukuMode(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("executionMode", "root").equals("shizuku");
+    }
 }

@@ -1,5 +1,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="preferenceScreen">
     <PreferenceCategory android:title="Main" android:key="mainSettings">
+        <ListPreference
+            android:defaultValue="root"
+            android:entries="@array/execution_mode_entries"
+            android:entryValues="@array/execution_mode_values"
+            android:key="executionMode"
+            android:summary="@string/execution_mode_setting_summary"
+            android:title="@string/execution_mode_setting_title" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="disableWhenCharging"
