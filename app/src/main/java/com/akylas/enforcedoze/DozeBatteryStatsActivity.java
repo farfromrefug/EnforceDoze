@@ -110,8 +110,8 @@ public class DozeBatteryStatsActivity extends AppCompatActivity {
             }
 
 //            if ((sortedDozeUsageStats.size() & 1) == 0) {
-
-                for (int i = 0; i < sortedDozeUsageStats.size(); ) {
+                int count = sortedDozeUsageStats.size();
+                for (int i = 0; i < count - 1; ) {
                     String[] exit_data = sortedDozeUsageStats.get(i).split(",");
                     log("Exit data : [" + Arrays.toString(exit_data) + "]");
                     String[] enter_data = sortedDozeUsageStats.get(i + 1).split(",");
