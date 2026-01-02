@@ -58,7 +58,7 @@ public class AirplaneTileService extends TileService {
         // Toggle the setting
         boolean newValue = !airplaneModeEnabled;
         
-        log((newValue ? "Enabling" : "Disabling") + " airplane mode in Doze");
+        log(String.format("%s airplane mode in Doze", newValue ? "Enabling" : "Disabling"));
         
         // Save the new value
         settings.edit().putBoolean("turnOnAirplaneInDoze", newValue).apply();
@@ -82,9 +82,9 @@ public class AirplaneTileService extends TileService {
             public void run() {
                 Tile tile = getQsTile();
                 if (tile != null) {
-                    tile.setLabel("EnforceDoze Airplane");
+                    tile.setLabel(getString(R.string.airplane_tile_label));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        tile.setSubtitle(active ? "On" : "Off");
+                        tile.setSubtitle(active ? getString(R.string.tile_subtitle_on) : getString(R.string.tile_subtitle_off));
                     }
                     tile.setState(active ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
                     tile.updateTile();

@@ -127,6 +127,8 @@
     <string name="clearing_doze_stats_text">Clearing Doze stats...</string>
     <string name="tile_label">ForceDoze</string>
     <string name="airplane_tile_label">EnforceDoze Airplane</string>
+    <string name="tile_subtitle_on">On</string>
+    <string name="tile_subtitle_off">Off</string>
     <string name="notif_blocklist_setting_summary">Prevent notifications from being delivered during Doze</string>
     <string name="notif_blocklist_setting_title">Doze notification blocklist</string>
     <string name="app_blocklist_setting_summary">Prevent apps (and its background services) from running during Doze</string>
