@@ -253,15 +253,18 @@ public class ForceDozeService extends Service {
         // Initialize Shizuku handler
         shizukuHandler = ShizukuHandler.getInstance(getApplicationContext());
         boolean useShizuku = Utils.isShizukuMode(getApplicationContext());
-        
+        isShizukuAvailable = false;
         if (useShizuku) {
             shizukuHandler.checkShizukuAvailability();
+            shizukuHandler.setOnAvailibilityChangeListener(value -> {
+                isShizukuAvailable = value;
+            });
             isShizukuAvailable = shizukuHandler.isShizukuAvailable();
             log("Shizuku mode enabled, available: " + isShizukuAvailable);
         }
 
         if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
-            if (useShizuku && isShizukuAvailable) {
+            if (isShizukuAvailable) {
                 grantDumpPermissionViaShizuku();
             } else if (isSuAvailable) {
                 grantDumpPermission();
@@ -270,7 +273,7 @@ public class ForceDozeService extends Service {
 
         if (Utils.isDeviceRunningOnN()) {
             if (!Utils.isSecureSettingsPermissionGranted(getApplicationContext())) {
-                if (useShizuku && isShizukuAvailable) {
+                if (isShizukuAvailable) {
                     grantSecureSettingsPermissionViaShizuku();
                 } else if (isSuAvailable) {
                     grantSecureSettingsPermission();
@@ -279,7 +282,7 @@ public class ForceDozeService extends Service {
         }
 
         if (!Utils.isReadPhoneStatePermissionGranted(getApplicationContext())) {
-            if (useShizuku && isShizukuAvailable) {
+            if (isShizukuAvailable) {
                 grantReadPhoneStatePermissionViaShizuku();
             } else if (isSuAvailable) {
                 grantReadPhoneStatePermission();
@@ -504,7 +507,7 @@ public class ForceDozeService extends Service {
             if (!Utils.isDeviceRunningOnN()) {
                 log("Adding service to Doze whitelist for stability");
                 executeCommand("dumpsys deviceidle whitelist +com.akylas.enforcedoze");
-            } else if (Utils.isDeviceRunningOnN() && isSuAvailable) {
+            } else if (Utils.isDeviceRunningOnN() && (isSuAvailable || isShizukuAvailable)) {
                 log("Adding service to Doze whitelist for stability");
                 executeCommandWithRoot("dumpsys deviceidle whitelist +com.akylas.enforcedoze");
             } else {
@@ -542,7 +545,7 @@ public class ForceDozeService extends Service {
 
     public void applyDoze() {
         if (Utils.isDeviceRunningOnN()) {
-            if (isSuAvailable) {
+            if (isSuAvailable || isShizukuAvailable) {
                 executeCommandWithRoot("dumpsys deviceidle force-idle deep");
             } else {
                 DozeTunableHandler handler = DozeTunableHandler.getInstance();
@@ -561,7 +564,7 @@ public class ForceDozeService extends Service {
 
     public void leaveDoze() {
         if (Utils.isDeviceRunningOnN()) {
-            if (isSuAvailable) {
+            if (isSuAvailable || isShizukuAvailable) {
                 executeCommandWithRoot("dumpsys deviceidle unforce");
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -593,7 +596,7 @@ public class ForceDozeService extends Service {
                         // when root is not available we use UsageStatsManager
                         // but i am not sure i can trust it as it does not really returns the front
                         // app but last one used (what about apps running in the background?)
-                        if (isSuAvailable) {
+                        if (isSuAvailable || isShizukuAvailable) {
                             try {
                                 getFocusedApps((HashSet<String> packageNames) -> {
                                     for (String pkg : dozeAppBlocklist) {
@@ -1114,7 +1117,7 @@ public class ForceDozeService extends Service {
     public String getDeviceIdleState() {
         log("Fetching Device Idle state...");
         if (Utils.isDeviceRunningOnN()) {
-            if (isSuAvailable) {
+            if (isSuAvailable || isShizukuAvailable) {
                 if (rootSession != null) {
                     rootSession.addCommand("dumpsys deviceidle", 0, (Shell.OnCommandResultListener2) (commandCode, exitCode, output, stderr) -> {
                         if (!output.isEmpty()) {
@@ -1206,7 +1209,7 @@ public class ForceDozeService extends Service {
 
 
     public void disableWiFi() {
-        if (isSuAvailable) {
+        if (isSuAvailable || isShizukuAvailable) {
             executeCommandWithRoot("svc wifi disable", (commandCode, exitCode, STDOUT, STDERR) -> {
                 log("disableWiFi: " + Utils.isWiFiEnabled(getApplicationContext()));
             });
@@ -1221,7 +1224,7 @@ public class ForceDozeService extends Service {
     }
 
     public void setAllSensorsState(Context context, boolean enabled) {
-        if (!isSuAvailable) {
+        if (!isSuAvailable && !isShizukuAvailable) {
             return;
         }
 //        if (!Utils.isSecureSensorPrivacyPermissionGranted(context)) {
@@ -1254,7 +1257,7 @@ public class ForceDozeService extends Service {
     }
 
     public void setBiometricsSensorState(Context context, boolean enabled) {
-        if (!isSuAvailable) {
+        if (!isSuAvailable && !isShizukuAvailable) {
             return;
         }
         if (!Utils.isSecureSettingsPermissionGranted(context)) {
@@ -1264,7 +1267,7 @@ public class ForceDozeService extends Service {
     }
 
     public void setBatterSaverState(Context context, boolean enabled) {
-        if (!isSuAvailable) {
+        if (!isSuAvailable && !isShizukuAvailable) {
             return;
         }
 //        if (!Utils.isSecureSettingsPermissionGranted(context)) {
@@ -1274,7 +1277,7 @@ public class ForceDozeService extends Service {
     }
 
     public void setAirplaneState(Context context, boolean enabled) {
-        if (!isSuAvailable) {
+        if (!isSuAvailable && !isShizukuAvailable) {
             return;
         }
 //        if (!Utils.isSecureSettingsPermissionGranted(context)) {
@@ -1285,7 +1288,7 @@ public class ForceDozeService extends Service {
     }
 
     public void enableWiFi() {
-        if (isSuAvailable) {
+        if (isSuAvailable || isShizukuAvailable) {
             executeCommandWithRoot("svc wifi enable", (commandCode, exitCode, STDOUT, STDERR) -> {
                 log("enableWiFi: " + Utils.isWiFiEnabled(getApplicationContext()));
             });

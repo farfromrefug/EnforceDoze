@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +20,22 @@ public class ShizukuHandler {
     private static ShizukuHandler instance;
     private Context context;
     private boolean isShizukuAvailable = false;
+    private OnAvailibilityChange onAvailibilityChangeListener;
 
-    private final Shizuku.OnRequestPermissionResultListener REQUEST_PERMISSION_RESULT_LISTENER = 
-        new Shizuku.OnRequestPermissionResultListener() {
-            @Override
-            public void onRequestPermissionResult(int requestCode, int grantResult) {
+    interface OnAvailibilityChange {
+        public void onChange(Boolean value);
+    }
+
+
+    private final Shizuku.OnRequestPermissionResultListener REQUEST_PERMISSION_RESULT_LISTENER =
+            (requestCode, grantResult) -> {
                 boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
                 Log.i(TAG, "Shizuku permission result: " + granted);
                 isShizukuAvailable = granted;
-            }
-        };
+                if (onAvailibilityChangeListener != null) {
+                    onAvailibilityChangeListener.onChange(isShizukuAvailable);
+                }
+            };
 
     private ShizukuHandler(Context context) {
         this.context = context.getApplicationContext();
@@ -40,6 +47,10 @@ public class ShizukuHandler {
             instance = new ShizukuHandler(context);
         }
         return instance;
+    }
+
+    public void setOnAvailibilityChangeListener(OnAvailibilityChange onAvailibilityChangeListener) {
+        this.onAvailibilityChangeListener = onAvailibilityChangeListener;
     }
 
     public void checkShizukuAvailability() {
@@ -98,6 +109,7 @@ public class ShizukuHandler {
         executeCommand(command, callback, false);
     }
 
+    Method shizukuNewProcessMethod = null;
     /**
      * Execute a shell command using Shizuku
      * @param command The command to execute
@@ -122,8 +134,16 @@ public class ShizukuHandler {
                     callback.onCommandResult(0, -1, stdout, stderr);
                     return;
                 }
+                if (shizukuNewProcessMethod == null) {
+                    Class<?> clazz = Class.forName("rikka.shizuku.Shizuku");
+                    shizukuNewProcessMethod = clazz.getDeclaredMethod("newProcess", String[].class,String[].class, String.class);
+                    shizukuNewProcessMethod.setAccessible(true);
+                }
+                String[] cmd = new String[] { "sh", "-c", command };
+                Object[] invokeArgs = new Object[] { cmd, null, null };
 
-                ShizukuRemoteProcess process = Shizuku.newProcess(new String[]{"sh", "-c", command}, null, null);
+                ShizukuRemoteProcess process = (ShizukuRemoteProcess) shizukuNewProcessMethod.invoke(null, invokeArgs);
+//                ShizukuRemoteProcess process = Shizuku.newProcess(new String[]{"sh", "-c", command}, null, null);
 
                 // Read stdout
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {

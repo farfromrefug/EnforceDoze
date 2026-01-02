@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="preferenceScreen">
     <PreferenceCategory android:title="Main" android:key="mainSettings">
-        <com.akylas.enforcedoze.MaterialListPreference
+        <ListPreference
             android:defaultValue="root"
             android:entries="@array/execution_mode_entries"
             android:entryValues="@array/execution_mode_values"

@@ -149,7 +149,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             
             if (!isShizukuAvailable) {
                 // Request Shizuku permission
-                shizukuHandler.requestShizukuPermission();
+                try {
+                    shizukuHandler.requestShizukuPermission();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             
             if (!Utils.isDeviceRunningOnN() && isDumpPermGranted) {
