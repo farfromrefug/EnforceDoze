@@ -1440,13 +1440,6 @@ public class ForceDozeService extends Service {
         log("handleScreenOn");
         log("Last known Doze state: " + lastKnownState);
 
-        // Reset was... properties to track new user preferences while screen is on
-        // This ensures we capture fresh state when screen next turns off
-        wasWiFiTurnedOn = false;
-        wasBatterSaverOn = false;
-        wasMobileDataTurnedOn = false;
-        wasAirplaneOn = false;
-
         if (tempWakeLock != null) {
             if (tempWakeLock.isHeld()) {
                 log("Releasing ForceDozeTempWakelock");
@@ -1454,7 +1447,16 @@ public class ForceDozeService extends Service {
             }
         }
 
+        // Restore settings based on was... properties, THEN reset them
         leaveDozeHandleNetwork(context);
+        
+        // Reset was... properties to track new user preferences while screen is on
+        // This ensures we capture fresh state when screen next turns off
+        wasWiFiTurnedOn = false;
+        wasBatterSaverOn = false;
+        wasMobileDataTurnedOn = false;
+        wasAirplaneOn = false;
+        
         String newDeviceIdleState = getDeviceIdleState();
         if (!newDeviceIdleState.equals("ACTIVE") || !lastKnownState.equals("ACTIVE")) {
             log("Exiting Doze");
