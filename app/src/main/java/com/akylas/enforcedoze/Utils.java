@@ -236,6 +236,8 @@ public class Utils {
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
     public static boolean isBluetoothEnabled(ContentResolver contentResolver) {
+        // Note: Settings.Global.BLUETOOTH_ON is not available in the public API
+        // Using the hardcoded string "bluetooth_on" is the standard approach
         return Settings.Global.getInt(contentResolver,
                 "bluetooth_on", 0) != 0;
     }
