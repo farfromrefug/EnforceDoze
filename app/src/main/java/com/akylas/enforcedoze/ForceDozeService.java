@@ -1316,7 +1316,8 @@ public class ForceDozeService extends Service {
         if (!isSuAvailable && !isShizukuAvailable) {
             return;
         }
-        executeCommandWithRoot("settings put secure location_mode " + (enabled ? 3 : 0));
+        int locationMode = enabled ? Settings.Secure.LOCATION_MODE_HIGH_ACCURACY : Settings.Secure.LOCATION_MODE_OFF;
+        executeCommandWithRoot("settings put secure location_mode " + locationMode);
     }
 
     public void enableWiFi() {
