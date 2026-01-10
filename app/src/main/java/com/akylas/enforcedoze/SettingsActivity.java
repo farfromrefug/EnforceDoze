@@ -375,6 +375,14 @@ public class SettingsActivity extends AppCompatActivity {
             dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
             dozeAppBlocklist.setEnabled(false);
             dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
+            
+            Preference turnOffBluetoothInDoze = (Preference) findPreference("turnOffBluetoothInDoze");
+            turnOffBluetoothInDoze.setEnabled(false);
+            turnOffBluetoothInDoze.setSummary(getString(R.string.root_required_text));
+            
+            Preference turnOffGPSInDoze = (Preference) findPreference("turnOffGPSInDoze");
+            turnOffGPSInDoze.setEnabled(false);
+            turnOffGPSInDoze.setSummary(getString(R.string.root_required_text));
 
         }
 
@@ -474,6 +482,8 @@ public class SettingsActivity extends AppCompatActivity {
                     Preference turnOnBatterySaverInDoze = (Preference) findPreference("turnOnBatterySaverInDoze");
                     Preference turnOffBiometricsInDoze = (Preference) findPreference("turnOffBiometricsInDoze");
                     Preference turnOnAirplaneInDoze = (Preference) findPreference("turnOnAirplaneInDoze");
+                    Preference turnOffBluetoothInDoze = (Preference) findPreference("turnOffBluetoothInDoze");
+                    Preference turnOffGPSInDoze = (Preference) findPreference("turnOffGPSInDoze");
                     Preference whitelistAppsFromDozeMode = (Preference) findPreference("whitelistAppsFromDozeMode");
                     if (enabled) {
                         turnOffDataInDoze.setEnabled(true);
@@ -490,6 +500,10 @@ public class SettingsActivity extends AppCompatActivity {
                         turnOffBiometricsInDoze.setSummary(getString(R.string.disable_biometrics_setting_summary));
                         turnOnAirplaneInDoze.setEnabled(true);
                         turnOnAirplaneInDoze.setSummary(getString(R.string.enable_airplane_setting_summary));
+                        turnOffBluetoothInDoze.setEnabled(true);
+                        turnOffBluetoothInDoze.setSummary(getString(R.string.disable_bluetooth_setting_summary));
+                        turnOffGPSInDoze.setEnabled(true);
+                        turnOffGPSInDoze.setSummary(getString(R.string.disable_gps_setting_summary));
                         whitelistAppsFromDozeMode.setEnabled(true);
                         whitelistAppsFromDozeMode.setSummary(getString(R.string.whitelist_apps_setting_summary));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -512,6 +526,10 @@ public class SettingsActivity extends AppCompatActivity {
                         turnOffBiometricsInDoze.setSummary(getString(R.string.root_required_text));
                         turnOnAirplaneInDoze.setEnabled(false);
                         turnOnAirplaneInDoze.setSummary(getString(R.string.root_required_text));
+                        turnOffBluetoothInDoze.setEnabled(false);
+                        turnOffBluetoothInDoze.setSummary(getString(R.string.root_required_text));
+                        turnOffGPSInDoze.setEnabled(false);
+                        turnOffGPSInDoze.setSummary(getString(R.string.root_required_text));
                         whitelistAppsFromDozeMode.setEnabled(false);
                         whitelistAppsFromDozeMode.setSummary(getString(R.string.root_required_text));
                         PreferenceManager.getDefaultSharedPreferences(getContext())
@@ -520,6 +538,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 .putBoolean("turnOffAllSensorsInDoze", false)
                                 .putBoolean("turnOffBiometricsInDoze", false)
                                 .putBoolean("turnOnAirplaneInDoze", false)
+                                .putBoolean("turnOffBluetoothInDoze", false)
+                                .putBoolean("turnOffGPSInDoze", false)
                                 .apply();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

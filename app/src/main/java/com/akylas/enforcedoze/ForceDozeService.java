@@ -82,6 +82,8 @@ public class ForceDozeService extends Service {
     boolean turnOffBiometricsInDoze = false;
     boolean turnOnBatterySaverInDoze = false;
     boolean turnOnAirplaneInDoze = false;
+    boolean turnOffBluetoothInDoze = false;
+    boolean turnOffGPSInDoze = false;
     boolean turnOffWiFiInDoze = false;
     boolean ignoreIfHotspot = false;
     boolean turnOffDataInDoze = false;
@@ -91,6 +93,8 @@ public class ForceDozeService extends Service {
     boolean wasWiFiTurnedOn = false;
     boolean wasMobileDataTurnedOn = false;
     boolean wasAirplaneOn = false;
+    boolean wasBluetoothOn = false;
+    boolean wasGPSOn = false;
     boolean wasHotSpotTurnedOn = false;
     boolean maintenance = false;
     boolean setPendingDozeEnterAlarm = false;
@@ -232,6 +236,8 @@ public class ForceDozeService extends Service {
         turnOffBiometricsInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffBiometricsInDoze", false);
         turnOnBatterySaverInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOnBatterySaverInDoze", false);
         turnOnAirplaneInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOnAirplaneInDoze", false);
+        turnOffBluetoothInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffBluetoothInDoze", false);
+        turnOffGPSInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffGPSInDoze", false);
         whitelistMusicAppNetwork = getDefaultSharedPreferences(getApplicationContext()).getBoolean("whitelistMusicAppNetwork", false);
         whitelistCurrentApp = getDefaultSharedPreferences(getApplicationContext()).getBoolean("whitelistCurrentApp", false);
         ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", true);
@@ -390,6 +396,10 @@ public class ForceDozeService extends Service {
         log("turnOnBatterySaverInDoze: " + turnOnBatterySaverInDoze);
         turnOnAirplaneInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOnAirplaneInDoze", false);
         log("turnOnAirplaneInDoze: " + turnOnAirplaneInDoze);
+        turnOffBluetoothInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffBluetoothInDoze", false);
+        log("turnOffBluetoothInDoze: " + turnOffBluetoothInDoze);
+        turnOffGPSInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffGPSInDoze", false);
+        log("turnOffGPSInDoze: " + turnOffGPSInDoze);
         whitelistMusicAppNetwork = getDefaultSharedPreferences(getApplicationContext()).getBoolean("whitelistMusicAppNetwork", false);
         log("whitelistMusicAppNetwork: " + whitelistMusicAppNetwork);
         whitelistCurrentApp = getDefaultSharedPreferences(getApplicationContext()).getBoolean("whitelistCurrentApp", false);
@@ -1287,6 +1297,28 @@ public class ForceDozeService extends Service {
         executeCommandWithRoot("am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + (enabled ? "true" : "false"));
     }
 
+    public void setBluetoothState(Context context, boolean enabled) {
+        if (!isSuAvailable && !isShizukuAvailable) {
+            return;
+        }
+        if (enabled) {
+            executeCommandWithRoot("svc bluetooth enable", (commandCode, exitCode, STDOUT, STDERR) -> {
+                log("enableBluetooth: " + Utils.isBluetoothEnabled(getContentResolver()));
+            });
+        } else {
+            executeCommandWithRoot("svc bluetooth disable", (commandCode, exitCode, STDOUT, STDERR) -> {
+                log("disableBluetooth: " + Utils.isBluetoothEnabled(getContentResolver()));
+            });
+        }
+    }
+
+    public void setGPSState(Context context, boolean enabled) {
+        if (!isSuAvailable && !isShizukuAvailable) {
+            return;
+        }
+        executeCommandWithRoot("settings put secure location_mode " + (enabled ? 3 : 0));
+    }
+
     public void enableWiFi() {
         if (isSuAvailable || isShizukuAvailable) {
             executeCommandWithRoot("svc wifi enable", (commandCode, exitCode, STDOUT, STDERR) -> {
@@ -1341,6 +1373,8 @@ public class ForceDozeService extends Service {
         wasWiFiTurnedOn = wasWiFiTurnedOn || Utils.isWiFiEnabled(context);
         wasMobileDataTurnedOn = wasMobileDataTurnedOn || Utils.isMobileDataEnabled(context);
         wasAirplaneOn = wasAirplaneOn || Utils.isAirplaneEnabled(getContentResolver());
+        wasBluetoothOn = wasBluetoothOn || Utils.isBluetoothEnabled(getContentResolver());
+        wasGPSOn = wasGPSOn || Utils.isLocationEnabled(getContentResolver());
         wasHotSpotTurnedOn = Utils.isHotspotEnabled(context);
         wasBatterSaverOn = wasBatterSaverOn || Utils.isBatterSaverEnabled(getContentResolver());
 
@@ -1360,6 +1394,16 @@ public class ForceDozeService extends Service {
         if (turnOnAirplaneInDoze && (ignoreIfHotspot || !wasHotSpotTurnedOn) && !wasAirplaneOn && packageName == null) {
             log("Enabling airplane");
             setAirplaneState(context, true);
+        }
+
+        if (turnOffBluetoothInDoze && wasBluetoothOn && packageName == null) {
+            log("Disabling Bluetooth");
+            setBluetoothState(context, false);
+        }
+
+        if (turnOffGPSInDoze && wasGPSOn && packageName == null) {
+            log("Disabling GPS/Location");
+            setGPSState(context, false);
         }
 
         if (turnOffWiFiInDoze && (ignoreIfHotspot || !wasHotSpotTurnedOn) && wasWiFiTurnedOn && packageName == null) {
@@ -1401,6 +1445,20 @@ public class ForceDozeService extends Service {
                 setAirplaneState(context, false);
             }
         }
+        if (turnOffBluetoothInDoze) {
+            log("wasBluetoothOn: " + wasBluetoothOn);
+            if (wasBluetoothOn) {
+                log("Enabling Bluetooth");
+                setBluetoothState(context, true);
+            }
+        }
+        if (turnOffGPSInDoze) {
+            log("wasGPSOn: " + wasGPSOn);
+            if (wasGPSOn) {
+                log("Enabling GPS/Location");
+                setGPSState(context, true);
+            }
+        }
         if (turnOffWiFiInDoze) {
             log("wasWiFiTurnedOn: " + wasWiFiTurnedOn);
             if (wasWiFiTurnedOn) {
@@ -1434,6 +1492,8 @@ public class ForceDozeService extends Service {
         wasBatterSaverOn = false;
         wasMobileDataTurnedOn = false;
         wasAirplaneOn = false;
+        wasBluetoothOn = false;
+        wasGPSOn = false;
     }
 
     public void handleScreenOn(Context context, int time, int delay) {

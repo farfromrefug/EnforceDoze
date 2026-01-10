@@ -235,6 +235,19 @@ public class Utils {
         return Settings.Global.getInt(contentResolver,
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
+    public static boolean isBluetoothEnabled(ContentResolver contentResolver) {
+        return Settings.Global.getInt(contentResolver,
+                "bluetooth_on", 0) != 0;
+    }
+    public static boolean isLocationEnabled(ContentResolver contentResolver) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return Settings.Secure.getInt(contentResolver,
+                    Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF) != Settings.Secure.LOCATION_MODE_OFF;
+        } else {
+            return Settings.Secure.getInt(contentResolver,
+                    Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF) != Settings.Secure.LOCATION_MODE_OFF;
+        }
+    }
     public static boolean isHotspotEnabled(Context context) {
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         Method method = null;
