@@ -236,6 +236,8 @@ public class SettingsActivity extends AppCompatActivity {
             executionMode.setOnPreferenceChangeListener((preference, value) -> {
                 if (value == "shizuku") {
                     ShizukuHandler.getInstance(getActivity()).requestShizukuPermission();
+                } else {
+                    toggleRootFeatures(isSuAvailable);
                 }
                 return true;
             });
