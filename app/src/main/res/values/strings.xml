@@ -45,6 +45,10 @@
     <string name="enable_battery_saver_setting_summary">Turn on Battery Saver while the device is in Doze mode</string>
     <string name="enable_airplane_setting_title">Turn on Airplane on screen off</string>
     <string name="enable_airplane_setting_summary">Turn on Airplane mode while the device is in Doze mode</string>
+    <string name="disable_bluetooth_setting_title">Disable Bluetooth on screen off</string>
+    <string name="disable_bluetooth_setting_summary">Turn off Bluetooth while the device is in Doze mode</string>
+    <string name="disable_gps_setting_title">Disable GPS on screen off</string>
+    <string name="disable_gps_setting_summary">Turn off GPS/Location while the device is in Doze mode</string>
     <string name="disable_biometrics_setting_title">Disable biometrics unlock while screen off</string>
     <string name="disable_biometrics_setting_summary">Disable biometrics unlock while screen off. Might not work on all devices</string>
     <string name="disable_when_charging_setting_summary">Turn off EnforceDoze when device is plugged in to a charger</string>

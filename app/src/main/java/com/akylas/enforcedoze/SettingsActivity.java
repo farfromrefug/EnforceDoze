@@ -108,6 +108,8 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         boolean isSuAvailable = false;
+        boolean isShizukuAvailable = false;
+        private ShizukuHandler shizukuHandler;
 
         private void removeIconSpace(PreferenceGroup group) {
             for (int i = 0; i < group.getPreferenceCount(); i++) {
@@ -168,7 +170,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(@Nullable Bundle savedInstanceState, String rootKey) {
-
+            shizukuHandler = ShizukuHandler.getInstance(getActivity());
+            boolean useShizuku = Utils.isShizukuMode(getActivity());
+            isShizukuAvailable = false;
+            if (useShizuku) {
+                shizukuHandler.checkShizukuAvailability();
+                shizukuHandler.setOnAvailibilityChangeListener(value -> {
+                    isShizukuAvailable = value;
+                    toggleRootFeatures(isShizukuAvailable || isSuAvailable);
+                });
+                isShizukuAvailable = shizukuHandler.isShizukuAvailable();
+                log("Shizuku mode enabled, available: " + isShizukuAvailable);
+            }
             // Initialize root and non-root shell
             executeCommandWithRoot("whoami");
             executeCommandWithoutRoot("whoami");
@@ -186,6 +199,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
             Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
             final Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
+            final Preference executionMode = (Preference) findPreference("executionMode");
             final Preference disableMotionSensors = (Preference) findPreference("disableMotionSensors");
             Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
             Preference whitelistMusicAppNetwork = (Preference) findPreference("whitelistMusicAppNetwork");
@@ -214,6 +228,14 @@ public class SettingsActivity extends AppCompatActivity {
                         requestNotificationPermission();
                         return false;
                     }
+                }
+                return true;
+            });
+
+
+            executionMode.setOnPreferenceChangeListener((preference, value) -> {
+                if (value == "shizuku") {
+                    ShizukuHandler.getInstance(getActivity()).requestShizukuPermission();
                 }
                 return true;
             });
@@ -375,6 +397,14 @@ public class SettingsActivity extends AppCompatActivity {
             dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text));
             dozeAppBlocklist.setEnabled(false);
             dozeAppBlocklist.setSummary(getString(R.string.root_required_text));
+            
+            Preference turnOffBluetoothInDoze = (Preference) findPreference("turnOffBluetoothInDoze");
+            turnOffBluetoothInDoze.setEnabled(false);
+            turnOffBluetoothInDoze.setSummary(getString(R.string.root_required_text));
+            
+            Preference turnOffGPSInDoze = (Preference) findPreference("turnOffGPSInDoze");
+            turnOffGPSInDoze.setEnabled(false);
+            turnOffGPSInDoze.setSummary(getString(R.string.root_required_text));
 
         }
 
@@ -474,6 +504,8 @@ public class SettingsActivity extends AppCompatActivity {
                     Preference turnOnBatterySaverInDoze = (Preference) findPreference("turnOnBatterySaverInDoze");
                     Preference turnOffBiometricsInDoze = (Preference) findPreference("turnOffBiometricsInDoze");
                     Preference turnOnAirplaneInDoze = (Preference) findPreference("turnOnAirplaneInDoze");
+                    Preference turnOffBluetoothInDoze = (Preference) findPreference("turnOffBluetoothInDoze");
+                    Preference turnOffGPSInDoze = (Preference) findPreference("turnOffGPSInDoze");
                     Preference whitelistAppsFromDozeMode = (Preference) findPreference("whitelistAppsFromDozeMode");
                     if (enabled) {
                         turnOffDataInDoze.setEnabled(true);
@@ -490,6 +522,10 @@ public class SettingsActivity extends AppCompatActivity {
                         turnOffBiometricsInDoze.setSummary(getString(R.string.disable_biometrics_setting_summary));
                         turnOnAirplaneInDoze.setEnabled(true);
                         turnOnAirplaneInDoze.setSummary(getString(R.string.enable_airplane_setting_summary));
+                        turnOffBluetoothInDoze.setEnabled(true);
+                        turnOffBluetoothInDoze.setSummary(getString(R.string.disable_bluetooth_setting_summary));
+                        turnOffGPSInDoze.setEnabled(true);
+                        turnOffGPSInDoze.setSummary(getString(R.string.disable_gps_setting_summary));
                         whitelistAppsFromDozeMode.setEnabled(true);
                         whitelistAppsFromDozeMode.setSummary(getString(R.string.whitelist_apps_setting_summary));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -512,6 +548,10 @@ public class SettingsActivity extends AppCompatActivity {
                         turnOffBiometricsInDoze.setSummary(getString(R.string.root_required_text));
                         turnOnAirplaneInDoze.setEnabled(false);
                         turnOnAirplaneInDoze.setSummary(getString(R.string.root_required_text));
+                        turnOffBluetoothInDoze.setEnabled(false);
+                        turnOffBluetoothInDoze.setSummary(getString(R.string.root_required_text));
+                        turnOffGPSInDoze.setEnabled(false);
+                        turnOffGPSInDoze.setSummary(getString(R.string.root_required_text));
                         whitelistAppsFromDozeMode.setEnabled(false);
                         whitelistAppsFromDozeMode.setSummary(getString(R.string.root_required_text));
                         PreferenceManager.getDefaultSharedPreferences(getContext())
@@ -520,6 +560,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 .putBoolean("turnOffAllSensorsInDoze", false)
                                 .putBoolean("turnOffBiometricsInDoze", false)
                                 .putBoolean("turnOnAirplaneInDoze", false)
+                                .putBoolean("turnOffBluetoothInDoze", false)
+                                .putBoolean("turnOffGPSInDoze", false)
                                 .apply();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -545,7 +587,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
+
         public void executeCommandWithRoot(final String command) {
+            boolean useShizuku = Utils.isShizukuMode(getActivity());
+            if (useShizuku && isShizukuAvailable) {
+                shizukuHandler.executeCommand(command, (commandCode, exitCode, stdout, stderr) -> {
+                    if (exitCode == 0) {
+                        toggleRootFeatures(true);
+                    } else {
+                        toggleRootFeatures(false);
+                    }
+                }, false);
+                return;
+            }
             AsyncTask.execute(() -> {
                 if (rootSession != null) {
                     rootSession.addCommand(command, 0, (Shell.OnCommandResultListener2) (commandCode, exitCode, STDOUT, STDERR) -> printShellOutput(STDOUT));

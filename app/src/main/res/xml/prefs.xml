@@ -64,6 +64,16 @@
             android:summary="@string/enable_airplane_setting_summary"
             android:title="@string/enable_airplane_setting_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="turnOffBluetoothInDoze"
+            android:summary="@string/disable_bluetooth_setting_summary"
+            android:title="@string/disable_bluetooth_setting_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="turnOffGPSInDoze"
+            android:summary="@string/disable_gps_setting_summary"
+            android:title="@string/disable_gps_setting_title" />
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="ignoreIfHotspot"
             android:summary="@string/ignore_hospot_during_doze_setting_summary"
