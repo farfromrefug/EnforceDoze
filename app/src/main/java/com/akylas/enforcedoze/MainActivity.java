@@ -626,8 +626,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     public void showRootWorkaroundInstructions() {
-        String command = "adb -d shell pm grant com.akylas.enforcedoze android.permission.DUMP";
-
         View customAlertDialogView = LayoutInflater.from(this)
                 .inflate(R.layout.non_root_workaround, null, false);
 
