@@ -1338,11 +1338,13 @@ public class ForceDozeService extends Service {
 
     public void actualEnterDozeHandleNetwork(Context context, String packageName) {
         log("playingPackageName: " + packageName);
-        wasWiFiTurnedOn = wasWiFiTurnedOn || Utils.isWiFiEnabled(context);
-        wasMobileDataTurnedOn = wasMobileDataTurnedOn || Utils.isMobileDataEnabled(context);
-        wasAirplaneOn = wasAirplaneOn || Utils.isAirplaneEnabled(getContentResolver());
+        // Capture the CURRENT device state at the moment screen turns off
+        // These represent user's preference while screen was on
+        wasWiFiTurnedOn = Utils.isWiFiEnabled(context);
+        wasMobileDataTurnedOn = Utils.isMobileDataEnabled(context);
+        wasAirplaneOn = Utils.isAirplaneEnabled(getContentResolver());
         wasHotSpotTurnedOn = Utils.isHotspotEnabled(context);
-        wasBatterSaverOn = wasBatterSaverOn || Utils.isBatterSaverEnabled(getContentResolver());
+        wasBatterSaverOn = Utils.isBatterSaverEnabled(getContentResolver());
 
         if (turnOffAllSensorsInDoze) {
             log("Disabling All sensors");
@@ -1430,10 +1432,8 @@ public class ForceDozeService extends Service {
                 enableMobileData();
             }
         }
-        wasWiFiTurnedOn = false;
-        wasBatterSaverOn = false;
-        wasMobileDataTurnedOn = false;
-        wasAirplaneOn = false;
+        // Note: was... properties are NOT reset here anymore.
+        // They will be reset when screen turns ON to track new user preferences.
     }
 
     public void handleScreenOn(Context context, int time, int delay) {
@@ -1447,7 +1447,16 @@ public class ForceDozeService extends Service {
             }
         }
 
+        // Restore settings based on was... properties, THEN reset them
         leaveDozeHandleNetwork(context);
+        
+        // Reset was... properties to track new user preferences while screen is on
+        // This ensures we capture fresh state when screen next turns off
+        wasWiFiTurnedOn = false;
+        wasBatterSaverOn = false;
+        wasMobileDataTurnedOn = false;
+        wasAirplaneOn = false;
+        
         String newDeviceIdleState = getDeviceIdleState();
         if (!newDeviceIdleState.equals("ACTIVE") || !lastKnownState.equals("ACTIVE")) {
             log("Exiting Doze");
