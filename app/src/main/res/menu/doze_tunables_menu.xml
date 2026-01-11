@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_apply_tunables"
-        android:icon="@drawable/check_24px"
-        app:iconTint="?attr/colorControlNormal"
-        android:orderInCategory="100"
-        android:title="Apply"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/action_copy_tunables"
         android:icon="@drawable/ic_content_copy_white_24dp"
         app:iconTint="?attr/colorControlNormal"
         android:orderInCategory="100"
-        android:title="Copy tunable string"
+        android:title="@string/copy_tunable_string"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_apply_tunables"
+        android:icon="@drawable/check_24px"
+        app:iconTint="?attr/colorControlNormal"
+        android:orderInCategory="100"
+        android:title="@string/apply"
         app:showAsAction="always"/>
 </menu>

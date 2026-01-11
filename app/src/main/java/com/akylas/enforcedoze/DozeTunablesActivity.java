@@ -1,5 +1,6 @@
 package com.akylas.enforcedoze;
 
+import static com.akylas.enforcedoze.Utils.applicationContext;
 import static com.akylas.enforcedoze.Utils.logToLogcat;
 
 import android.annotation.SuppressLint;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +48,9 @@ public class DozeTunablesActivity extends AppCompatActivity {
 
     public static String TAG = "EnforceDoze";
     public static boolean suAvailable = false;
-
+    static boolean isShizukuAvailable = false;
+    private static ShizukuHandler shizukuHandler;
+    private final String tunableCommand = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? "device_config put device_idle" : "settings put global device_idle_constants";
 
     private static void log(String message) {
         logToLogcat(TAG, message);
@@ -100,7 +105,14 @@ public class DozeTunablesActivity extends AppCompatActivity {
     public void applyTunables() {
         String tunable_string = DozeTunableHandler.getInstance().getTunableString();
         log("Setting device_idle_constants=" + tunable_string);
-        executeCommand("settings put global device_idle_constants " + tunable_string);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            for (String s : tunable_string.split(",")) {
+                executeCommand(tunableCommand + " " + TextUtils.join(" ", s.split("=")));
+            }
+        } else {
+            executeCommand(tunableCommand + " " + tunable_string);
+
+        }
         Toast.makeText(this, getString(R.string.applied_success_text), Toast.LENGTH_SHORT).show();
     }
 
@@ -108,7 +120,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
         String tunable_string = DozeTunableHandler.getInstance().getTunableString();
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setTitle(getString(R.string.adb_command_text));
-        builder.setMessage("You can apply the new values using ADB by running the following command:\n\nadb shell settings put global device_idle_constants " + tunable_string);
+        builder.setMessage("You can apply the new values using ADB by running the following command:\n\nadb shell " + tunableCommand + " " + tunable_string);
         builder.setPositiveButton(getString(R.string.close_button_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -119,7 +131,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Copied Tunable k/v string", "adb shell settings put global device_idle_constants " + tunable_string);
+                ClipData clip = ClipData.newPlainText("Copied Tunable k/v string", "adb shell " + tunableCommand + " " + tunable_string);
                 clipboard.setPrimaryClip(clip);
                 dialogInterface.dismiss();
             }
@@ -127,7 +139,21 @@ public class DozeTunablesActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void executeCommand(final String command) {
+    public static void executeCommand(final String command) {
+        boolean useShizuku = Utils.isShizukuMode(applicationContext.getApplicationContext());
+
+        if (useShizuku && isShizukuAvailable) {
+            shizukuHandler.executeCommand(command, (commandCode, exitCode, stdout, stderr) -> {
+                printShellOutput(stderr);
+                if (exitCode == 0) {
+                    printShellOutput(stdout);
+
+                } else {
+                    log("Error occurred while executing command (" + command + ")");
+                }
+            }, false);
+            return;
+        }
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +167,7 @@ public class DozeTunablesActivity extends AppCompatActivity {
         });
     }
 
-    public void printShellOutput(List<String> output) {
+    public static void printShellOutput(List<String> output) {
         if (!output.isEmpty()) {
             for (String s : output) {
                 log(s);
@@ -203,6 +229,22 @@ public class DozeTunablesActivity extends AppCompatActivity {
                 preferenceScreen.removePreference(lightDozeSettings);
             }
 
+            shizukuHandler = ShizukuHandler.getInstance(getActivity());
+            boolean useShizuku = Utils.isShizukuMode(getActivity());
+            isShizukuAvailable = false;
+            if (useShizuku) {
+                shizukuHandler.checkShizukuAvailability();
+                shizukuHandler.setOnAvailibilityChangeListener(value -> {
+                    isShizukuAvailable = value;
+                });
+                isShizukuAvailable = shizukuHandler.isShizukuAvailable();
+                log("Shizuku mode enabled, available: " + isShizukuAvailable);
+                if (isShizukuAvailable && !Utils.isSecureSettingsPermissionGranted(getActivity())) {
+                    executeCommand("pm grant com.akylas.enforcedoze android.permission.WRITE_SECURE_SETTINGS");
+                }
+                return;
+            }
+
             if (!preferences.getBoolean("isSuAvailable", false)) {
                 grantPermProgDialog = new MaterialDialog.Builder(getActivity())
                         .title(getString(R.string.please_wait_text))
@@ -257,19 +299,28 @@ public class DozeTunablesActivity extends AppCompatActivity {
         }
 
 
-        public void executeCommand(final String command) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    List<String> output = Shell.SU.run(command);
-                    if (output != null) {
-                        printShellOutput(output);
-                    } else {
-                        log("Error occurred while executing command (" + command + ")");
-                    }
-                }
-            });
-        }
+//        public void executeCommand(final String command) {
+//            boolean useShizuku = Utils.isShizukuMode(getActivity());
+//
+//            if (useShizuku && isShizukuAvailable) {
+//                shizukuHandler.executeCommand(command, (commandCode, exitCode, stdout, stderr) -> {
+//                        printShellOutput(stdout);
+//                        printShellOutput(stderr);
+//                }, false);
+//                return;
+//            }
+//            AsyncTask.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    List<String> output = Shell.SU.run(command);
+//                    if (output != null) {
+//                        printShellOutput(output);
+//                    } else {
+//                        log("Error occurred while executing command (" + command + ")");
+//                    }
+//                }
+//            });
+//        }
 
         public void printShellOutput(List<String> output) {
             if (!output.isEmpty()) {

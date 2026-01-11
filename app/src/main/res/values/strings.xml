@@ -205,4 +205,6 @@
     <string name="execution_mode_root">Root</string>
     <string name="execution_mode_shizuku">Shizuku</string>
     <string name="shizuku_not_available_error">Shizuku mode is selected but Shizuku is not available. Please install and start Shizuku, or switch to Root mode in settings.</string>
+    <string name="copy_tunable_string">Copy tunable string</string>
+    <string name="apply">Apply</string>
 </resources>
