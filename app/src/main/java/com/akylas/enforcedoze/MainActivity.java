@@ -99,6 +99,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             textViewStatus.setText(R.string.service_inactive);
         }
     }
+    private void updateToggleEnabled() {
+        serviceEnabled = settings.getBoolean("serviceEnabled", false);
+        toggleForceDozeSwitch.setOnCheckedChangeListener(null);
+        toggleForceDozeSwitch.setChecked(serviceEnabled);
+        toggleForceDozeSwitch.setOnCheckedChangeListener(this);
+
+        if (serviceEnabled) {
+            textViewStatus.setText(R.string.service_active);
+        } else {
+            textViewStatus.setText(R.string.service_inactive);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 doAfterSuCheckSetup();
             } else if (isShizukuAvailable) {
                 log("Shizuku is available, granting permissions");
-                grantPermissionsViaShizuku();
+                Utils.grantPermissionsViaShizuku(getApplicationContext());
                 doAfterSuCheckSetup();
             } else {
                 log("Shizuku is not available");
@@ -353,6 +365,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         if ("serviceEnabled".equals(key)) {
             // update UI on main thread
             runOnUiThread(this::updateToggleState);
+        } else if ("executionMode".equals(key)) {
+            // update UI on main thread
+            runOnUiThread(this::updateToggleState);
         }
     }
 
@@ -411,42 +426,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         }
 
-    }
-
-    public void grantPermissionsViaShizuku() {
-        if (!Utils.isDumpPermissionGranted(getApplicationContext())) {
-            log("Granting android.permission.DUMP to com.akylas.enforcedoze via Shizuku");
-            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.DUMP", 
-                (commandCode, exitCode, stdout, stderr) -> {
-                    if (exitCode == 0) {
-                        log("DUMP permission granted successfully");
-                    } else {
-                        Log.e(TAG, "Failed to grant DUMP permission");
-                    }
-                }, true);
-        }
-        if (!Utils.isReadPhoneStatePermissionGranted(getApplicationContext())) {
-            log("Granting android.permission.READ_PHONE_STATE to com.akylas.enforcedoze via Shizuku");
-            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.READ_PHONE_STATE",
-                (commandCode, exitCode, stdout, stderr) -> {
-                    if (exitCode == 0) {
-                        log("READ_PHONE_STATE permission granted successfully");
-                    } else {
-                        Log.e(TAG, "Failed to grant READ_PHONE_STATE permission");
-                    }
-                }, true);
-        }
-        if (!Utils.isSecureSettingsPermissionGranted(getApplicationContext()) && Utils.isDeviceRunningOnN()) {
-            log("Granting android.permission.WRITE_SECURE_SETTINGS to com.akylas.enforcedoze via Shizuku");
-            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.WRITE_SECURE_SETTINGS",
-                (commandCode, exitCode, stdout, stderr) -> {
-                    if (exitCode == 0) {
-                        log("WRITE_SECURE_SETTINGS permission granted successfully");
-                    } else {
-                        Log.e(TAG, "Failed to grant WRITE_SECURE_SETTINGS permission");
-                    }
-                }, true);
-        }
     }
 
     @Override

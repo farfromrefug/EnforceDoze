@@ -74,6 +74,9 @@ public class Utils {
     }
 
     public static boolean isWriteSettingsPermissionGranted(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.System.canWrite(context);
+        }
         return context.checkCallingOrSelfPermission(Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -400,4 +403,42 @@ public class Utils {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getString("executionMode", "root").equals("shizuku");
     }
+
+    public static void grantPermissionsViaShizuku(Context context) {
+        ShizukuHandler shizukuHandler = ShizukuHandler.getInstance(context);
+        if (!Utils.isDumpPermissionGranted(context)) {
+            logToLogcat("Utils", "Granting android.permission.DUMP to com.akylas.enforcedoze via Shizuku");
+            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.DUMP",
+                    (commandCode, exitCode, stdout, stderr) -> {
+                        if (exitCode == 0) {
+                            logToLogcat("Utils", "DUMP permission granted successfully");
+                        } else {
+                            Log.e("Utils", "Failed to grant DUMP permission");
+                        }
+                    }, true);
+        }
+        if (!Utils.isReadPhoneStatePermissionGranted(context)) {
+            logToLogcat("Utils", "Granting android.permission.READ_PHONE_STATE to com.akylas.enforcedoze via Shizuku");
+            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.READ_PHONE_STATE",
+                    (commandCode, exitCode, stdout, stderr) -> {
+                        if (exitCode == 0) {
+                            logToLogcat("Utils", "READ_PHONE_STATE permission granted successfully");
+                        } else {
+                            Log.e("Utils", "Failed to grant READ_PHONE_STATE permission");
+                        }
+                    }, true);
+        }
+        if (!Utils.isSecureSettingsPermissionGranted(context) && Utils.isDeviceRunningOnN()) {
+            logToLogcat("Utils", "Granting android.permission.WRITE_SECURE_SETTINGS to com.akylas.enforcedoze via Shizuku");
+            shizukuHandler.executeCommand("pm grant com.akylas.enforcedoze android.permission.WRITE_SECURE_SETTINGS",
+                    (commandCode, exitCode, stdout, stderr) -> {
+                        if (exitCode == 0) {
+                            logToLogcat("Utils", "WRITE_SECURE_SETTINGS permission granted successfully");
+                        } else {
+                            Log.e("Utils", "Failed to grant WRITE_SECURE_SETTINGS permission");
+                        }
+                    }, true);
+        }
+    }
+
 }

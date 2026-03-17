@@ -168,19 +168,24 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
         }
 
+        private void initializeShizuku() {
+            shizukuHandler.checkShizukuAvailability();
+            shizukuHandler.setOnAvailibilityChangeListener(value -> {
+                isShizukuAvailable = value;
+                toggleRootFeatures(isShizukuAvailable || isSuAvailable);
+            });
+            isShizukuAvailable = shizukuHandler.isShizukuAvailable();
+            log("Shizuku mode enabled, available: " + isShizukuAvailable);
+        }
+
+
         @Override
         public void onCreatePreferences(@Nullable Bundle savedInstanceState, String rootKey) {
             shizukuHandler = ShizukuHandler.getInstance(getActivity());
             boolean useShizuku = Utils.isShizukuMode(getActivity());
             isShizukuAvailable = false;
             if (useShizuku) {
-                shizukuHandler.checkShizukuAvailability();
-                shizukuHandler.setOnAvailibilityChangeListener(value -> {
-                    isShizukuAvailable = value;
-                    toggleRootFeatures(isShizukuAvailable || isSuAvailable);
-                });
-                isShizukuAvailable = shizukuHandler.isShizukuAvailable();
-                log("Shizuku mode enabled, available: " + isShizukuAvailable);
+                initializeShizuku();
             }
             // Initialize root and non-root shell
             executeCommandWithRoot("whoami");
@@ -234,10 +239,20 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             executionMode.setOnPreferenceChangeListener((preference, value) -> {
-                if (value == "shizuku") {
+                if (value.equals("shizuku")) {
+                    initializeShizuku();
                     ShizukuHandler.getInstance(getActivity()).requestShizukuPermission();
+                    Utils.grantPermissionsViaShizuku(getActivity());
+                    toggleRootFeatures(isSuAvailable || isShizukuAvailable);
                 } else {
                     toggleRootFeatures(isSuAvailable);
+                }
+                boolean serviceEnabled = sharedPreferences.getBoolean("serviceEnabled", false);
+                if (serviceEnabled) {
+                    Context context = getActivity();
+                    Intent intent = new Intent(context, ForceDozeService.class);
+                    context.stopService(intent);
+                    context.startService(intent);
                 }
                 return true;
             });
