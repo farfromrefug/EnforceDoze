@@ -12,14 +12,14 @@
     <string name="doze_unsupported_more_info_title">Habilitar Doze en dispositivos no soportados</string>
     <string name="enable_doze_button_text">Habilitar modo Doze</string>
     <string name="no_root_workaround_dialog_title">Solución sin root</string>
-    <string name="okay_button_text">De acuerdo</string>
-    <string name="share_command_button_text">Compartir comando</string>
+    <string name="okay_button_text">Aceptar</string>
+    <string name="share_command_button_text">Comando compartir</string>
     <string name="no_root_workaround_dialog_text">Si su dispositivo no está rooteado, manualmente se puede conceder permiso \'android.permission.DUMP\' (and \'android.permission.WRITE_SECURE_SETTINGS\' if you\'re on Nougat) a esta aplicación ejecutando los siguientes comandos ADB desde su computador:</string>
-    <string name="lockscreen_timeout_dialog_title">Tiempo de espera de bloqueo de pantalla</string>
+    <string name="lockscreen_timeout_dialog_title">Vencimiento de bloqueo de pantalla</string>
     <string name="open_security_settings_button_text">Abrir ajustes de seguridad</string>
-    <string name="lockscreen_timeout_dialog_text_p1">El tiempo de espera de bloqueo de pantalla es muy alto (</string>
+    <string name="lockscreen_timeout_dialog_text_p1">El vencimiento de bloqueo de pantalla en tu dispositivo es muy alto (</string>
     <string name="lockscreen_timeout_dialog_text_p2">" mins). Esto significa que su dispositivo no "</string>
-    <string name="lockscreen_timeout_dialog_text_p3">"se bloquea automáticamente después de apagar la pantalla hasta que "</string>
+    <string name="lockscreen_timeout_dialog_text_p3">"se bloquea automáticamente tras apagar la pantalla hasta que "</string>
     <string name="lockscreen_timeout_dialog_text_p4">" mins han transcurrido. Esto también significa que EnforceDoze esperará "</string>
     <string name="lockscreen_timeout_dialog_text_p5">"para "</string>
     <string name="lockscreen_timeout_dialog_text_p6">" mins. antes de hacer que tu dispositivo entre en modo Doze utilizando un bloqueo de activación temporal. Si deseas que EnforceDoze haga que el dispositivo entre en modo Doze más rápido, considera reducir el tiempo de espera del bloqueo de pantalla a Inmediatamente en los Ajustes de seguridad de tu dispositivo. Si deseas que EnforceDoze haga que el dispositivo entre en modo Doze independientemente del tiempo de espera de la pantalla de bloqueo, activa la opción \"Ignorar tiempo de espera de la pantalla de bloqueo\" en los Ajustes de EnforceDoze."</string>
@@ -48,10 +48,10 @@
     <string name="info_text">Información</string>
     <string name="app_already_whitelisted_text">¡La aplicación que tratas de añadir ya existe en la lista de permitidas!</string>
     <string name="app_not_whitelisted_text">La aplicación que intentas eliminar no existe en la lista de permitidas</string>
-    <string name="force_doze_info">EnforceDoze activa Doze en el momento que se apaga su pantalla. También deshabilita los sensores de movimiento así Doze no se desactiva accidentalmente excepto cuando es tiempo de ejecutar tareas de mantenimiento, logrando ahorros de bateria mayores que la función estándar Doze</string>
+    <string name="force_doze_info">EnforceDoze activa Doze en el momento que se apaga su pantalla. También deshabilita los sensores de movimiento así Doze no se desactiva accidentalmente excepto cuando es tiempo de ejecutar tareas de mantenimiento, logrando ahorros de batería mayores que la función estándar Doze</string>
     <string name="hi_text">¡Hola!</string>
-    <string name="disable_when_charging_setting_summary">Desactivar EnforceDoze cuando el dispositivo está conectado a un cargador</string>
-    <string name="disable_when_charging_setting_title">Desactivar mientras se carga</string>
+    <string name="disable_when_charging_setting_summary">Apaga EnforceDoze cuando el dispositivo está conectado a un cargador</string>
+    <string name="disable_when_charging_setting_title">Apaga mientras se carga</string>
     <string name="rotate_brightness_fix_setting_summary">Solución para la rotación automática y brillo automático, que no funcionan después de encender la pantalla</string>
     <string name="rotate_brightness_fix_setting_title">Corrección de la rotación/brillo automáticos</string>
     <string name="persistent_notification_setting_summary">Mostrar estadísticas Doze en las notificaciones persistentes</string>
@@ -94,13 +94,13 @@
 \nChinese (Traditional): osk2 (GitHub)
 \nTurkish: Shepards (XDA)</string>
     <string name="loading_whitelisted_packages">Cargando paquetes de la lista de permitidas...</string>
-    <string name="su_perm_denied_msg">¡Permisos de Superusuario denegados o no disponibles!</string>
+    <string name="su_perm_denied_msg">¡Permisos de superusuario denegados o no disponibles!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Corrección de la rotación y el brillo automáticos</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze requiere permiso para modificar los ajustes de auto-rotación y auto-brillo en su teléfono de forma de usar esta opción. Presione \'Permitir\' para garantizar permiso, o presione \'Cancelar\' para denegar</string>
     <string name="authorize_button_text">Permitir</string>
     <string name="deny_button_text">Cancelar</string>
     <string name="device_supports_doze_text">Tu dispositivo soporta Doze</string>
-    <string name="cleared_text">Borrado</string>
+    <string name="cleared_text">Vaciado</string>
     <string name="doze_battery_stats_clear_msg">¡Se han borrado correctamente las estadísticas de la batería!</string>
     <string name="reset_complete_dialog_title">Reinicio completado</string>
     <string name="reset_complete_dialog_text">EnforceDoze se ha reiniciado. Se han realizado los siguientes cambios
@@ -124,14 +124,14 @@
 \n5) Revocar los permisos DUMP, WRITE_SECURE_SETTINGS, READ_PHONE_STATE, WRITE_SETTINGS, READ_LOGS (si están concedidos)
 \n
 \n¿Deseas continuar?</string>
-    <string name="yes_button_text">Si</string>
+    <string name="yes_button_text">Sí</string>
     <string name="no_button_text">No</string>
     <string name="turn_off_internet_doze_setting_title">Deshabilitar Internet durante Doze</string>
     <string name="turn_off_internet_doze_setting_summary">Deshabilitar WiFi/datos durante Doze</string>
     <string name="disable_wifi_during_doze_setting_summary">Apagar la WiFi durante Doze</string>
     <string name="disable_wifi_during_doze_setting_title">Desactivar WiFi durante Doze</string>
     <string name="disable_data_during_doze_setting_summary">Apagar los datos móviles durante Doze</string>
-    <string name="disable_data_during_doze_setting_title">Desactivar datos móviles durante Doze</string>
+    <string name="disable_data_during_doze_setting_title">Inhabilita datos móviles durante Doze</string>
     <string name="motion_sensing_disable_non_root_setting_summary">Evitar que el movimiento del dispositivo desactive Doze (no root, experimental)</string>
     <string name="motion_sensing_disable_non_root_setting_title">Deshabilitar sensores de movimiento para Doze</string>
     <string name="tasker_broadcast_setting_title">Difusión de tareas</string>
@@ -144,8 +144,8 @@
     <string name="remove_package_menu_item">Quitar paquete</string>
     <string name="compact_view_menu_item">Vista compacta</string>
     <string name="battery_optimization_menu_item">Optimización de batería</string>
-    <string name="doze_stats_battery_icon_meaning_dialog_title">Que significan los íconos?</string>
-    <string name="doze_stats_battery_icon_meaning_dialog_text">El ícono de batería con un rayo indica que la utilización de la batería durante esa sesión de Doze estuvo dentro de los límites aceptables, y el ícono de batería con un signo de exclamación indica que la utilización de la batería durante esa sesión de Doze excedió los límites aceptables. Si el uso de la batería en cualquier sesión Doze se encuentra por encima de los límites aceptables, se aconseja que corrobore con GSAM o alguna otra aplicación las estadísticas de batería para investigar la causa de su drenaje</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_title">Que significan los iconos?</string>
+    <string name="doze_stats_battery_icon_meaning_dialog_text">El icono de batería con un rayo indica que la utilización de la batería durante esa sesión de Doze estuvo dentro de los límites aceptables, y el icono de batería con un signo de exclamación indica que la utilización de la batería durante esa sesión de Doze excedió los límites aceptables. Si el uso de la batería en cualquier sesión Doze se encuentra por encima de los límites aceptables, se aconseja que corrobore con GSAM o alguna otra aplicación las estadísticas de batería para investigar la causa de su drenaje</string>
     <string name="clearing_doze_stats_text">Borrando estadísticas de Doze...</string>
     <string name="tile_label">ForceDoze</string>
     <string name="loading_blocked_packages">Cargando paquetes bloqueados</string>
@@ -154,14 +154,14 @@
     <string name="app_blocklist_dialog_title">Lista de aplicaciones bloqueadas</string>
     <string name="disable_all_sensors_setting_title">Desactivar todos los sensores con la pantalla apagada</string>
     <string name="disable_all_sensors_setting_summary">Desactivar los sensores de seguridad cuando el dispositivo entre en modo Doze (movimiento, cámara...)</string>
-    <string name="ignore_hospot_during_doze_setting_summary">Desactivar para evitar desactivar wifi/datos durante hotspot</string>
+    <string name="ignore_hospot_during_doze_setting_summary">Inhabilita para evitar desactivar wifi/datos durante hotspot</string>
     <string name="app_blocklist_setting_summary">Evitar que las aplicaciones (y sus servicios en segundo plano) se ejecuten durante el modo Doze</string>
     <string name="app_already_in_blocklist">La aplicación que estás intentando agregar ya está en la lista de bloqueo</string>
     <string name="name_of_package_notif_block">Ingresa el nombre del paquete de la aplicación cuyas notificaciones deseas bloquear durante el modo Doze</string>
     <string name="name_of_package_notif_block_remove">Ingresa el nombre del paquete de la aplicación que deseas eliminar de la lista de bloqueo de notificaciones</string>
     <string name="notif_blocklist_dialog_title">Lista de bloqueo de notificaciones</string>
     <string name="block_app_dialog_title">Bloquear aplicación</string>
-    <string name="stats_summary_text" formatted="false">Último uso de Doze: %1$d%%</string>
+    <string name="stats_summary_text" formatted="false">Drenaje último de Doze: %1$d%%</string>
     <string name="disable_logcat_setting_summary">Evitar que ForceDoze inicie sesión en el logcat del sistema</string>
     <string name="disable_logcat_setting_title">Desactivar Logcat</string>
     <string name="app_doesnt_exist_in_blocklist">La aplicación que estás intentando eliminar no existe en la lista de bloqueo</string>
@@ -189,7 +189,7 @@
     <string name="whitelist_music_app_network_setting_summary">No apagar todas las redes si suena música</string>
     <string name="notification_channel_stats_description">Estadísticas de la batería de Doze</string>
     <string name="notifications_permission_explanation">Para detectar aplicaciones que están reproduciendo música, esta aplicación necesita leer las notificaciones que se muestran actualmente y, por lo tanto, necesita permisos</string>
-    <string name="whitelist_music_app_network_setting_title">Poner en lista de permitidas a la aplicación de música</string>
+    <string name="whitelist_music_app_network_setting_title">Poner en lista blanca la aplicación de música</string>
     <string name="disable_stats_setting_summary">Desactivar las estadísticas de ForceDoze</string>
     <string name="disable_stats_setting_title">Desactivar estadísticas</string>
     <string name="doze_unsupported_more_info">Algunos dispositivos tienen el modo Doze deshabilitado por el OEM. Esta opción puede habilitar el modo Doze en dispositivos que no lo tienen habilitado de manera predeterminada.
@@ -205,21 +205,21 @@
     <string name="app_blocklist_setting_title">Lista de aplicaciones bloqueadas en Doze</string>
     <string name="disable_motion_sensors_setting_title">Desactivar los sensores de movimiento con la pantalla apagada</string>
     <string name="copy_command_button_text">Comando copiar</string>
-    <string name="enable_battery_saver_setting_summary">Activar el ahorro de batería mientras el dispositivo está en hibernación</string>
+    <string name="enable_battery_saver_setting_summary">Encender el ahorro de batería mientras el dispositivo está en hibernación</string>
     <string name="ignore_current_app_setting_title">Poner en lista blanca la aplicación actual</string>
     <string name="usage_access_permission">Acceso al uso de la aplicación</string>
     <string name="usage_access_explanation">Para consultar la aplicación actual, la aplicación necesita el permiso de Acceso de Uso. Debe habilitarlo abriendo la configuración de Acceso al uso</string>
     <string name="open_button_text">Abrir</string>
     <string name="ignore_current_app_setting_summary">Actualmente se enfoca aplicación será lista blanca, incluso si en la lista de bloqueo</string>
-    <string name="enable_battery_saver_setting_title">Activar Ahorro de Batería con pantalla apagada</string>
+    <string name="enable_battery_saver_setting_title">Encender ahorro de batería con pantalla apagada</string>
     <string name="enable_airplane_setting_title">Enciende el modo avión con la pantalla apagada</string>
     <string name="enable_airplane_setting_summary">Enciende el modo avión mientras el dispositivo está en modo</string>
     <string name="disable_gps_setting_title">Desactiva el GPS en la pantalla apagada</string>
     <string name="disable_gps_setting_summary">Desactive el GPS/lugar mientras el dispositivo esté en modo Siesta</string>
-    <string name="disable_bluetooth_setting_summary">Desactiva Bluetooth mientras el dispositivo esté en modo Siesta</string>
+    <string name="disable_bluetooth_setting_summary">Apaga Bluetooth mientras el dispositivo esté en modo Siesta</string>
     <string name="wait_unlock_setting_summary">Espere a que el dispositivo se desbloquee para salir del modo de suspensión y habilitar las funciones inhabilitadas</string>
     <string name="wait_unlock_setting_title">Espere a que se desbloquee para salir de la siesta</string>
-    <string name="disable_bluetooth_setting_title">Desactiva Bluetooth con la pantalla apagada</string>
+    <string name="disable_bluetooth_setting_title">Inhabilita Bluetooth con la pantalla apagada</string>
     <string name="airplane_tile_label">Avión EnforceDoze</string>
     <string name="tile_subtitle_on">Encendido</string>
     <string name="tile_subtitle_off">Apagado</string>
@@ -234,9 +234,9 @@
     <string name="enforcedoze_disabled_notif_text">Pulsa para habilitar EnforceDoze</string>
     <string name="execution_mode_setting_title">Modo de ejecución</string>
     <string name="execution_mode_setting_summary">Elija entra Root o Shizuku para ejecutar comandos</string>
-    <string name="execution_mode_root">Raíz</string>
+    <string name="execution_mode_root">Root</string>
     <string name="execution_mode_shizuku">Shizuku</string>
-    <string name="shizuku_not_available_error">Modo Shizuku está seleccionado pero Shizuku no está disponible. Instale e inicie Shizuku, o cambie al modo Raíz en los ajustes.</string>
+    <string name="shizuku_not_available_error">Modo Shizuku está seleccionado pero Shizuku no está disponible. Instale e inicie Shizuku, o cambie al modo Root en los ajustes.</string>
     <string name="copy_tunable_string">Copia cadena sintonizable</string>
     <string name="apply">Aplicar</string>
 </resources>
