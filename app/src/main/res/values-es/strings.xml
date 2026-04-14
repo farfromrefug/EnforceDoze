@@ -161,7 +161,7 @@
     <string name="name_of_package_notif_block_remove">Ingresa el nombre del paquete de la aplicación que deseas eliminar de la lista de bloqueo de notificaciones</string>
     <string name="notif_blocklist_dialog_title">Lista de bloqueo de notificaciones</string>
     <string name="block_app_dialog_title">Bloquear aplicación</string>
-    <string name="stats_summary_text" formatted="false">Drenaje último de Doze: %1$d%%</string>
+    <string name="stats_summary_text" formatted="false">Último drenaje de Doze: %1$d%%</string>
     <string name="disable_logcat_setting_summary">Evitar que ForceDoze inicie sesión en el logcat del sistema</string>
     <string name="disable_logcat_setting_title">Desactivar Logcat</string>
     <string name="app_doesnt_exist_in_blocklist">La aplicación que estás intentando eliminar no existe en la lista de bloqueo</string>
