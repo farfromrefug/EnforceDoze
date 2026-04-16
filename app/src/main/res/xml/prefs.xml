@@ -187,4 +187,11 @@
             android:targetPackage="com.akylas.enforcedoze" />
         </Preference>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/sponsor_card_title">
+        <Preference
+            android:key="sponsorProject"
+            android:title="@string/sponsor_settings_title"
+            android:summary="@string/sponsor_settings_summary"
+            android:icon="@drawable/ic_heart" />
+    </PreferenceCategory>
 </PreferenceScreen>
