@@ -22,8 +22,8 @@ android {
         applicationId "com.akylas.enforcedoze"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 84
-        versionName "1.10.0"
+        versionCode 85
+        versionName "1.10.1"
         signingConfig signingConfigs.debug
     }
     if (useExternalSigning) {
@@ -78,7 +78,6 @@ dependencies {
     implementation 'eu.chainfire:libsuperuser:1.1.0.+'
     implementation 'com.fabiendevos:nanotasks:1.1.0'
     implementation 'com.jakewharton:process-phoenix:2.1.2'
-    implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     
     // Shizuku
