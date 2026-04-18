@@ -71,8 +71,6 @@
     <string name="about_forcedoze_setting_title">О программе EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze для Android создан с использованием ПО с открытым исходным кодом:</string>
     <string name="loading_whitelisted_packages">Загрузка пакетов из белого списка...</string>
-    <string name="translation_credits_dialog_title">Благодарности переводчикам</string>
-    <string name="translation_credits_dialog_text">Спасибо следующим людям за перевод EnforceDoze на другие языки: \n\nИспанский: monza1412 (XDA) \nПортугальский-BR: GamerVicioX (GitHub) \nРусский: HardSer (GitHub) \nНемецкий: okij (XDA) \nКитайский (традиционный): osk2 (GitHub) \nТурецкий: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">Разрешение SU отклонено или недоступно!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Исправление авто-поворота и авто-яркости</string>
     <string name="auto_rotate_brightness_fix_dialog_text">EnforceDoze требуется разрешение на изменение настроек авто-поворота и авто-яркости на вашем телефоне для использования этой функции. Нажмите «Разрешить» для предоставления разрешения или «Отклонить» для отказа</string>
@@ -95,8 +93,6 @@
     <string name="disable_wifi_during_doze_setting_title">Отключать WiFi во время Doze</string>
     <string name="disable_data_during_doze_setting_summary">Отключать мобильные данные во время Doze</string>
     <string name="disable_data_during_doze_setting_title">Отключать мобильные данные во время Doze</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Предотвращать выход из Doze при движении устройства (без root, экспериментально)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Отключать датчики движения для Doze</string>
     <string name="tasker_broadcast_setting_title">Трансляции Tasker</string>
     <string name="tasker_broadcast_setting_summary">Показывать трансляции, которые можно использовать через Tasker</string>
     <string name="reboot_required_dialog_title">Требуется перезагрузка</string>

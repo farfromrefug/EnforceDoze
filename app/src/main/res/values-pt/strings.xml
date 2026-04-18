@@ -64,8 +64,6 @@
     <string name="about_forcedoze_setting_title">Sobre EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze para Android foi criado utilizando software de código aberto:</string>
     <string name="loading_whitelisted_packages">A carregar a lista branca de pacotes ...</string>
-    <string name="translation_credits_dialog_title">créditos de tradução</string>
-    <string name="translation_credits_dialog_text">Agradeço as seguintes pessoas por traduzir EnforceDoze para outros idiomas: \n\nEspanhol: monza1412 (XDA)\nPortuguês-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">Permissões de Superusuário negadas ou indisponíveis!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Fix para rotação automática e brilho automático</string>
     <string name="auto_rotate_brightness_fix_dialog_text">EnforceDoze precisa de permissão para modificar as configurações de rotação automática e brilho automático do seu dispositivo para usar esta opção. Pressione \'Permitir\' para dar permissão ou pressione \'Cancelar\' para recusar</string>
@@ -88,8 +86,6 @@
     <string name="disable_wifi_during_doze_setting_title">Desativar WiFi durante dormitar</string>
     <string name="disable_data_during_doze_setting_summary">Desliga dados móveis durante dormitar</string>
     <string name="disable_data_during_doze_setting_title">Desativar dados móveis durante dormitar</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Previne que o movimento do dispositivo desative dormitar (sem-root, experimental)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Desativar sensores de movimento para dormitar</string>
     <string name="tasker_broadcast_setting_summary">Mostra broadcasts que podem ser usados via Tasker</string>
     <string name="reboot_required_dialog_title">Necessário reiniciar</string>
     <string name="reboot_required_dialog_text">Por favor, reinicie o seu telefone para que as alterações entrem em vigor</string>

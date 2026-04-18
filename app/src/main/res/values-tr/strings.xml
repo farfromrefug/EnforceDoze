@@ -71,8 +71,6 @@
     <string name="about_forcedoze_setting_title">ForceDoze Hakkında</string>
     <string name="about_app_opensrc_text">ForceDoze for Android, açık kaynaklı yazılımlar kullanılarak üretilmiştir:</string>
     <string name="loading_whitelisted_packages">Beyaz listeye eklenen paketler yükleniyor...</string>
-    <string name="translation_credits_dialog_title">Çeviri kredileri</string>
-    <string name="translation_credits_dialog_text">ForceDoze\'yi diğer dillere çevirdiğiniz için aşağıdaki insanlara teşekkür:\n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">SU izniniz reddedildi veya mevcut değil!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Otomatik döndürme ve otomatik parlaklık düzeltme</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze, bu özelliği kullanmak için telefonunuzda otomatik döndürme ve otomatik parlaklık ayarını değiştirmek için izin ister. İzin vermek için \'Yetkil\' e basın veya reddetmek için \'İptal\' düğmesine basın</string>
@@ -95,8 +93,6 @@
     <string name="disable_wifi_during_doze_setting_title">Doze sırasında WiFi\'yi devre dışı bırak</string>
     <string name="disable_data_during_doze_setting_summary">Doze sırasında mobil veriyi kapat</string>
     <string name="disable_data_during_doze_setting_title">Doze sırasında mobil verileri devre dışı bırakır</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Cihaz hareketinin Doze\'yi kapatmasını önle(non-root, deneysel)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Doze için hareket algılamayı devre dışı bırak</string>
     <string name="tasker_broadcast_setting_title">Görevli yayınlar</string>
     <string name="tasker_broadcast_setting_summary">Tasker ile kullanabileceğiniz yayınları göster</string>
     <string name="reboot_required_dialog_title">Yeniden Başlatma gereklidir</string>

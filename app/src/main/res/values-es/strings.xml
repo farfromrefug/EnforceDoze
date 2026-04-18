@@ -84,8 +84,6 @@
     <string name="donate_dialog_button_text">Quiero donar</string>
     <string name="about_forcedoze_setting_title">Sobre EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze para Android está desarrollado con software de código abierto:</string>
-    <string name="translation_credits_dialog_title">Créditos de las traducciones</string>
-    <string name="translation_credits_dialog_text">Gracias a las siguientes personas por traducir ForceDoze en otros idiomas:
 \n
 \nEspañol: monza1412 (XDA)
 \nPortuguês-BR: GamerVicioX (GitHub)
@@ -132,8 +130,6 @@
     <string name="disable_wifi_during_doze_setting_title">Desactivar WiFi durante Doze</string>
     <string name="disable_data_during_doze_setting_summary">Apagar los datos móviles durante Doze</string>
     <string name="disable_data_during_doze_setting_title">Desactivar datos móviles durante Doze</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Evitar que el movimiento del dispositivo desactive Doze (no root, experimental)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Deshabilitar sensores de movimiento para Doze</string>
     <string name="tasker_broadcast_setting_title">Tasker broadcasts</string>
     <string name="tasker_broadcast_setting_summary">Mostrar broadcasts que se pueden usar via Tasker</string>
     <string name="reboot_required_dialog_title">Es necesario reiniciar</string>

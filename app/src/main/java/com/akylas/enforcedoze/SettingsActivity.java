@@ -203,7 +203,6 @@ public class SettingsActivity extends AppCompatActivity {
             Preference usePermanentDoze = (Preference) findPreference("usePermanentDoze");
             Preference dozeNotificationBlocklist = (Preference) findPreference("blacklistAppNotifications");
             Preference dozeAppBlocklist = (Preference) findPreference("blacklistApps");
-            final Preference nonRootSensorWorkaround = (Preference) findPreference("useNonRootSensorWorkaround");
             final Preference executionMode = (Preference) findPreference("executionMode");
             final Preference disableMotionSensors = (Preference) findPreference("disableMotionSensors");
             Preference turnOffDataInDoze = (Preference) findPreference("turnOffDataInDoze");
@@ -317,22 +316,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                     }
                 });
-                return true;
-            });
-
-            nonRootSensorWorkaround.setOnPreferenceChangeListener((preference, o) -> {
-                boolean newValue = (boolean) o;
-                SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = sharedPreferences1.edit();
-                if (newValue) {
-                    editor.putBoolean("disableMotionSensors", false);
-                    editor.apply();
-                    autoRotateBrightnessFix.setEnabled(false);
-                    disableMotionSensors.setEnabled(false);
-                } else {
-                    autoRotateBrightnessFix.setEnabled(true);
-                    disableMotionSensors.setEnabled(true);
-                }
                 return true;
             });
 

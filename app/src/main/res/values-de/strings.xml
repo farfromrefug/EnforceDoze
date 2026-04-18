@@ -71,8 +71,6 @@
     <string name="about_forcedoze_setting_title">Über EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze für Android wurde mit Open Source Software erschaffen:</string>
     <string name="loading_whitelisted_packages">Lade Paketnamen von der Positivliste...</string>
-    <string name="translation_credits_dialog_title">Übersetzer</string>
-    <string name="translation_credits_dialog_text">Vielen Dank an folgende Personen für die Übersetzung von EnforceDoze in andere Sprachen: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">SU Erlaubnis verweigert oder SU nicht verfügbar!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Fix für automatisches Drehen und Helligkeit</string>
     <string name="auto_rotate_brightness_fix_dialog_text">EnforceDoze benötigt die Erlaubnis, das automatische Drehen und die automatische Helligkeit auf deinem Telefon zu ändern, um dieses Feature zu benutzen zu können. Drücke \'Genehmigen\' um die Erlaubnis zu erteilen oder \'Abbruch\' um sie zu verweigern.</string>
@@ -95,8 +93,6 @@
     <string name="disable_wifi_during_doze_setting_title">Deaktiviere WLAN während Doze</string>
     <string name="disable_data_during_doze_setting_summary">Deaktiviert mobile Datenübertragung während Doze Modus.</string>
     <string name="disable_data_during_doze_setting_title">Deaktiviere mobile Datenübertragung während Doze</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Verhindert, dass die Bewegungserkennung den Doze Modus ausschaltet (ohne Root, experimentell).</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Deaktiviere Bewegungserkennung für Doze</string>
     <string name="tasker_broadcast_setting_title">Intents zur Nutzung per Tasker</string>
     <string name="tasker_broadcast_setting_summary">Zeigt die Intents, die du per Tasker nutzen kannst.</string>
     <string name="reboot_required_dialog_title">Neustart erforderlich</string>

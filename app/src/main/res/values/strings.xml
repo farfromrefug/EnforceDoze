@@ -88,8 +88,6 @@
     <string name="about_forcedoze_setting_title">About EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze for Android is built using open source software:</string>
     <string name="loading_whitelisted_packages">Loading whitelisted packages...</string>
-    <string name="translation_credits_dialog_title">Translation credits</string>
-    <string name="translation_credits_dialog_text">Thanks to the following people for translating EnforceDoze into other languages: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="su_perm_denied_msg">SU permission denied or not available!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Auto-rotate and auto-brightness fix</string>
     <string name="auto_rotate_brightness_fix_dialog_text">EnforceDoze requires permission to modify the auto-rotate and auto-brightness setting on your phone in order to use this feature. Press \'Authorize\' to grant permission, or press \'Cancel\' to deny</string>
@@ -114,8 +112,6 @@
     <string name="disable_data_during_doze_setting_title">Disable mobile data during Doze</string>
     <string name="ignore_hospot_during_doze_setting_summary">Disable to prevent disabling wifi/data during hotspot</string>
     <string name="ignore_hospot_during_doze_setting_title">Ignore Hotspot state while entering Doze</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Prevent device movement from turning off Doze (non-root, experimental)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Disable motion sensing for Doze</string>
     <string name="tasker_broadcast_setting_title">Tasker broadcasts</string>
     <string name="tasker_broadcast_setting_summary">Show broadcasts that you can use via Tasker</string>
     <string name="reboot_required_dialog_title">Reboot required</string>

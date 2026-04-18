@@ -25,7 +25,6 @@
     <string name="donate_dialog_button_text">寄付してサポートしてください</string>
     <string name="about_app_opensrc_text">EnforceDoze for Androidはオープンソースソフトウェアを使用して構築されています：</string>
     <string name="loading_whitelisted_packages">ホワイトリストに登録されたパッケージを読み込み中...</string>
-    <string name="translation_credits_dialog_title">翻訳クレジット</string>
     <string name="auto_rotate_brightness_fix_dialog_title">自動回転と自動明るさの修正</string>
     <string name="authorize_button_text">承認する</string>
     <string name="deny_button_text">拒否する</string>
@@ -95,12 +94,10 @@
     <string name="doze_unsupported_menu_item">サポートされていないデバイスでDozeモードを有効にする</string>
     <string name="clear_doze_stats_setting_summary">Dozeのバッテリー統計をクリアする</string>
     <string name="add_menu_item">追加する</string>
-    <string name="translation_credits_dialog_text">EnforceDozeを他の言語に翻訳してくださった以下の方々に感謝します：\n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)</string>
     <string name="wait_unlock_setting_title">デバイスのロック解除を待ってDozeモードを解除し、無効にされた機能を有効にする</string>
     <string name="doze_delay_setting_summary">画面オフ後にDozeモードが有効になる前に遅延を追加する</string>
     <string name="whitelist_apps_setting_summary">Dozeモードからアプリをホワイトリストに追加する</string>
     <string name="whitelist_apps_setting_text">アプリをホワイトリストに追加する</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Dozeモードのためにモーションセンサーを無効にする</string>
     <string name="reset_forcedoze_setting_title">EnforceDozeをリセットする</string>
     <string name="reset_forcedoze_setting_summary">EnforceDozeをデフォルト状態にリセットする</string>
     <string name="clear_doze_stats_setting_title">統計情報をクリアする</string>
@@ -123,7 +120,6 @@
     <string name="disable_data_during_doze_setting_title">Dozeモード中にモバイルデータを無効にする</string>
     <string name="forcedoze_reset_initial_dialog_text">ForceDozeをリセットすると、以下の変更が行われます：\n\n1) ForceDozeサービスの停止\n2) センサーを再有効化（無効化されていた場合）\n3) Dozeモードを無効化し、再度有効化して、Dozeモードが適切にオンになっていることを確認\n4) アプリの設定をリセット\n5) DUMP、WRITE_SECURE_SETTINGS、READ_PHONE_STATE、WRITE_SETTINGS、READ_LOGSの権限を取り消し（付与されていた場合）\n\n続けますか？</string>
     <string name="ignore_hospot_during_doze_setting_summary">ホットスポット中にWiFi/データが無効にならないようにする</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">デバイスの動きによってDozeが解除されないようにする（非ルート、実験的）</string>
     <string name="tasker_broadcast_setting_summary">Taskerを通じて使用できるブロードキャストを表示する</string>
     <string name="app_doesnt_exist_in_blocklist">削除しようとしているアプリはブロックリストに存在しません</string>
     <string name="manually_remove_package_dialog_text">Dozeモードからホワイトリストに追加したいアプリのパッケージ名を入力してください</string>

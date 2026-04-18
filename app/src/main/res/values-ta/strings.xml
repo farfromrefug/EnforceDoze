@@ -87,8 +87,6 @@
     <string name="about_forcedoze_setting_title">செயல்படுத்தல் பற்றி</string>
     <string name="about_app_opensrc_text">ஆண்ட்ராய்டு க்கான MafforCedoze திறந்த மூல மென்பொருளைப் பயன்படுத்தி கட்டப்பட்டுள்ளது:</string>
     <string name="loading_whitelisted_packages">அனுமதிப்பட்டியல் தொகுப்புகளை ஏற்றுகிறது ...</string>
-    <string name="translation_credits_dialog_title">மொழிபெயர்ப்பு வரவு</string>
-    <string name="translation_credits_dialog_text">செயல்படுத்தப்பட்டதை மற்ற மொழிகளில் மொழிபெயர்த்ததற்கு பின்வரும் நபர்களுக்கு நன்றி:\n\n ச்பானிச்: MONZA1412 (XDA)\n போர்த்துகீசிய-பிஆர்: கேமர்விகியோக்ச் (கிதுப்)\n ரச்ய: ஆர்ட்சர் (கிதுப்)\n செர்மன்: ஓக்கிச் (எக்ச்.டி.ஏ)\n சீன (பாரம்பரிய): OSK2 (GITHUB)\n துருக்கிய: செப்பர்ட்ச் (எக்ச்.டி.ஏ)</string>
     <string name="su_perm_denied_msg">சு இசைவு மறுக்கப்பட்டது அல்லது கிடைக்கவில்லை!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">தானாக சுழலும் மற்றும் ஆட்டோ-பிரைட்னச் பிழைத்திருத்தம்</string>
     <string name="auto_rotate_brightness_fix_dialog_text">இந்த அம்சத்தைப் பயன்படுத்துவதற்காக உங்கள் தொலைபேசியில் தானாக சுழலும் மற்றும் தானாக ஒளி அமைப்பை மாற்றுவதற்கு EnforCedoze க்கு இசைவு தேவைப்படுகிறது. இசைவு வழங்க \'ஏற்பு\' என்பதை அழுத்தவும், அல்லது மறுக்க \'ரத்துசெய்\' அழுத்தவும்</string>
@@ -108,8 +106,6 @@
     <string name="disable_data_during_doze_setting_title">டோச் போது மொபைல் தரவை முடக்கவும்</string>
     <string name="ignore_hospot_during_doze_setting_summary">ஆட்ச்பாட் போது வைஃபை/தரவை முடக்குவதைத் தடுக்க முடக்கு</string>
     <string name="ignore_hospot_during_doze_setting_title">டோசில் நுழையும் போது ஆட்ச்பாட் நிலையை புறக்கணிக்கவும்</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">சாதன இயக்கம் டசை அணைக்காமல் தடுக்கவும் (ரூட் அல்லாத, சோதனை)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">டோசிற்கான இயக்க உணர்வை முடக்கு</string>
     <string name="tasker_broadcast_setting_title">டாச்கர் ஒளிபரப்பு</string>
     <string name="tasker_broadcast_setting_summary">டாச்கர் வழியாக நீங்கள் பயன்படுத்தக்கூடிய ஒளிபரப்புகளைக் காட்டு</string>
     <string name="reboot_required_dialog_title">மறுதொடக்கம் தேவை</string>

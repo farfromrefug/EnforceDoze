@@ -85,8 +85,6 @@
     <string name="about_forcedoze_setting_title">关于EnforceDoze</string>
     <string name="about_app_opensrc_text">EnforceDoze for Android 是使用以下开源软件构建的：</string>
     <string name="loading_whitelisted_packages">正在加载白名单软件...</string>
-    <string name="translation_credits_dialog_title">翻译鸣谢</string>
-    <string name="translation_credits_dialog_text">感谢以下人员将EnforceDoze翻译成其他语言：\n\n西班牙语：monza1412（XDA）\n\n葡萄牙语-巴西：GamerVicioX（GitHub）\n\n俄语：HardSer（GitHub）\n\n德语：okij（XDA）\n\n繁体中文：osk2（GitHub）\n\n土耳其语：Shepards（XDA）</string>
     <string name="su_perm_denied_msg">SU权限被拒绝或不可用！</string>
     <string name="auto_rotate_brightness_fix_dialog_title">自动旋转和自动亮度修复</string>
     <string name="auto_rotate_brightness_fix_dialog_text">EnforceDoze需要获取修改您手机上的自动旋转和自动亮度设置的权限，才能使用此功能。请按\'授权\'以授予权限，或按\'取消\'以拒绝</string>
@@ -111,8 +109,6 @@
     <string name="disable_data_during_doze_setting_title">在休眠模式期间禁用移动数据</string>
     <string name="ignore_hospot_during_doze_setting_summary">禁用以防止在热点期间禁用Wi-Fi/数据</string>
     <string name="ignore_hospot_during_doze_setting_title">进入休眠模式时忽略热点状态</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">防止设备移动导致Doze（非root，实验性）关闭</string>
-    <string name="motion_sensing_disable_non_root_setting_title">禁用Doze模式的运动感应</string>
     <string name="tasker_broadcast_setting_title">任务广播</string>
     <string name="tasker_broadcast_setting_summary">显示您可以通过任务使用的广播</string>
     <string name="reboot_required_dialog_title">需要重启</string>

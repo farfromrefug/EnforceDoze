@@ -77,7 +77,6 @@ public class ForceDozeService extends Service {
     boolean showPersistentNotif = false;
     boolean ignoreLockscreenTimeout = false;
     boolean waitForUnlock = false;
-    boolean useNonRootSensorWorkaround = false;
     boolean turnOffAllSensorsInDoze = false;
     boolean turnOffBiometricsInDoze = false;
     boolean turnOnBatterySaverInDoze = false;
@@ -106,13 +105,10 @@ public class ForceDozeService extends Service {
     Timer enableSensorsTimer;
     DozeReceiver localDozeReceiver;
     ReloadSettingsReceiver reloadSettingsReceiver;
-    PendingIntentDozeReceiver pendingIntentDozeReceiver;
     ReloadNotificationBlocklistReceiver reloadNotificationBlocklistReceiver;
     ReloadAppsBlocklistReceiver reloadAppsBlocklistReceiver;
     NotificationCompat.Builder mStatsBuilder;
-    PendingIntent reenterDozePendingIntent;
     PowerManager pm;
-    AlarmManager alarmManager;
     PowerManager.WakeLock tempWakeLock;
     Set<String> dozeUsageData;
     Set<String> dozeNotificationBlocklist;
@@ -174,7 +170,6 @@ public class ForceDozeService extends Service {
         reloadSettingsReceiver = new ReloadSettingsReceiver();
         reloadNotificationBlocklistReceiver = new ReloadNotificationBlocklistReceiver();
         reloadAppsBlocklistReceiver = new ReloadAppsBlocklistReceiver();
-        pendingIntentDozeReceiver = new PendingIntentDozeReceiver();
         enterDozeTimer = new Timer();
         enableSensorsTimer = new Timer();
         disableSensorsTimer = new Timer();
@@ -212,7 +207,6 @@ public class ForceDozeService extends Service {
 
         mStatsBuilder = new NotificationCompat.Builder(this, CHANNEL_STATS);
         pm = (PowerManager) getSystemService(POWER_SERVICE);
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -226,7 +220,6 @@ public class ForceDozeService extends Service {
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadSettingsReceiver, new IntentFilter("reload-settings"));
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadNotificationBlocklistReceiver, new IntentFilter("reload-notification-blocklist"));
         LocalBroadcastManager.getInstance(this).registerReceiver(reloadAppsBlocklistReceiver, new IntentFilter("reload-app-blocklist"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(pendingIntentDozeReceiver, new IntentFilter("reenter-doze"));
         LocalBroadcastManager.getInstance(this).registerReceiver(ignoreBatteryResultReceiver, new IntentFilter(ACTION_IGNORE_RESULT));
         this.registerReceiver(localDozeReceiver, filter);
         turnOffDataInDoze = getDefaultSharedPreferences(getApplicationContext()).getBoolean("turnOffDataInDoze", false);
@@ -242,7 +235,6 @@ public class ForceDozeService extends Service {
         whitelistCurrentApp = getDefaultSharedPreferences(getApplicationContext()).getBoolean("whitelistCurrentApp", false);
         ignoreLockscreenTimeout = getDefaultSharedPreferences(getApplicationContext()).getBoolean("ignoreLockscreenTimeout", true);
         waitForUnlock = getDefaultSharedPreferences(getApplicationContext()).getBoolean("waitForUnlock", false);
-        useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
         dozeEnterDelay = getDefaultSharedPreferences(getApplicationContext()).getInt("dozeEnterDelay", 0);
         useAutoRotateAndBrightnessFix = getDefaultSharedPreferences(getApplicationContext()).getBoolean("autoRotateAndBrightnessFix", false);
         sensorWhitelistPackage = getDefaultSharedPreferences(getApplicationContext()).getString("sensorWhitelistPackage", "");
@@ -326,7 +318,6 @@ public class ForceDozeService extends Service {
         log("Stopping service and enabling sensors");
         this.unregisterReceiver(localDozeReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(reloadSettingsReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(pendingIntentDozeReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(ignoreBatteryResultReceiver);        if (disableMotionSensors) {
             executeCommand("dumpsys sensorservice enable");
         }
@@ -424,8 +415,6 @@ public class ForceDozeService extends Service {
         log("disableWhenCharging: " + disableWhenCharging);
         showPersistentNotif = getDefaultSharedPreferences(getApplicationContext()).getBoolean("showPersistentNotif", false);
         log("showPersistentNotif: " + showPersistentNotif);
-        useNonRootSensorWorkaround = getDefaultSharedPreferences(getApplicationContext()).getBoolean("useNonRootSensorWorkaround", false);
-        log("useNonRootSensorWorkaround: " + useNonRootSensorWorkaround);
         log("EnforceDoze settings reloaded ----------------------------------");
         // On Android 12+, we must keep the foreground notification
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -733,17 +722,6 @@ public class ForceDozeService extends Service {
                     autoRotateBrightnessFix();
                 }
             }, 2000);
-        }
-
-        if (useNonRootSensorWorkaround) {
-            try {
-                if (reenterDozePendingIntent != null) {
-                    reenterDozePendingIntent.cancel();
-                    alarmManager.cancel(reenterDozePendingIntent);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         if (showPersistentNotif) {
@@ -1638,19 +1616,6 @@ public class ForceDozeService extends Service {
                             }
                             enterDozeHandleNetwork(context);
                             maintenance = false;
-                        }
-                    }
-                }
-
-
-
-                if (useNonRootSensorWorkaround) {
-                    if (!setPendingDozeEnterAlarm) {
-                        if (!Utils.isScreenOn(context) && (!lastKnownState.equals("IDLE") || !lastKnownState.equals("IDLE_MAINTENANCE"))) {
-                            log("Device gone out of Doze, scheduling pendingIntent for enterDoze in 15 mins");
-                            reenterDozePendingIntent = PendingIntent.getBroadcast(context, 1, new Intent(context, ReenterDoze.class), PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-                            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 900000, reenterDozePendingIntent);
-                            setPendingDozeEnterAlarm = true;
                         }
                     }
                 }

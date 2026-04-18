@@ -71,8 +71,6 @@
     <string name="about_forcedoze_setting_title">Circa ForceDoze</string>
     <string name="about_app_opensrc_text">ForceDoze per Android è stato creato usando software open source:</string>
     <string name="loading_whitelisted_packages">Caricamento pacchetti lista bianca…</string>
-    <string name="translation_credits_dialog_title">Ringraziamenti traduttori</string>
-    <string name="translation_credits_dialog_text">Grazie alle seguenti persone per aver tradotto ForceDoze in altre lingue: \n\nSpanish: monza1412 (XDA)\nPortuguese-BR: GamerVicioX (GitHub)\nRussian: HardSer (GitHub)\nGerman: okij (XDA)\nChinese (Traditional): osk2 (GitHub)\nTurkish: Shepards (XDA)\nItalian: fcaronte (GitHub)</string>
     <string name="su_perm_denied_msg">Permessi SU negati o non disponibili!</string>
     <string name="auto_rotate_brightness_fix_dialog_title">Fix per rotazione automatica e luminosità automatica</string>
     <string name="auto_rotate_brightness_fix_dialog_text">ForceDoze richiede permessi per modificare le impostazioni di rotazione automatica e luminosità automatica del dispositivo per usare questa funzione. Premi \'Autorizza\' per dare il permesso, oppure \'Annulla\' per negarlo</string>
@@ -95,8 +93,6 @@
     <string name="disable_wifi_during_doze_setting_title">Disattiva il WiFi durante Doze</string>
     <string name="disable_data_during_doze_setting_summary">Spegni la rete dati durante Doze</string>
     <string name="disable_data_during_doze_setting_title">Disattiva la rete dati durante Doze</string>
-    <string name="motion_sensing_disable_non_root_setting_summary">Previeni che i movimenti del dispositivo disattivino Doze (non-root, sperimentale)</string>
-    <string name="motion_sensing_disable_non_root_setting_title">Disattiva rilevazione movimenti per Doze</string>
     <string name="tasker_broadcast_setting_title">Collegamenti per Tasker</string>
     <string name="tasker_broadcast_setting_summary">Mostra collegamenti che puoi usare tramite Tasker</string>
     <string name="reboot_required_dialog_title">Richiesto riavvio</string>

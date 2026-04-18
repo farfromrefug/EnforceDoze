@@ -47,7 +47,7 @@ public class TaskerBroadcastsActivity extends AppCompatActivity {
                         "\n1) turnOffDataInDoze\n2) turnOffWiFiInDoze\n3) ignoreLockscreenTimeout" +
                         "\n4) dozeEnterDelay\n5) useAutoRotateAndBrightnessFix\n6) enableSensors" +
                         "\n7) disableWhenCharging\n8) showPersistentNotif\n" +
-                        "\n9) useNonRootSensorWorkaround\n\nsettingValue can be one of the " +
+                        "\n\nsettingValue can be one of the " +
                         "following:\n1) true\n2) false\n3) an integer value (ONLY in case of dozeEnterDelay)"));
         taskerBroadcastsAdapter = new TaskerBroadcastsAdapter(this, items);
         listView.setAdapter(taskerBroadcastsAdapter);
