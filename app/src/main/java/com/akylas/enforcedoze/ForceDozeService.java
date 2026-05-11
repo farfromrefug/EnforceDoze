@@ -49,6 +49,8 @@ import java.util.SortedMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -155,6 +157,7 @@ public class ForceDozeService extends Service {
             }
         }
     };
+    private final ExecutorService rootShellExecutor = Executors.newSingleThreadExecutor();
 
     private void log(String message) {
         logToLogcat(TAG, message);
@@ -738,12 +741,6 @@ public class ForceDozeService extends Service {
     public void executeCommand(final String command) {
         executeCommand(command, null, false);
     }
-    public void executeCommand(final String command, Boolean printOutput) {
-        executeCommand(command, null, printOutput);
-    }
-    public void executeCommand(final String command, Shell.OnCommandResultListener2 onResult) {
-        executeCommand(command, onResult, false);
-    }
     public void executeCommand(final String command, Shell.OnCommandResultListener2 onResult, Boolean printOutput) {
         boolean useShizuku = Utils.isShizukuMode(getApplicationContext());
         
@@ -759,8 +756,8 @@ public class ForceDozeService extends Service {
             }, printOutput);
             return;
         }
-        
-        AsyncTask.execute(() -> {
+
+        rootShellExecutor.execute(() -> {
             if (nonRootSession != null) {
                 nonRootSession.addCommand(command, 0, (Shell.OnCommandResultListener2) (commandCode, exitCode, STDOUT, STDERR) -> {
                     if (onResult != null) {
@@ -856,8 +853,8 @@ public class ForceDozeService extends Service {
             }, true);
             return;
         }
-        
-        AsyncTask.execute(() -> {
+
+        rootShellExecutor.execute(() -> {
             if (rootSession != null) {
                 rootSession.addCommand(command, 0, (Shell.OnCommandResultListener2) (commandCode, exitCode, STDOUT, STDERR) -> {
                     if (onResult != null) {
