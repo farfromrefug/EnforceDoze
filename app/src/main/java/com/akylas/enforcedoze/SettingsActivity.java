@@ -651,6 +651,12 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
             builder.show();
         }
 
+        private void setPreferenceState(Preference pref, boolean enabled, int summaryResId) {
+            if (pref == null) return;
+            pref.setEnabled(enabled);
+            pref.setSummary(getString(enabled ? summaryResId : R.string.root_required_text));
+        }
+
         public void toggleRootFeatures(final boolean enabled) {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
@@ -664,32 +670,28 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     Preference turnOffBluetoothInDoze = findPreference("turnOffBluetoothInDoze");
                     Preference turnOffGPSInDoze = findPreference("turnOffGPSInDoze");
                     Preference whitelistAppsFromDozeMode = findPreference("whitelistAppsFromDozeMode");
-                    if (enabled) {
-                        if (turnOffDataInDoze != null) { turnOffDataInDoze.setEnabled(true); turnOffDataInDoze.setSummary(getString(R.string.disable_data_during_doze_setting_summary)); }
-                        if (dozeNotificationBlocklist != null) { dozeNotificationBlocklist.setEnabled(true); dozeNotificationBlocklist.setSummary(getString(R.string.notif_blocklist_setting_summary)); }
-                        if (dozeAppBlocklist != null) { dozeAppBlocklist.setEnabled(true); dozeAppBlocklist.setSummary(getString(R.string.app_blocklist_setting_summary)); }
-                        if (turnOffAllSensorsInDoze != null) { turnOffAllSensorsInDoze.setEnabled(true); turnOffAllSensorsInDoze.setSummary(getString(R.string.disable_all_sensors_setting_summary)); }
-                        if (turnOnBatterySaverInDoze != null) { turnOnBatterySaverInDoze.setEnabled(true); turnOnBatterySaverInDoze.setSummary(getString(R.string.enable_battery_saver_setting_summary)); }
-                        if (turnOffBiometricsInDoze != null) { turnOffBiometricsInDoze.setEnabled(true); turnOffBiometricsInDoze.setSummary(getString(R.string.disable_biometrics_setting_summary)); }
-                        if (turnOnAirplaneInDoze != null) { turnOnAirplaneInDoze.setEnabled(true); turnOnAirplaneInDoze.setSummary(getString(R.string.enable_airplane_setting_summary)); }
-                        if (turnOffBluetoothInDoze != null) { turnOffBluetoothInDoze.setEnabled(true); turnOffBluetoothInDoze.setSummary(getString(R.string.disable_bluetooth_setting_summary)); }
-                        if (turnOffGPSInDoze != null) { turnOffGPSInDoze.setEnabled(true); turnOffGPSInDoze.setSummary(getString(R.string.disable_gps_setting_summary)); }
-                        if (whitelistAppsFromDozeMode != null) { whitelistAppsFromDozeMode.setEnabled(true); whitelistAppsFromDozeMode.setSummary(getString(R.string.whitelist_apps_setting_summary)); }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            Preference turnOffWiFiInDoze = findPreference("turnOffWiFiInDoze");
-                            if (turnOffWiFiInDoze != null) { turnOffWiFiInDoze.setEnabled(true); turnOffWiFiInDoze.setSummary(getString(R.string.disable_wifi_during_doze_setting_summary)); }
+
+                    setPreferenceState(turnOffDataInDoze, enabled, R.string.disable_data_during_doze_setting_summary);
+                    setPreferenceState(dozeNotificationBlocklist, enabled, R.string.notif_blocklist_setting_summary);
+                    setPreferenceState(dozeAppBlocklist, enabled, R.string.app_blocklist_setting_summary);
+                    setPreferenceState(turnOffAllSensorsInDoze, enabled, R.string.disable_all_sensors_setting_summary);
+                    setPreferenceState(turnOnBatterySaverInDoze, enabled, R.string.enable_battery_saver_setting_summary);
+                    setPreferenceState(turnOffBiometricsInDoze, enabled, R.string.disable_biometrics_setting_summary);
+                    setPreferenceState(turnOnAirplaneInDoze, enabled, R.string.enable_airplane_setting_summary);
+                    setPreferenceState(turnOffBluetoothInDoze, enabled, R.string.disable_bluetooth_setting_summary);
+                    setPreferenceState(turnOffGPSInDoze, enabled, R.string.disable_gps_setting_summary);
+                    setPreferenceState(whitelistAppsFromDozeMode, enabled, R.string.whitelist_apps_setting_summary);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        Preference turnOffWiFiInDoze = findPreference("turnOffWiFiInDoze");
+                        setPreferenceState(turnOffWiFiInDoze, enabled, R.string.disable_wifi_during_doze_setting_summary);
+                        if (!enabled) {
+                            PreferenceManager.getDefaultSharedPreferences(getContext())
+                                    .edit()
+                                    .putBoolean("turnOffWiFiInDoze", false)
+                                    .apply();
                         }
-                    } else {
-                        if (turnOffDataInDoze != null) { turnOffDataInDoze.setEnabled(false); turnOffDataInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (dozeNotificationBlocklist != null) { dozeNotificationBlocklist.setEnabled(false); dozeNotificationBlocklist.setSummary(getString(R.string.root_required_text)); }
-                        if (dozeAppBlocklist != null) { dozeAppBlocklist.setEnabled(false); dozeAppBlocklist.setSummary(getString(R.string.root_required_text)); }
-                        if (turnOffAllSensorsInDoze != null) { turnOffAllSensorsInDoze.setEnabled(false); turnOffAllSensorsInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (turnOnBatterySaverInDoze != null) { turnOnBatterySaverInDoze.setEnabled(false); turnOnBatterySaverInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (turnOffBiometricsInDoze != null) { turnOffBiometricsInDoze.setEnabled(false); turnOffBiometricsInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (turnOnAirplaneInDoze != null) { turnOnAirplaneInDoze.setEnabled(false); turnOnAirplaneInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (turnOffBluetoothInDoze != null) { turnOffBluetoothInDoze.setEnabled(false); turnOffBluetoothInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (turnOffGPSInDoze != null) { turnOffGPSInDoze.setEnabled(false); turnOffGPSInDoze.setSummary(getString(R.string.root_required_text)); }
-                        if (whitelistAppsFromDozeMode != null) { whitelistAppsFromDozeMode.setEnabled(false); whitelistAppsFromDozeMode.setSummary(getString(R.string.root_required_text)); }
+                    }
+                    if (!enabled) {
                         PreferenceManager.getDefaultSharedPreferences(getContext())
                                 .edit()
                                 .putBoolean("turnOnBatterySaverInDoze", false)
@@ -699,16 +701,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                                 .putBoolean("turnOffBluetoothInDoze", false)
                                 .putBoolean("turnOffGPSInDoze", false)
                                 .apply();
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            Preference turnOffWiFiInDoze = findPreference("turnOffWiFiInDoze");
-                            if (turnOffWiFiInDoze != null) { turnOffWiFiInDoze.setEnabled(false); turnOffWiFiInDoze.setSummary(getString(R.string.root_required_text)); }
-                            PreferenceManager.getDefaultSharedPreferences(getContext())
-                                    .edit()
-                                    .putBoolean("turnOffWiFiInDoze", false)
-                                    .apply();
-                        }
-
                     }
                 });
             }

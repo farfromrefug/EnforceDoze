@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     TextView textViewStatus;
     CoordinatorLayout coordinatorLayout;
     ShizukuHandler shizukuHandler;
-    com.google.android.material.button.MaterialButton btnEnableDozeUnsupported;
+    MaterialButton btnEnableDozeUnsupported;
 
     private static void log(String message) {
         logToLogcat(TAG, message);
